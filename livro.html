@@ -113,24 +113,71 @@
             margin-bottom: 1.5rem;
         }
 
-        .btn-buy-direct {
+        /* OPÇÕES DE COMPRA */
+        .buy-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-stripe {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            background: #10b981;
+            background: #6366f1;
             color: #fff;
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            width: 100%;
             transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn-buy-direct:hover {
-            background: #059669;
+        .btn-stripe:hover {
+            background: #4f46e5;
             transform: translateY(-2px);
+        }
+
+        .partners-container {
+            margin-top: 0.5rem;
+        }
+
+        .partners-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .btn-partner {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            color: #fff;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-partner:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--primary);
         }
 
         /* SECÇÃO DE OPINIÕES */
@@ -239,13 +286,13 @@
         @media (max-width: 800px) {
             .book-card { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
             .reviews-section { padding: 2rem; }
+            .partners-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <!-- Botão para voltar à apresentação -->
         <a href="index.html" class="btn-back">
             <i class="fa-solid fa-arrow-left"></i> Voltar à Apresentação
         </a>
@@ -268,9 +315,37 @@
                 
                 <div class="price">19,99 €</div>
 
-                <a href="mailto:seuemail@exemplo.com?subject=Quero comprar o livro" class="btn-buy-direct">
-                    <i class="fa-solid fa-cart-shopping"></i> Comprar Diretamente Comigo
-                </a>
+                <!-- ZONA DE COMPRA -->
+                <div class="buy-options">
+                    
+                    <!-- 1. COMPRAR DIRETO (STRIPE) -->
+                    <!-- Substitui o link 'https://buy.stripe.com/...' pelo teu link de pagamento do Stripe -->
+                    <a href="https://buy.stripe.com/exemplo" target="_blank" class="btn-stripe">
+                        <i class="fa-regular fa-credit-card"></i> Comprar Comigo (Stripe)
+                    </a>
+
+                    <!-- 2. COMPRAR NAS LIVRARIAS PARCEIRAS -->
+                    <div class="partners-container">
+                        <div class="partners-title">Ou compra nas livrarias:</div>
+                        <div class="partners-grid">
+                            <!-- Altera as URLs para os links diretos da página do teu livro em cada loja -->
+                            <a href="https://www.fnac.pt" target="_blank" class="btn-partner">
+                                <i class="fa-solid fa-store"></i> FNAC
+                            </a>
+                            <a href="https://www.bertrand.pt" target="_blank" class="btn-partner">
+                                <i class="fa-solid fa-book"></i> Bertrand
+                            </a>
+                            <a href="https://www.wook.pt" target="_blank" class="btn-partner">
+                                <i class="fa-solid fa-bookmark"></i> Wook
+                            </a>
+                            <a href="https://www.amazon.es" target="_blank" class="btn-partner">
+                                <i class="fa-brands fa-amazon"></i> Amazon
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
