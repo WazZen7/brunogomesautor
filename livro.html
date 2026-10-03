@@ -13,7 +13,7 @@
     <style>
         :root {
             --bg-main: #0a0c10;
-            --bg-card: rgba(18, 22, 31, 0.6);
+            --bg-card: rgba(10, 12, 16, 0.65);
             --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
@@ -28,6 +28,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-main);
@@ -38,14 +42,28 @@
             padding-bottom: 4rem;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Syne', sans-serif;
             color: var(--text-title);
         }
 
-        /* NAVEGAÇÃO / BARRA SUPERIOR */
+        /* BRILHO DE FUNDO */
+        .glow-bg {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(100px);
+        }
+
+        /* NAVEGAÇÃO */
         nav {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 2rem 1.5rem;
             display: flex;
@@ -75,32 +93,38 @@
             color: var(--primary);
         }
 
-        /* SECCÃO PRINCIPAL (HERO) */
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
 
-        .book-hero {
+        /* CARTÃO PRINCIPAL ESTILO GLASSMORPHISM */
+        .hero-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 28px;
+            padding: 3rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3.5rem;
             align-items: center;
-            margin-top: 2rem;
-            margin-bottom: 5rem;
+            margin-top: 1rem;
+            margin-bottom: 3.5rem;
         }
 
-        /* ÁREA RESERVADA PARA O LIVRO 3D / CAPA */
+        /* ÁREA RESERVADA PARA O LIVRO 3D */
         .book-visual {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 450px;
+            min-height: 420px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px dashed var(--border-card);
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
         .book-placeholder {
@@ -116,11 +140,11 @@
         }
 
         .book-placeholder p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-body);
         }
 
-        /* INFORMAÇÃO DO LIVRO */
+        /* INFORMAÇÕES DO LIVRO */
         .genre-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
@@ -128,30 +152,24 @@
             border: 1px solid rgba(99, 102, 241, 0.3);
             padding: 0.35rem 1rem;
             border-radius: 100px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .book-title {
-            font-size: clamp(2.2rem, 4vw, 3.5rem);
+            font-size: clamp(2rem, 3.5vw, 3rem);
             line-height: 1.15;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .book-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #cbd5e1;
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-        }
-
-        .synopsis {
-            font-size: 1.05rem;
             margin-bottom: 2rem;
-            color: var(--text-body);
+            font-weight: 300;
         }
 
         .cta-group {
@@ -201,44 +219,172 @@
         /* GRELHA DE DETALHES */
         .details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 3.5rem;
         }
 
         .detail-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            padding: 1.75rem;
-            border-radius: 18px;
-            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            text-align: center;
         }
 
         .detail-card i {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
 
         .detail-card h4 {
             color: var(--text-title);
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
         }
 
         .detail-card p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+        }
+
+        /* SECÇÃO DA SINOPSE */
+        .synopsis-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 3.5rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .synopsis-text {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* SECÇÃO DE OPINIÕES / REVIEWS */
+        .reviews-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 2.5rem;
+            border-radius: 24px;
+            backdrop-filter: blur(12px);
+        }
+
+        .reviews-header {
+            margin-bottom: 2rem;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-card);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .input-field, .textarea-field, .select-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 0.85rem 1.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus, .textarea-field:focus, .select-field:focus {
+            border-color: var(--primary);
+        }
+
+        .textarea-field {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #f59e0b;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .review-author {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-author h5 {
+            color: var(--text-title);
+            font-size: 1rem;
+        }
+
+        .review-stars {
+            color: #f59e0b;
+            font-size: 0.85rem;
+        }
+
+        .review-date {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+
+        .review-comment {
+            font-size: 0.95rem;
+            color: var(--text-body);
         }
 
         /* RESPONSIVIDADE (MOBILE) */
-        @media (max-width: 900px) {
-            .book-hero {
+        @media (max-width: 850px) {
+            .hero-card {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
+                padding: 1.75rem;
+                gap: 2rem;
             }
 
             .book-visual {
-                min-height: 350px;
+                min-height: 320px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
 
             .cta-group {
@@ -254,47 +400,46 @@
 </head>
 <body>
 
+    <div class="glow-bg"></div>
+
     <!-- Navegação -->
     <nav>
         <a href="index.html" class="back-link">
-            <i class="fa-solid fa-arrow-left"></i> Voltar
+            <i class="fa-solid fa-arrow-left"></i> Voltar à Inicial
         </a>
         <span class="author-tag">Bruno Gomes</span>
     </nav>
 
     <main class="container">
-        <!-- Apresentação do Livro -->
-        <section class="book-hero">
-            <!-- Lado Esquerdo: Área reservada para o Livro 3D ou Capa -->
+        
+        <!-- Cartão Principal do Livro -->
+        <section class="hero-card">
+            <!-- Lado Esquerdo: Área reservada para o Livro 3D / Capa -->
             <div class="book-visual">
                 <div class="book-placeholder">
                     <i class="fa-solid fa-book-open"></i>
-                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>A imagem interativa do livro será inserida aqui assim que estiver pronta.</p>
+                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>O modelo 3D a rodar será integrado aqui.</p>
                 </div>
             </div>
 
-            <!-- Lado Direito: Sinopse e Chamada para Ação -->
+            <!-- Lado Direito: Título e Ações -->
             <div class="book-info">
                 <span class="genre-badge">Crime / Thriller Psicológico</span>
                 <h1 class="book-title">[Título do Teu Livro]</h1>
-                <p class="book-subtitle">[Subtítulo cativante ou frase de impacto]</p>
-                
-                <p class="synopsis">
-                    [Escreve aqui o resumo da história. Exemplo: Quando um segredo guardado durante décadas ameaça vir à tona, uma série de acontecimentos sombrios força os protagonistas a enfrentar as suas próprias sombras. Quem é a vítima e quem é o culpado?]
-                </p>
+                <p class="book-subtitle">[Subtítulo de impacto para o romance]</p>
 
                 <div class="cta-group">
                     <a href="#" class="btn-primary">
                         <i class="fa-solid fa-cart-shopping"></i> Comprar Livro
                     </a>
-                    <a href="#" class="btn-secondary">
-                        <i class="fa-solid fa-file-pdf"></i> Ler 1.º Capítulo
+                    <a href="#sinopse" class="btn-secondary">
+                        <i class="fa-solid fa-align-left"></i> Ler Sinopse
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Fatos Rápido sobre a Obra -->
+        <!-- Detalhes do Livro -->
         <section class="details-grid">
             <div class="detail-card">
                 <i class="fa-solid fa-layer-group"></i>
@@ -304,7 +449,7 @@
             <div class="detail-card">
                 <i class="fa-solid fa-book-bookmark"></i>
                 <h4>Páginas</h4>
-                <p>[Ex: 320 páginas]</p>
+                <p>[Ex: 320 págs]</p>
             </div>
             <div class="detail-card">
                 <i class="fa-solid fa-calendar-days"></i>
@@ -317,7 +462,74 @@
                 <p>Português</p>
             </div>
         </section>
+
+        <!-- Secção da Sinopse -->
+        <section id="sinopse" class="synopsis-section">
+            <h2 class="section-title">Sinopse</h2>
+            <p class="synopsis-text">
+                [Escreve aqui o resumo do livro. Por exemplo: Quando um acontecimento inesperado perturba a tranquilidade de uma pequena comunidade, segredos do passado começam a vir à tona. Entre reviravoltas psicológicas e mistérios por desvendar, nada é o que parece até à última página.]
+            </p>
+        </section>
+
+        <!-- Secção de Opiniões dos Leitores -->
+        <section class="reviews-section">
+            <div class="reviews-header">
+                <h2 class="section-title">Opiniões dos Leitores</h2>
+                <p>Já leste o livro? Deixa a tua opinião abaixo.</p>
+            </div>
+
+            <!-- Formulário para submeter opinião -->
+            <form class="review-form" id="opinionForm">
+                <div class="form-row">
+                    <input type="text" class="input-field" placeholder="O teu nome" required>
+                    <select class="select-field" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5 Excelente)</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5 Muito Bom)</option>
+                        <option value="3">⭐⭐⭐ (3/5 Bom)</option>
+                        <option value="2">⭐⭐ (2/5 Razoável)</option>
+                        <option value="1">⭐ (1/5 Fraco)</option>
+                    </select>
+                </div>
+                <textarea class="textarea-field" placeholder="Escreve a tua opinião sobre o livro..." required></textarea>
+                <div>
+                    <button type="submit" class="btn-primary" style="border: none; cursor: pointer;">
+                        Submeter Opinião
+                    </button>
+                </div>
+            </form>
+
+            <!-- Lista de Opiniões Exemplo -->
+            <div class="reviews-list">
+                <div class="review-item">
+                    <div class="review-author">
+                        <h5>Mariana Silva</h5>
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="review-date">Publicado recentemente</div>
+                    <p class="review-comment">Um thriller viciante do início ao fim! As reviravoltas no final deixaram-me sem palavras. Recomendo vivamente.</p>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-author">
+                        <h5>Carlos Pinho</h5>
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="review-date">Publicado recentemente</div>
+                    <p class="review-comment">Personagens muito bem construídas e um ritmo acelerado. Ótimo trabalho do autor!</p>
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <script>
+        // Pequeno script para demonstrar a submissão no formulário
+        document.getElementById('opinionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Obrigado pela tua opinião! O comentário foi recebido com sucesso.');
+            this.reset();
+        });
+    </script>
 
 </body>
 </html>
