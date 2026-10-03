@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação</title>
+    <title>Página Oficial | Autor & Mentor</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,15 @@
 
     <style>
         :root {
-            --bg-main: #0a0c10;
-            --border-card: rgba(255, 255, 255, 0.08);
+            --bg-deep: #07090e;
+            --glass-card: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #a855f7;
-            --text-title: #ffffff;
+            --text-main: #f8fafc;
             --text-body: #94a3b8;
+            --text-muted: #64748b;
         }
 
         * {
@@ -29,110 +31,232 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-main);
+            background-color: var(--bg-deep);
             color: var(--text-body);
             line-height: 1.6;
-            height: 100vh;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Syne', sans-serif;
+            color: var(--text-main);
+        }
+
+        /* HERO COM A TUA FOTO DE IA NO FUNDO */
+        .hero-banner {
+            position: relative;
+            min-height: 85vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* Impede qualquer scroll */
-        }
-
-        h1 {
-            font-family: 'Syne', sans-serif;
-            color: var(--text-title);
-        }
-
-        /* BRILHO DE FUNDO */
-        .glow-bg {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            pointer-events: none;
-            filter: blur(90px);
-        }
-
-        .hero {
+            padding: 4rem 1.5rem;
             text-align: center;
-            padding: 2rem;
-            max-width: 650px;
+            
+            /* USA A TUA IMAGEM MINHA-FOTO-IA.JPG.JPG */
+            background: 
+                linear-gradient(180deg, rgba(7, 9, 14, 0.6) 0%, rgba(7, 9, 14, 0.95) 100%),
+                radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%),
+                url('./minha-foto-ia.jpg.jpg') center/cover no-repeat;
+            background-attachment: fixed;
         }
 
-        .avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border-card);
-            box-shadow: 0 0 35px var(--primary-glow);
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(7, 9, 14, 0.45);
+            border: 1px solid var(--glass-border);
+            padding: 3.5rem 2.5rem;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .badge-autor {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 1.5rem;
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-size: 3.2rem;
+            line-height: 1.15;
             margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            background: linear-gradient(135deg, #ffffff 30%, #cbd5e1 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-bio {
-            font-size: 1.15rem;
+        .hero-subtitle {
+            font-size: 1.2rem;
             color: var(--text-body);
             margin-bottom: 2.5rem;
             font-weight: 300;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .btn-enter {
+        /* BOTÕES DE AÇÃO */
+        .cta-group {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: #fff;
-            padding: 1rem 2.5rem;
-            border-radius: 100px;
+            padding: 1.1rem 2.2rem;
+            border-radius: 16px;
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px var(--primary-glow);
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 10px 25px -5px var(--primary-glow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .btn-enter:hover {
+        .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px var(--primary-glow);
+            box-shadow: 0 15px 30px -5px var(--primary-glow);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 1.1rem 2.2rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        /* SECCIONALIZADOR / GRID DE DESTAQUES */
+        .section-container {
+            max-width: 1100px;
+            margin: -3rem auto 5rem auto;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(16px);
+            padding: 2rem;
+            border-radius: 24px;
+            transition: border-color 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.2rem; }
+            .hero-content { padding: 2rem 1.5rem; }
+            .cta-group { flex-direction: column; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="glow-bg"></div>
+    <!-- HERO PRINCIPAL -->
+    <header class="hero-banner">
+        <div class="hero-content">
+            <span class="badge-autor"><i class="fa-solid fa-feather"></i> Autor & Mentor</span>
+            
+            <h1 class="hero-title">Transforma Ideias em Obras Inesquecíveis</h1>
+            
+            <p class="hero-subtitle">
+                Bem-vindo ao meu espaço oficial. Explora a minha obra literária, descobre conteúdos exclusivos e acompanha a minha jornada.
+            </p>
 
-    <section class="hero">
-        <!-- Substitui pela tua foto -->
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Foto de Perfil" class="avatar">
-        
-        <h1 class="hero-title"><span>Olá, sou o [O Teu Nome].</span></h1>
-        
-        <p class="hero-bio">
-            Aqui podes escrever quem és, a tua profissão, paixões ou uma breve frase sobre o motivo de teres criado este projeto.
-        </p>
-        
-        <!-- Ao clicar, vai para a segunda página (livro.html) -->
-        <a href="livro.html" class="btn-enter">
-            Entrar no Site <i class="fa-solid fa-arrow-right"></i>
-        </a>
-    </section>
+            <div class="cta-group">
+                <a href="livro.html" class="btn-primary">
+                    <i class="fa-solid fa-book-open"></i> Conhecer o Livro
+                </a>
+                <a href="#contacto" class="btn-secondary">
+                    <i class="fa-regular fa-envelope"></i> Entrar em Contacto
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- DESTAQUES RÁPIDOS -->
+    <main class="section-container">
+        <div class="cards-grid">
+            <div class="info-card">
+                <i class="fa-solid fa-book info-icon"></i>
+                <h3>Obra Publicada</h3>
+                <p>Acede à página do livro para veres a sinopse completa e saberes onde adquirir.</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fa-solid fa-user-astronaut info-icon"></i>
+                <h3>Sobre o Autor</h3>
+                <p>Uma visão dedicada a partilhar conhecimento e a inspirar novas conquistas.</p>
+            </div>
+
+            <div class="info-card">
+                <i class="fa-solid fa-paper-plane info-icon"></i>
+                <h3>Comunidade</h3>
+                <p>Fica a par de futuros lançamentos, palestras e novidades em primeira mão.</p>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>
