@@ -28,10 +28,6 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-main);
@@ -99,7 +95,7 @@
             padding: 0 1.5rem;
         }
 
-        /* CARTÃO PRINCIPAL ESTILO GLASSMORPHISM */
+        /* CARTÃO PRINCIPAL */
         .hero-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -115,7 +111,7 @@
             margin-bottom: 3.5rem;
         }
 
-        /* ÁREA RESERVADA PARA O LIVRO 3D */
+        /* ESPAÇO RESERVADO PARA A CAPA / 3D */
         .book-visual {
             position: relative;
             display: flex;
@@ -139,12 +135,6 @@
             opacity: 0.8;
         }
 
-        .book-placeholder p {
-            font-size: 0.9rem;
-            color: var(--text-body);
-        }
-
-        /* INFORMAÇÕES DO LIVRO */
         .genre-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
@@ -190,6 +180,8 @@
             font-weight: 600;
             transition: all 0.3s ease;
             box-shadow: 0 8px 20px var(--primary-glow);
+            border: none;
+            cursor: pointer;
         }
 
         .btn-primary:hover {
@@ -209,6 +201,7 @@
             font-weight: 600;
             border: 1px solid var(--border-card);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .btn-secondary:hover {
@@ -245,12 +238,8 @@
             margin-bottom: 0.2rem;
         }
 
-        .detail-card p {
-            font-size: 0.88rem;
-        }
-
-        /* SECÇÃO DA SINOPSE */
-        .synopsis-section {
+        /* SECÇÃO FUTUROS LIVROS */
+        .future-books-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             padding: 2.5rem;
@@ -262,18 +251,25 @@
         .section-title {
             font-size: 1.8rem;
             margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
         }
 
-        .synopsis-text {
-            font-size: 1.05rem;
-            color: var(--text-body);
-            line-height: 1.8;
-            font-weight: 300;
+        .future-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-top: 1rem;
         }
 
-        /* SECÇÃO DE OPINIÕES / REVIEWS */
+        .future-card i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        /* SECÇÃO DE OPINIÕES */
         .reviews-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -282,17 +278,11 @@
             backdrop-filter: blur(12px);
         }
 
-        .reviews-header {
-            margin-bottom: 2rem;
-        }
-
         .review-form {
             display: flex;
             flex-direction: column;
             gap: 1.25rem;
-            margin-bottom: 3rem;
-            padding-bottom: 2.5rem;
-            border-bottom: 1px solid var(--border-card);
+            margin-top: 1.5rem;
         }
 
         .form-row {
@@ -323,55 +313,58 @@
             min-height: 110px;
         }
 
-        .star-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #f59e0b;
-        }
-
-        .reviews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .review-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-card);
-            border-radius: 16px;
+        .no-reviews {
+            margin-top: 2rem;
             padding: 1.5rem;
-        }
-
-        .review-author {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .review-author h5 {
-            color: var(--text-title);
-            font-size: 1rem;
-        }
-
-        .review-stars {
-            color: #f59e0b;
-            font-size: 0.85rem;
-        }
-
-        .review-date {
-            font-size: 0.75rem;
-            color: #64748b;
-            margin-bottom: 0.75rem;
-        }
-
-        .review-comment {
-            font-size: 0.95rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            font-size: 0.9rem;
             color: var(--text-body);
         }
 
-        /* RESPONSIVIDADE (MOBILE) */
+        /* JANELA MODAL PARA A SINOPSE */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: #0f131a;
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 650px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-body);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+        }
+
+        /* RESPONSIVIDADE */
         @media (max-width: 850px) {
             .hero-card {
                 grid-template-columns: 1fr;
@@ -394,6 +387,11 @@
             .btn-primary, .btn-secondary {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .future-card {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -418,7 +416,7 @@
             <div class="book-visual">
                 <div class="book-placeholder">
                     <i class="fa-solid fa-book-open"></i>
-                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>O modelo 3D a rodar será integrado aqui.</p>
+                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>A imagem interativa do livro será inserida aqui assim que estiver pronta.</p>
                 </div>
             </div>
 
@@ -432,9 +430,9 @@
                     <a href="#" class="btn-primary">
                         <i class="fa-solid fa-cart-shopping"></i> Comprar Livro
                     </a>
-                    <a href="#sinopse" class="btn-secondary">
+                    <button class="btn-secondary" id="openSynopsis">
                         <i class="fa-solid fa-align-left"></i> Ler Sinopse
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
@@ -463,20 +461,24 @@
             </div>
         </section>
 
-        <!-- Secção da Sinopse -->
-        <section id="sinopse" class="synopsis-section">
-            <h2 class="section-title">Sinopse</h2>
-            <p class="synopsis-text">
-                [Escreve aqui o resumo do livro. Por exemplo: Quando um acontecimento inesperado perturba a tranquilidade de uma pequena comunidade, segredos do passado começam a vir à tona. Entre reviravoltas psicológicas e mistérios por desvendar, nada é o que parece até à última página.]
-            </p>
+        <!-- Secção Futuros Livros (Substitui a antiga secção da sinopse) -->
+        <section class="future-books-section">
+            <h2 class="section-title">Futuros Projetos</h2>
+            <p>Acompanha os próximos romances e lançamentos que estão atualmente em desenvolvimento.</p>
+            
+            <div class="future-card">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <div>
+                    <h4>[Novo Romance em Escrita]</h4>
+                    <p>Um novo thriller psicológico está a ser preparado. Brevemente haverá novidades sobre o título e data de lançamento.</p>
+                </div>
+            </div>
         </section>
 
-        <!-- Secção de Opiniões dos Leitores -->
+        <!-- Secção de Opiniões dos Leitores (Apenas reais, sujeitas a aprovação) -->
         <section class="reviews-section">
-            <div class="reviews-header">
-                <h2 class="section-title">Opiniões dos Leitores</h2>
-                <p>Já leste o livro? Deixa a tua opinião abaixo.</p>
-            </div>
+            <h2 class="section-title">Opiniões dos Leitores</h2>
+            <p>Já leste a obra? Deixa a tua opinião sincera. Todas as submissões são analisadas antes de serem publicadas no site.</p>
 
             <!-- Formulário para submeter opinião -->
             <form class="review-form" id="opinionForm">
@@ -492,41 +494,56 @@
                 </div>
                 <textarea class="textarea-field" placeholder="Escreve a tua opinião sobre o livro..." required></textarea>
                 <div>
-                    <button type="submit" class="btn-primary" style="border: none; cursor: pointer;">
-                        Submeter Opinião
+                    <button type="submit" class="btn-primary">
+                        Enviar Opinião para Aprovação
                     </button>
                 </div>
             </form>
 
-            <!-- Lista de Opiniões Exemplo -->
-            <div class="reviews-list">
-                <div class="review-item">
-                    <div class="review-author">
-                        <h5>Mariana Silva</h5>
-                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="review-date">Publicado recentemente</div>
-                    <p class="review-comment">Um thriller viciante do início ao fim! As reviravoltas no final deixaram-me sem palavras. Recomendo vivamente.</p>
-                </div>
-
-                <div class="review-item">
-                    <div class="review-author">
-                        <h5>Carlos Pinho</h5>
-                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="review-date">Publicado recentemente</div>
-                    <p class="review-comment">Personagens muito bem construídas e um ritmo acelerado. Ótimo trabalho do autor!</p>
-                </div>
+            <!-- Lista de opiniões aprovadas (inicialmente vazia até haver comentários reais) -->
+            <div id="reviewsList" class="no-reviews">
+                <i class="fa-solid fa-comments" style="font-size: 1.5rem; margin-bottom: 0.5rem; opacity: 0.5; display: block;"></i>
+                Ainda não existem opiniões publicadas. Sê o primeiro a partilhar a tua leitura!
             </div>
         </section>
 
     </main>
 
+    <!-- Modal Pop-up da Sinopse -->
+    <div class="modal" id="synopsisModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSynopsis">&times;</span>
+            <h2 style="margin-bottom: 1rem;">Sinopse</h2>
+            <p style="color: var(--text-body); line-height: 1.8;">
+                [Escreve aqui a sinopse completa do teu livro. Por exemplo: Quando um segredo mantido no escuro durante décadas começa a desfazer-se, uma cadeia imprevisível de acontecimentos obriga os protagonistas a confrontar a verdade. Um thriller psicológico envolvente onde cada capítulo desafia a tua perceção de justiça.]
+            </p>
+        </div>
+    </div>
+
     <script>
-        // Pequeno script para demonstrar a submissão no formulário
+        // Lógica para abrir/fechar o Pop-up da Sinopse
+        const modal = document.getElementById('synopsisModal');
+        const openBtn = document.getElementById('openSynopsis');
+        const closeBtn = document.getElementById('closeSynopsis');
+
+        openBtn.onclick = function() {
+            modal.style.display = "flex";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Submissão da Opinião (Com aviso de moderação)
         document.getElementById('opinionForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Obrigado pela tua opinião! O comentário foi recebido com sucesso.');
+            alert('Muito obrigado! A sua opinião foi submetida com sucesso e será publicada assim que for aprovada pelo autor.');
             this.reset();
         });
     </script>
