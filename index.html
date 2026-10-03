@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação</title>
+    <title>Bruno Gomes | Autor de Thriller & Crime</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,7 +39,7 @@
             overflow-x: hidden;
             padding: 1.5rem;
 
-            /* IMAGEM DE FUNDO PARA COMPUTADOR (DESKTOP) */
+            /* IMAGEM DE FUNDO PARA COMPUTADOR */
             background-image: 
                 linear-gradient(180deg, rgba(10, 12, 16, 0.70) 0%, rgba(10, 12, 16, 0.88) 100%),
                 url('./minha-foto-ia.jpg.jpg');
@@ -120,10 +120,9 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* REGRAS ESPECÍFICAS PARA DISPOSITIVOS MÓVEIS (TELEMÓVEIS E TABLETS) */
+        /* AJUSTES RESPONSIVOS PARA TELEMÓVEIS */
         @media (max-width: 768px) {
             body {
-                /* No telemóvel, a imagem cobre a tela inteira com foco no topo para não cortar a cabeça */
                 background-size: cover;
                 background-position: center top;
                 padding: 1rem;
@@ -131,7 +130,7 @@
 
             .hero {
                 padding: 1.75rem 1.25rem;
-                background: rgba(10, 12, 16, 0.75); /* Fundo um pouco mais escuro para garantir boa leitura no telemóvel */
+                background: rgba(10, 12, 16, 0.75);
             }
 
             .hero-title {
@@ -144,7 +143,7 @@
             }
 
             .btn-enter {
-                width: 100%; /* Botão ocupa a largura total no telemóvel para facilitar o clique */
+                width: 100%;
                 padding: 0.9rem 1.5rem;
             }
         }
@@ -155,15 +154,15 @@
     <div class="glow-bg"></div>
 
     <section class="hero">
-        <h1 class="hero-title"><span>Olá, sou o [O Teu Nome].</span></h1>
+        <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
         
         <p class="hero-bio">
-            Aqui podes escrever quem és, a tua profissão, paixões ou uma breve frase sobre o motivo de teres criado este projeto.
+            Sou o Bruno Gomes. Escrevo histórias sobre segredos sombrios, mentes complexas e os mistérios que habitam no limiar entre a justiça e a vingança. Prepara-te para duvidar de tudo.
         </p>
         
         <!-- Ao clicar, vai para a segunda página (livro.html) -->
         <a href="livro.html" class="btn-enter">
-            Entrar no Site <i class="fa-solid fa-arrow-right"></i>
+            Descobrir o Livro <i class="fa-solid fa-arrow-right"></i>
         </a>
     </section>
 
