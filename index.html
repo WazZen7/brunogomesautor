@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Meu Livro & Apresentação</title>
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <title>Apresentação & Livro</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-dark: #0f172a;
-            --bg-light: #f8fafc;
-            --text-dark: #0f172a;
-            --text-light: #f8fafc;
-            --accent: #f59e0b;
+            --bg-main: #0a0c10;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --accent: #a855f7;
+            --text-title: #ffffff;
+            --text-body: #94a3b8;
+            --text-muted: #64748b;
         }
 
         * {
@@ -27,338 +31,240 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            color: #334155;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
             line-height: 1.6;
-            background-color: var(--bg-light);
+            overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
+        h1, h2, h3, .brand-title {
+            font-family: 'Syne', sans-serif;
+            color: var(--text-title);
         }
 
-        /* ----- ECRÃ DE APRESENTAÇÃO (HERO) ----- */
+        /* ----- LUZES DE FUNDO (GLOW) ----- */
+        .glow-bg {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(80px);
+        }
+
+        /* ----- HERO / PÁGINA INICIAL ----- */
         .hero {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--text-light);
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
             padding: 2rem;
             position: relative;
         }
 
-        .hero-content {
-            max-width: 800px;
-            animation: fadeIn 1s ease-in-out;
+        .avatar-container {
+            position: relative;
+            margin-bottom: 2rem;
         }
 
-        .profile-img {
-            width: 150px;
-            height: 150px;
+        .avatar {
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
-            border: 4px solid var(--primary);
             object-fit: cover;
+            border: 2px solid var(--border-card);
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: #a5b4fc;
             margin-bottom: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #fff;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.25rem;
-            color: #94a3b8;
+            max-width: 600px;
+            font-size: 1.2rem;
+            color: var(--text-body);
             margin-bottom: 2.5rem;
             font-weight: 300;
         }
 
-        .btn-enter {
+        .btn-main {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: #fff;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
+            padding: 1rem 2.2rem;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 10px 25px var(--primary-glow);
         }
 
-        .btn-enter:hover {
-            background-color: var(--primary-hover);
+        .btn-main:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+            box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* ----- NAVEGAÇÃO ----- */
-        nav {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e2e8f0;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .nav-logo {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #64748b;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* ----- SECÇÃO DO LIVRO ----- */
-        .section {
-            padding: 5rem 2rem;
+        /* ----- SECÇÃO DO LIVRO / CONTEÚDO ----- */
+        .content-section {
+            min-height: 100vh;
+            padding: 6rem 2rem;
             max-width: 1100px;
             margin: 0 auto;
+            display: flex;
+            align-items: center;
         }
 
-        .book-container {
+        .card-grid {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
             gap: 4rem;
             align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3.5rem;
         }
 
-        .book-cover {
+        .book-img {
             width: 100%;
-            max-width: 380px;
+            max-width: 320px;
             border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
             margin: 0 auto;
             display: block;
-            transition: transform 0.3s;
         }
 
-        .book-cover:hover {
-            transform: scale(1.02);
+        .book-info h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
         }
 
-        .book-details h2 {
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .book-tagline {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .book-price {
-            font-size: 2rem;
+        .price-tag {
+            font-size: 1.8rem;
+            color: #fff;
             font-weight: 700;
-            color: var(--text-dark);
             margin: 1.5rem 0;
-        }
-
-        .buy-buttons {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .btn-buy {
-            background-color: #10b981;
-            color: white;
-            padding: 0.85rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
+            align-items: baseline;
             gap: 0.5rem;
-            transition: background-color 0.2s;
         }
 
-        .btn-buy:hover {
-            background-color: #059669;
+        .price-tag span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
         }
 
-        .btn-secondary {
-            background-color: #e2e8f0;
-            color: var(--text-dark);
-            padding: 0.85rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background-color: #cbd5e1;
-        }
-
-        /* ----- CARACTERÍSTICAS / CAPÍTULOS ----- */
-        .features {
-            background-color: #fff;
-            border-radius: 16px;
-            padding: 3rem;
-            margin-top: 4rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+        .social-links {
+            display: flex;
+            gap: 1rem;
             margin-top: 2rem;
         }
 
-        .feature-card {
-            padding: 1.5rem;
-            border-left: 4px solid var(--primary);
-            background: #f8fafc;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-        }
-
-        /* ----- FOOTER ----- */
-        footer {
-            background-color: var(--bg-dark);
-            color: #94a3b8;
-            text-align: center;
-            padding: 3rem 2rem;
-            margin-top: 5rem;
-        }
-
-        footer a {
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
             color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
+            transition: all 0.3s;
         }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .book-container { grid-template-columns: 1fr; text-align: center; }
-            .buy-buttons { justify-content: center; }
+        .social-links a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* RESPONSIVO */
+        @media (max-width: 900px) {
+            .card-grid { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
+            .social-links { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. ECRÃ DE APRESENTAÇÃO (HERO) -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <!-- Substitui por uma foto tua se quiseres -->
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Sua Foto" class="profile-img">
-            <h1>Olá, bem-vindo(a)!</h1>
-            <p>Sou [O Teu Nome], autor e criador. Escrevi este livro para partilhar [uma breve frase sobre o tema do livro ou a tua missão].</p>
-            <a href="#livro" class="btn-enter">
-                Conhecer o Livro <i class="fa-solid fa-arrow-right"></i>
-            </a>
+    <div class="glow-bg"></div>
+
+    <!-- PÁGINA DE APRESENTAÇÃO -->
+    <section class="hero">
+        <div class="avatar-container">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Foto de Perfil" class="avatar">
         </div>
+        <span class="badge">Autor & Criador</span>
+        <h1><span>Olá, sou o [O Teu Nome].</span></h1>
+        <p>Bem-vindo ao meu espaço pessoal. Aqui partilho as minhas ideias, projetos e a minha mais recente obra escrita.</p>
+        
+        <a href="#loja" class="btn-main">
+            Entrar no Site <i class="fa-solid fa-arrow-down"></i>
+        </a>
     </section>
 
-    <!-- MENU DE NAVEGAÇÃO SUPERIOR -->
-    <nav>
-        <a href="#inicio" class="nav-logo">[O Teu Nome]</a>
-        <ul class="nav-links">
-            <li><a href="#inicio">Apresentação</a></li>
-            <li><a href="#livro">O Livro</a></li>
-            <li><a href="#detalhes">Capítulos</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-    </nav>
-
-    <!-- 2. SECÇÃO PRINCIPAL DO LIVRO -->
-    <section class="section" id="livro">
-        <div class="book-container">
+    <!-- SECÇÃO DO LIVRO (ENTRADA DO SITE) -->
+    <section class="content-section" id="loja">
+        <div class="card-grid">
             <div>
-                <!-- Substitui pela imagem da capa do teu livro -->
-                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Capa do Livro" class="book-cover">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Capa do Livro" class="book-img">
             </div>
-            <div class="book-details">
+            <div class="book-info">
                 <h2>[Título do Teu Livro]</h2>
-                <div class="book-tagline">O guia definitivo sobre [Tema do Livro]</div>
-                <p>Aqui podes escrever a sinopse do teu livro. Explica qual é o problema que ele resolve, para quem foi escrito e o que o leitor vai aprender ou sentir ao ler a tua obra.</p>
+                <p>Escreve aqui uma breve introdução sobre o teu livro, o tema principal e o que as pessoas vão aprender ao ler.</p>
                 
-                <div class="book-price">19,99 € <span style="font-size: 1rem; color: #64748b; font-weight: normal;">(E-book PDF + ePub)</span></div>
+                <div class="price-tag">
+                    19,99 € <span>(Formato Digital PDF / ePub)</span>
+                </div>
 
-                <!-- OPÇÕES DE COMPRA -->
-                <div class="buy-buttons">
-                    <!-- Opção 1: Link direto para o teu Stripe / PayPal / Gumroad / Hotmart -->
-                    <a href="https://gumroad.com" target="_blank" class="btn-buy">
-                        <i class="fa-solid fa-cart-shopping"></i> Comprar Agora
-                    </a>
-                    
-                    <!-- Opção 2: Contacto direto para MB WAY ou transferência bancária -->
-                    <a href="mailto:seuemail@exemplo.com?subject=Quero comprar o livro" class="btn-secondary">
-                        <i class="fa-solid fa-envelope"></i> Comprar via Email / MB WAY
-                    </a>
-                </div>
-            </div>
-        </div>
+                <a href="https://gumroad.com" target="_blank" class="btn-main" style="width: 100%; justify-content: center;">
+                    Comprar Livro Agora <i class="fa-solid fa-cart-shopping"></i>
+                </a>
 
-        <!-- CARACTERÍSTICAS OU CONTEÚDO DO LIVRO -->
-        <div class="features" id="detalhes">
-            <h2 style="text-align: center; margin-bottom: 1rem;">O que vais encontrar neste livro?</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Parte 1: O Começo</h3>
-                    <p>Uma introdução clara e prática aos conceitos fundamentais do tema.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Parte 2: Estratégia</h3>
-                    <p>Métodos comprovados e histórias reais para aplicar no dia a dia.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Parte 3: Resultados</h3>
-                    <p>Passos concretos para alcançar os objetivos e evitar erros comuns.</p>
+                <div class="social-links">
+                    <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="mailto:seuemail@exemplo.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- FOOTER E CONTACTOS -->
-    <footer id="contacto">
-        <p>&copy; 2026 [O Teu Nome]. Todos os direitos reservados.</p>
-        <p style="margin-top: 0.5rem;">Dúvidas? Escreve para: <a href="mailto:seuemail@exemplo.com">seuemail@exemplo.com</a></p>
-    </footer>
 
 </body>
 </html>
