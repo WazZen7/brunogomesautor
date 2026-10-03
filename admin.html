@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Gestão | Bruno Gomes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0a0c10; color: #fff; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: #12161f; border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem; }
+        .btn { padding: 0.5rem 1rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; margin-right: 0.5rem; }
+        .btn-approve { background: #10b981; color: #fff; }
+        .btn-delete { background: #ef4444; color: #fff; }
+        .pin-box { text-align: center; margin-top: 5rem; }
+        input { padding: 0.75rem; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Ecrã de Login -->
+        <div id="loginBox" class="pin-box">
+            <h2>Área Reservada ao Autor</h2>
+            <p style="margin-bottom: 1rem; color: #94a3b8;">Insere o teu PIN de acesso para gerir opiniões:</p>
+            <input type="password" id="pinInput" placeholder="PIN de Acesso">
+            <button onclick="checkPin()" class="btn btn-approve" style="margin-left: 0.5rem;">Entrar</button>
+        </div>
+
+        <!-- Painel de Gestão -->
+        <div id="adminPanel" style="display: none;">
+            <h1 style="margin-bottom: 1.5rem;">Opiniões Pendentes</h1>
+            <div id="pendingList">A carregar...</div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_pd7...'; // COLA A TUA CHAVE COMPLETA AQUI
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const ADMIN_PIN = "1234"; // ALTERA O TEU PIN AQUI
+
+        function checkPin() {
+            const pin = document.getElementById('pinInput').value;
+            if (pin === ADMIN_PIN) {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                loadPendingReviews();
+            } else {
+                alert('PIN incorreto!');
+            }
+        }
+
+        async function loadPendingReviews() {
+            const container = document.getElementById('pendingList');
+            const { data: opiniones, error } = await supabase
+                .from('opiniones')
+                .select('*')
+                .eq('aprovado', false);
+
+            if (error || !opiniones || !opiniones.length) {
+                container.innerHTML = `<p style="color: #94a3b8;">Não há opiniões pendentes de aprovação.</p>`;
+                return;
+            }
+
+            container.innerHTML = opiniones.map(op => `
+                <div class="card" id="op-${op.id}">
+                    <div style="display:flex; justify-content:space-between; margin-bottom: 0.5rem;">
+                        <strong>${op.nome} (${op.classificacao} ⭐)</strong>
+                        <small style="color:#64748b">${new Date(op.criado_em).toLocaleDateString('pt-PT')}</small>
+                    </div>
+                    <p style="margin-bottom: 1rem; color: #cbd5e1;">${op.comentario}</p>
+                    <button class="btn btn-approve" onclick="approveReview(${op.id})">Aprovar e Publicar</button>
+                    <button class="btn btn-delete" onclick="deleteReview(${op.id})">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function approveReview(id) {
+            const { error } = await supabase.from('opiniones').update({ aprovado: true }).eq('id', id);
+            if (!error) {
+                document.getElementById(`op-${id}`).remove();
+                alert('Opinião aprovada com sucesso!');
+            } else {
+                alert('Erro ao aprovar: ' + error.message);
+            }
+        }
+
+        async function deleteReview(id) {
+            if (confirm('Tem a certeza que deseja eliminar esta opinião?')) {
+                const { error } = await supabase.from('opiniones').delete().eq('id', id);
+                if (!error) {
+                    document.getElementById(`op-${id}`).remove();
+                } else {
+                    alert('Erro ao eliminar: ' + error.message);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
