@@ -38,12 +38,12 @@
             justify-content: center;
             overflow: hidden; /* Impede qualquer scroll */
 
-            /* TUA IMAGEM DE FUNDO POSICIONADA À ESQUERDA DA PÁGINA */
+            /* IMAGEM REAJUSTADA PARA NÃO CORTAR A CABEÇA */
             background-image: 
-                linear-gradient(180deg, rgba(10, 12, 16, 0.75) 0%, rgba(10, 12, 16, 0.90) 100%),
+                linear-gradient(180deg, rgba(10, 12, 16, 0.70) 0%, rgba(10, 12, 16, 0.88) 100%),
                 url('./minha-foto-ia.jpg.jpg');
-            background-size: cover;
-            background-position: center left; /* Foco da foto na esquerda */
+            background-size: contain; /* Ajusta a imagem inteira na tela sem cortar */
+            background-position: left center; /* Mantém focada à esquerda */
             background-repeat: no-repeat;
         }
 
