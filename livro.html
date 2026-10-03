@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Meu Livro</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-main: #0a0c10;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --accent: #a855f7;
+            --text-title: #ffffff;
+            --text-body: #94a3b8;
+            --text-muted: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+            color: var(--text-title);
+        }
+
+        /* BARRA SUPERIOR DE NAVEGAÇÃO */
+        nav {
+            padding: 1.5rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-back {
+            color: var(--text-body);
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: #fff;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        .container {
+            padding: 2rem 1.5rem 5rem 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .book-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 3.5rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .book-cover {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            margin: 0 auto;
+            display: block;
+        }
+
+        .book-details h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .synopsis {
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-buy-direct {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: #10b981;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-buy-direct:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* SECÇÃO DE OPINIÕES */
+        .reviews-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .reviews-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .reviews-sub {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+
+        .stars {
+            color: #f59e0b;
+            margin-bottom: 0.75rem;
+        }
+
+        .review-text {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* FORMULÁRIO DE OPINIÃO */
+        .feedback-form {
+            border-top: 1px solid var(--border-card);
+            padding-top: 2rem;
+        }
+
+        .feedback-form h4 {
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .feedback-form input, 
+        .feedback-form textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            border-radius: 100px;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-family: inherit;
+        }
+
+        .feedback-form textarea {
+            border-radius: 12px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .feedback-form input:focus, 
+        .feedback-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent);
+        }
+
+        @media (max-width: 800px) {
+            .book-card { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
+            .reviews-section { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <!-- Botão para voltar à apresentação -->
+        <a href="index.html" class="btn-back">
+            <i class="fa-solid fa-arrow-left"></i> Voltar à Apresentação
+        </a>
+    </nav>
+
+    <main class="container">
+        
+        <!-- LIVRO E COMPRA -->
+        <div class="book-card">
+            <div>
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Capa do Livro" class="book-cover">
+            </div>
+            <div class="book-details">
+                <h2>[Título do Teu Livro]</h2>
+                
+                <div class="synopsis">
+                    <strong>Sinopse:</strong><br>
+                    Escreve aqui a sinopse do teu livro. O que os leitores vão aprender ou encontrar ao ler esta obra.
+                </div>
+                
+                <div class="price">19,99 €</div>
+
+                <a href="mailto:seuemail@exemplo.com?subject=Quero comprar o livro" class="btn-buy-direct">
+                    <i class="fa-solid fa-cart-shopping"></i> Comprar Diretamente Comigo
+                </a>
+            </div>
+        </div>
+
+        <!-- OPINIÕES -->
+        <section class="reviews-section">
+            <h3>Opiniões dos Leitores</h3>
+            <p class="reviews-sub">Vê o que dizem sobre o livro ou deixa o teu comentário.</p>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Um livro inspirador e muito bem escrito. Recomendo a leitura!"</p>
+                    <div class="author-name">- Maria Silva</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Comprei diretamente com o autor e a entrega foi super rápida."</p>
+                    <div class="author-name">- João Santos</div>
+                </div>
+            </div>
+
+            <div class="feedback-form">
+                <h4>Deixa a tua opinião sobre o livro</h4>
+                <form action="mailto:seuemail@exemplo.com" method="post" enctype="text/plain">
+                    <input type="text" name="Nome" placeholder="O teu nome" required>
+                    <textarea name="Opiniao" placeholder="Escreve aqui a tua opinião..." required></textarea>
+                    <button type="submit" class="btn-submit">Enviar Opinião</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
