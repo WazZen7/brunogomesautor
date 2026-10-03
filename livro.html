@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Meu Livro - Edição Exclusiva</title>
+    <title>O Livro | Bruno Gomes</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-deep: #07090e;
-            --glass-card: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-hover: rgba(255, 255, 255, 0.07);
+            --bg-main: #0a0c10;
+            --bg-card: rgba(18, 22, 31, 0.6);
+            --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
+            --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #a855f7;
-            --accent-glow: rgba(168, 85, 247, 0.3);
-            --text-main: #f8fafc;
+            --text-title: #ffffff;
             --text-body: #94a3b8;
-            --text-muted: #64748b;
         }
 
         * {
@@ -33,470 +30,293 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-deep);
+            background-color: var(--bg-main);
             color: var(--text-body);
-            line-height: 1.7;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 85% 70%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
+            line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 4rem;
         }
 
-        h1, h2, h3, h4 {
+        h1, h2, h3 {
             font-family: 'Syne', sans-serif;
-            color: var(--text-main);
-            letter-spacing: -0.02em;
+            color: var(--text-title);
         }
 
-        /* NAVEGAÇÃO */
+        /* NAVEGAÇÃO / BARRA SUPERIOR */
         nav {
-            padding: 2rem;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 2rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .btn-back {
+        .back-link {
             color: var(--text-body);
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem 1.2rem;
-            background: var(--glass-card);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 0.5rem;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
         }
 
-        .btn-back:hover {
+        .back-link:hover {
             color: #fff;
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateX(-3px);
         }
 
-        /* CONTEÚDO PRINCIPAL */
+        .author-tag {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+
+        /* SECCÃO PRINCIPAL (HERO) */
         .container {
-            padding: 1rem 1.5rem 6rem 1.5rem;
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1.5rem;
         }
 
-        /* HERO CARD COM GLASSMORPHISM & 3D */
-        .hero-book {
-            background: var(--glass-card);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-radius: 32px;
-            padding: 4rem 3.5rem;
+        .book-hero {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 4.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: center;
-            margin-bottom: 4rem;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
+            margin-top: 2rem;
+            margin-bottom: 5rem;
         }
 
-        /* EFEITO DE CAPA 3D */
-        .book-wrapper {
+        /* ÁREA RESERVADA PARA O LIVRO 3D / CAPA */
+        .book-visual {
             position: relative;
-            perspective: 1000px;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 450px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--border-card);
+            border-radius: 24px;
         }
 
-        .book-glow {
-            position: absolute;
-            width: 220px;
-            height: 320px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            filter: blur(60px);
-            opacity: 0.4;
-            border-radius: 50%;
-            z-index: 0;
-            transition: opacity 0.5s ease;
+        .book-placeholder {
+            text-align: center;
+            padding: 2rem;
         }
 
-        .book-wrapper:hover .book-glow {
-            opacity: 0.65;
+        .book-placeholder i {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            opacity: 0.8;
         }
 
-        .book-cover-3d {
-            width: 230px;
-            height: 340px;
-            position: relative;
-            z-index: 1;
-            transform-style: preserve-3d;
-            transform: rotateY(-18deg) rotateX(6deg);
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
-            box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.6);
-            border-radius: 6px 14px 14px 6px;
+        .book-placeholder p {
+            font-size: 0.95rem;
+            color: var(--text-body);
         }
 
-        .book-wrapper:hover .book-cover-3d {
-            transform: rotateY(-5deg) rotateX(2deg) scale(1.03);
-            box-shadow: -20px 25px 40px rgba(0, 0, 0, 0.7);
-        }
-
-        .book-cover-3d img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 6px 14px 14px 6px;
-        }
-
-        .book-cover-3d::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 6px 0 0 6px;
-            backdrop-filter: blur(5px);
-        }
-
-        /* DETALHES DO LIVRO */
-        .book-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .badge-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
+        /* INFORMAÇÃO DO LIVRO */
+        .genre-badge {
+            display: inline-block;
             background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
             border: 1px solid rgba(99, 102, 241, 0.3);
-            color: #a5b4fc;
-            padding: 0.35rem 0.9rem;
+            padding: 0.35rem 1rem;
             border-radius: 100px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            margin-bottom: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            width: fit-content;
-            margin-bottom: 1.2rem;
         }
 
-        .book-info h1 {
-            font-size: 2.6rem;
+        .book-title {
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
             line-height: 1.15;
-            margin-bottom: 0.8rem;
-            background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
 
-        .book-meta {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
+        .book-subtitle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
             margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .synopsis {
-            color: var(--text-body);
-            font-size: 1.05rem;
-            line-height: 1.75;
-            margin-bottom: 2rem;
             font-weight: 300;
         }
 
-        .price-tag {
-            display: flex;
-            align-items: baseline;
-            gap: 0.8rem;
-            margin-bottom: 2rem;
-        }
-
-        .price-amount {
-            font-family: 'Syne', sans-serif;
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #fff;
-        }
-
-        .price-note {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* OPÇÕES DE COMPRA GLASS */
-        .buy-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .btn-direct {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: #fff;
-            padding: 1.1rem 2rem;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 700;
+        .synopsis {
             font-size: 1.05rem;
-            box-shadow: 0 10px 25px -5px var(--primary-glow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 2rem;
+            color: var(--text-body);
         }
 
-        .btn-direct:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px -5px var(--primary-glow);
-            filter: brightness(1.1);
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .partners-section {
-            border-top: 1px solid var(--glass-border);
-            padding-top: 1.5rem;
-        }
-
-        .partners-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .partners-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.8rem;
-        }
-
-        .btn-partner-glass {
+        .btn-primary {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background: var(--glass-card);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            padding: 0.8rem 1rem;
-            border-radius: 12px;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: #fff;
+            padding: 0.9rem 2rem;
+            border-radius: 100px;
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 600;
-            backdrop-filter: blur(10px);
-            transition: all 0.25s ease;
-        }
-
-        .btn-partner-glass:hover {
-            background: var(--glass-hover);
-            border-color: var(--primary);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        /* AVALIAÇÕES GLASSMORPHISM (APENAS FORMULÁRIO) */
-        .reviews-wrapper {
-            background: var(--glass-card);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-radius: 32px;
-            padding: 3.5rem;
-        }
-
-        .reviews-header {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-        }
-
-        .reviews-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.6rem;
-        }
-
-        /* FORMULÁRIO */
-        .feedback-box {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .form-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            color: #fff;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.3s;
-        }
-
-        .form-textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-        }
-
-        .btn-submit-glass {
-            background: #fff;
-            color: var(--bg-deep);
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 0.5rem;
+            box-shadow: 0 8px 20px var(--primary-glow);
         }
 
-        .btn-submit-glass:hover {
-            background: #e2e8f0;
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 28px var(--primary-glow);
         }
 
-        /* RESPONSIVIDADE */
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            padding: 0.9rem 1.8rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid var(--border-card);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* GRELHA DE DETALHES */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: 1.75rem;
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
+        }
+
+        .detail-card i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-card h4 {
+            color: var(--text-title);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-card p {
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVIDADE (MOBILE) */
         @media (max-width: 900px) {
-            .hero-book {
+            .book-hero {
                 grid-template-columns: 1fr;
-                padding: 2.5rem 2rem;
-                gap: 3rem;
+                gap: 2.5rem;
             }
 
-            .book-wrapper {
-                margin-bottom: 1rem;
+            .book-visual {
+                min-height: 350px;
             }
 
-            .book-info h1 {
-                font-size: 2.1rem;
+            .cta-group {
+                flex-direction: column;
             }
 
-            .reviews-wrapper {
-                padding: 2rem;
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- NAVEGAÇÃO -->
+    <!-- Navegação -->
     <nav>
-        <a href="index.html" class="btn-back">
-            <i class="fa-solid fa-arrow-left-long"></i> Voltar ao Início
+        <a href="index.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
         </a>
+        <span class="author-tag">Bruno Gomes</span>
     </nav>
 
     <main class="container">
-        
-        <!-- LIVRO HERO (3D + GLASS) -->
-        <section class="hero-book">
-            
-            <!-- CAPA 3D COM GLOW -->
-            <div class="book-wrapper">
-                <div class="book-glow"></div>
-                <div class="book-cover-3d">
-                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Capa do Livro">
+        <!-- Apresentação do Livro -->
+        <section class="book-hero">
+            <!-- Lado Esquerdo: Área reservada para o Livro 3D ou Capa -->
+            <div class="book-visual">
+                <div class="book-placeholder">
+                    <i class="fa-solid fa-book-open"></i>
+                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>A imagem interativa do livro será inserida aqui assim que estiver pronta.</p>
                 </div>
             </div>
 
-            <!-- DETALHES -->
+            <!-- Lado Direito: Sinopse e Chamada para Ação -->
             <div class="book-info">
-                <span class="badge-tag"><i class="fa-solid fa-sparkles"></i> Lançamento Oficial</span>
-                
-                <h1>[Título Magnífico do Teu Livro]</h1>
-                
-                <div class="book-meta">
-                    <span>Livro Físico / Digital</span>
-                </div>
+                <span class="genre-badge">Crime / Thriller Psicológico</span>
+                <h1 class="book-title">[Título do Teu Livro]</h1>
+                <p class="book-subtitle">[Subtítulo cativante ou frase de impacto]</p>
                 
                 <p class="synopsis">
-                    Aqui podes apresentar a história ou a proposta central da tua obra. Escreve um pequeno resumo cativante que desperte curiosidade nos teus leitores desde as primeiras palavras.
+                    [Escreve aqui o resumo da história. Exemplo: Quando um segredo guardado durante décadas ameaça vir à tona, uma série de acontecimentos sombrios força os protagonistas a enfrentar as suas próprias sombras. Quem é a vítima e quem é o culpado?]
                 </p>
-                
-                <div class="price-tag">
-                    <span class="price-amount">19,99 €</span>
-                    <span class="price-note">IVA incluído</span>
-                </div>
 
-                <!-- COMPRA & PARCEIROS -->
-                <div class="buy-group">
-                    
-                    <!-- 1. COMPRA DIRETA (PENDENTE) -->
-                    <a href="#" class="btn-direct">
-                        <i class="fa-solid fa-bag-shopping"></i> Comprar Diretamente Conosco
+                <div class="cta-group">
+                    <a href="#" class="btn-primary">
+                        <i class="fa-solid fa-cart-shopping"></i> Comprar Livro
                     </a>
-
-                    <!-- 2. LIVRARIAS PARCEIRAS (GLASS) -->
-                    <div class="partners-section">
-                        <div class="partners-label">Disponível também em:</div>
-                        <div class="partners-grid">
-                            <a href="https://www.fnac.pt" target="_blank" class="btn-partner-glass">
-                                <i class="fa-solid fa-store"></i> FNAC
-                            </a>
-                            <a href="https://www.bertrand.pt" target="_blank" class="btn-partner-glass">
-                                <i class="fa-solid fa-book"></i> Bertrand
-                            </a>
-                            <a href="https://www.wook.pt" target="_blank" class="btn-partner-glass">
-                                <i class="fa-solid fa-bookmark"></i> Wook
-                            </a>
-                            <a href="https://www.amazon.es" target="_blank" class="btn-partner-glass">
-                                <i class="fa-brands fa-amazon"></i> Amazon
-                            </a>
-                        </div>
-                    </div>
-
+                    <a href="#" class="btn-secondary">
+                        <i class="fa-solid fa-file-pdf"></i> Ler 1.º Capítulo
+                    </a>
                 </div>
-
             </div>
         </section>
 
-        <!-- SECÇÃO DE AVALIAÇÕES (APENAS FORMULÁRIO DE ENVIO) -->
-        <section class="reviews-wrapper">
-            <div class="reviews-header">
-                <h2>Já leste o livro?</h2>
-                <p>Deixa a tua opinião sincera para ajudar outros leitores.</p>
+        <!-- Fatos Rápido sobre a Obra -->
+        <section class="details-grid">
+            <div class="detail-card">
+                <i class="fa-solid fa-layer-group"></i>
+                <h4>Formato</h4>
+                <p>Capa Mole / Ebook</p>
             </div>
-
-            <!-- FORMULÁRIO DE FEEDBACK -->
-            <div class="feedback-box">
-                <form action="mailto:seuemail@exemplo.com" method="post" enctype="text/plain" class="form-grid">
-                    <input type="text" name="Nome" class="form-input" placeholder="O teu nome completo" required>
-                    <textarea name="Opiniao" class="form-textarea" placeholder="Partilha a tua opinião sobre o livro..." required></textarea>
-                    <button type="submit" class="btn-submit-glass">Enviar Avaliação</button>
-                </form>
+            <div class="detail-card">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <h4>Páginas</h4>
+                <p>[Ex: 320 páginas]</p>
+            </div>
+            <div class="detail-card">
+                <i class="fa-solid fa-calendar-days"></i>
+                <h4>Lançamento</h4>
+                <p>[Ex: 2024 / Brevemente]</p>
+            </div>
+            <div class="detail-card">
+                <i class="fa-solid fa-language"></i>
+                <h4>Idioma</h4>
+                <p>Português</p>
             </div>
         </section>
-
     </main>
 
 </body>
