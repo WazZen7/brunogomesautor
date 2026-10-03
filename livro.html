@@ -155,7 +155,6 @@
             border-radius: 6px 14px 14px 6px;
         }
 
-        /* Lombada 3D simulada */
         .book-cover-3d::before {
             content: '';
             position: absolute;
@@ -206,18 +205,6 @@
             gap: 1.2rem;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
-        }
-
-        .rating {
-            color: #fbbf24;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            font-weight: 600;
-        }
-
-        .meta-divider {
-            color: var(--glass-border);
         }
 
         .synopsis {
@@ -322,7 +309,7 @@
             transform: translateY(-2px);
         }
 
-        /* AVALIAÇÕES GLASSMORPHISM */
+        /* AVALIAÇÕES GLASSMORPHISM (APENAS FORMULÁRIO) */
         .reviews-wrapper {
             background: var(--glass-card);
             border: 1px solid var(--glass-border);
@@ -335,7 +322,7 @@
         .reviews-header {
             text-align: center;
             max-width: 600px;
-            margin: 0 auto 3rem auto;
+            margin: 0 auto 2rem auto;
         }
 
         .reviews-header h2 {
@@ -343,74 +330,10 @@
             margin-bottom: 0.6rem;
         }
 
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3.5rem;
-        }
-
-        .review-card-glass {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            padding: 1.8rem;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: border-color 0.3s;
-        }
-
-        .review-card-glass:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .review-stars {
-            color: #fbbf24;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 0.2rem;
-        }
-
-        .review-quote {
-            color: var(--text-body);
-            font-size: 0.98rem;
-            line-height: 1.6;
-            margin-bottom: 1.2rem;
-            font-style: italic;
-        }
-
-        .review-author {
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .review-author::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-        }
-
         /* FORMULÁRIO */
         .feedback-box {
-            border-top: 1px solid var(--glass-border);
-            padding-top: 2.5rem;
             max-width: 700px;
             margin: 0 auto;
-        }
-
-        .feedback-box h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1.2rem;
-            text-align: center;
         }
 
         .form-grid {
@@ -513,15 +436,6 @@
                 <h1>[Título Magnífico do Teu Livro]</h1>
                 
                 <div class="book-meta">
-                    <div class="rating">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <span>5.0</span>
-                    </div>
-                    <span class="meta-divider">•</span>
                     <span>Livro Físico / Digital</span>
                 </div>
                 
@@ -531,13 +445,13 @@
                 
                 <div class="price-tag">
                     <span class="price-amount">19,99 €</span>
-                    <span class="price-note">IVA e envio incluídos</span>
+                    <span class="price-note">IVA incluído</span>
                 </div>
 
                 <!-- COMPRA & PARCEIROS -->
                 <div class="buy-group">
                     
-                    <!-- 1. COMPRA DIRETA (STRIPE PENDENTE) -->
+                    <!-- 1. COMPRA DIRETA (PENDENTE) -->
                     <a href="#" class="btn-direct">
                         <i class="fa-solid fa-bag-shopping"></i> Comprar Diretamente Conosco
                     </a>
@@ -566,38 +480,15 @@
             </div>
         </section>
 
-        <!-- AVALIAÇÕES E OPINIÕES -->
+        <!-- SECÇÃO DE AVALIAÇÕES (APENAS FORMULÁRIO DE ENVIO) -->
         <section class="reviews-wrapper">
             <div class="reviews-header">
-                <h2>O que dizem os leitores</h2>
-                <p>Opiniões reais de quem já leu e viveu esta experiência.</p>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="review-card-glass">
-                    <div>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="review-quote">"Uma leitura absolutamente envolvente do início ao fim. Fiquei fã do estilo de escrita!"</p>
-                    </div>
-                    <div class="review-author">Maria Silva</div>
-                </div>
-
-                <div class="review-card-glass">
-                    <div>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                        <p class="review-quote">"Encomendei diretamente e foi super fácil. O livro superou todas as minhas expetativas."</p>
-                    </div>
-                    <div class="review-author">João Santos</div>
-                </div>
+                <h2>Já leste o livro?</h2>
+                <p>Deixa a tua opinião sincera para ajudar outros leitores.</p>
             </div>
 
             <!-- FORMULÁRIO DE FEEDBACK -->
             <div class="feedback-box">
-                <h3>Deixa a tua avaliação</h3>
                 <form action="mailto:seuemail@exemplo.com" method="post" enctype="text/plain" class="form-grid">
                     <input type="text" name="Nome" class="form-input" placeholder="O teu nome completo" required>
                     <textarea name="Opiniao" class="form-textarea" placeholder="Partilha a tua opinião sobre o livro..." required></textarea>
