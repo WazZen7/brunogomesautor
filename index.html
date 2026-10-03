@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação & Livro</title>
+    <title>Apresentação</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,21 +13,18 @@
     <style>
         :root {
             --bg-main: #0a0c10;
-            --bg-card: rgba(255, 255, 255, 0.03);
             --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
             --accent: #a855f7;
             --text-title: #ffffff;
             --text-body: #94a3b8;
-            --text-muted: #64748b;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            scroll-behavior: smooth;
         }
 
         body {
@@ -35,18 +32,22 @@
             background-color: var(--bg-main);
             color: var(--text-body);
             line-height: 1.6;
-            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Impede qualquer scroll */
         }
 
-        h1, h2, h3 {
+        h1 {
             font-family: 'Syne', sans-serif;
             color: var(--text-title);
         }
 
-        /* ----- BRILHO DE FUNDO ----- */
+        /* BRILHO DE FUNDO */
         .glow-bg {
             position: fixed;
-            top: 30%;
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 600px;
@@ -57,30 +58,24 @@
             filter: blur(90px);
         }
 
-        /* ----- 1. ECRÃ INICIAL DE APRESENTAÇÃO ----- */
         .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
             padding: 2rem;
-            position: relative;
+            max-width: 650px;
         }
 
         .avatar {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--border-card);
-            box-shadow: 0 0 30px var(--primary-glow);
+            box-shadow: 0 0 35px var(--primary-glow);
             margin-bottom: 1.5rem;
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
             margin-bottom: 1rem;
             line-height: 1.2;
         }
@@ -92,7 +87,6 @@
         }
 
         .hero-bio {
-            max-width: 550px;
             font-size: 1.15rem;
             color: var(--text-body);
             margin-bottom: 2.5rem;
@@ -118,193 +112,14 @@
             transform: translateY(-3px);
             box-shadow: 0 15px 35px var(--primary-glow);
         }
-
-        /* ----- 2. ÁREA PRINCIPAL DO SITE (LIVRO & LOJA) ----- */
-        .site-content {
-            min-height: 100vh;
-            padding: 5rem 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .book-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
-            display: grid;
-            grid-template-columns: 1fr 1.3fr;
-            gap: 3.5rem;
-            align-items: center;
-            margin-bottom: 4rem;
-        }
-
-        .book-cover {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            margin: 0 auto;
-            display: block;
-        }
-
-        .book-details h2 {
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .synopsis {
-            color: var(--text-body);
-            margin-bottom: 1.5rem;
-            font-size: 1.05rem;
-            line-height: 1.7;
-        }
-
-        .price {
-            font-size: 1.8rem;
-            color: #fff;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-buy-direct {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            background: #10b981;
-            color: #fff;
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            width: 100%;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .btn-buy-direct:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
-        /* ----- 3. SECÇÃO DE OPINIÕES / AVALIAÇÕES ----- */
-        .reviews-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
-        }
-
-        .reviews-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .reviews-sub {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-        }
-
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .review-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-card);
-            padding: 1.5rem;
-            border-radius: 16px;
-        }
-
-        .stars {
-            color: #f59e0b;
-            margin-bottom: 0.75rem;
-        }
-
-        .review-text {
-            font-size: 0.95rem;
-            color: var(--text-body);
-            margin-bottom: 1rem;
-            font-style: italic;
-        }
-
-        .author-name {
-            font-weight: 600;
-            color: #fff;
-            font-size: 0.9rem;
-        }
-
-        /* FORMULÁRIO DE OPINIÃO */
-        .feedback-form {
-            border-top: 1px solid var(--border-card);
-            padding-top: 2rem;
-        }
-
-        .feedback-form h4 {
-            color: #fff;
-            margin-bottom: 1rem;
-        }
-
-        .feedback-form input, 
-        .feedback-form textarea {
-            width: 100%;
-            padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-card);
-            border-radius: 100px;
-            color: #fff;
-            margin-bottom: 1rem;
-            font-family: inherit;
-        }
-
-        .feedback-form textarea {
-            border-radius: 12px;
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .feedback-form input:focus, 
-        .feedback-form textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-submit {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 0.85rem 2rem;
-            border-radius: 100px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-submit:hover {
-            background: var(--accent);
-        }
-
-        /* RESPONSIVO */
-        @media (max-width: 800px) {
-            .book-card { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
-            .reviews-section { padding: 2rem; }
-        }
     </style>
 </head>
 <body>
 
     <div class="glow-bg"></div>
 
-    <!-- 1. PÁGINA INICIAL (SÓ APRESENTAÇÃO) -->
     <section class="hero">
-        <!-- Substitui por uma foto tua -->
+        <!-- Substitui pela tua foto -->
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Foto de Perfil" class="avatar">
         
         <h1 class="hero-title"><span>Olá, sou o [O Teu Nome].</span></h1>
@@ -313,69 +128,11 @@
             Aqui podes escrever quem és, a tua profissão, paixões ou uma breve frase sobre o motivo de teres criado este projeto.
         </p>
         
-        <a href="#livro-seccao" class="btn-enter">
-            Entrar no Site <i class="fa-solid fa-arrow-down"></i>
+        <!-- Ao clicar, vai para a segunda página (livro.html) -->
+        <a href="livro.html" class="btn-enter">
+            Entrar no Site <i class="fa-solid fa-arrow-right"></i>
         </a>
     </section>
-
-    <!-- 2. RESTO DO SITE (LIVRO + SINOPSE + COMPRAR + OPINIÕES) -->
-    <main class="site-content" id="livro-seccao">
-        
-        <!-- CARTÃO DO LIVRO -->
-        <div class="book-card">
-            <div>
-                <!-- Imagem da capa -->
-                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80" alt="Capa do Livro" class="book-cover">
-            </div>
-            <div class="book-details">
-                <h2>[Título do Teu Livro]</h2>
-                
-                <div class="synopsis">
-                    <strong>Sinopse:</strong><br>
-                    Escreve aqui o resumo detalhado do teu livro. O que os leitores vão encontrar nas páginas deste livro, que história conta ou que problemas os ensina a resolver.
-                </div>
-                
-                <div class="price">19,99 €</div>
-
-                <!-- Botão de Compra Direta -->
-                <a href="mailto:seuemail@exemplo.com?subject=Quero comprar o livro" class="btn-buy-direct">
-                    <i class="fa-solid fa-cart-shopping"></i> Comprar Diretamente Comigo
-                </a>
-            </div>
-        </div>
-
-        <!-- SECÇÃO DE OPINIÕES DOS LEITORES -->
-        <section class="reviews-section">
-            <h3>Opiniões dos Leitores</h3>
-            <p class="reviews-sub">Vê o que as pessoas estão a achar do livro ou deixa o teu comentário.</p>
-
-            <!-- Lista de Opiniões Exemplo -->
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-text">"Um livro inspirador e muito bem escrito. Recomendo a leitura a toda a gente!"</p>
-                    <div class="author-name">- Maria Silva</div>
-                </div>
-
-                <div class="review-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="review-text">"Comprei diretamente com o autor e a resposta foi super rápida. O conteúdo do livro superou as expectativas."</p>
-                    <div class="author-name">- João Santos</div>
-                </div>
-            </div>
-
-            <!-- Formulário para Leitores Deixarem a sua Opinião -->
-            <div class="feedback-form">
-                <h4>Deixa a tua opinião sobre o livro</h4>
-                <form action="mailto:seuemail@exemplo.com" method="post" enctype="text/plain">
-                    <input type="text" name="Nome" placeholder="O teu nome" required>
-                    <textarea name="Opiniao" placeholder="Escreve aqui a tua opinião sobre o livro..." required></textarea>
-                    <button type="submit" class="btn-submit">Enviar Opinião</button>
-                </form>
-            </div>
-        </section>
-
-    </main>
 
 </body>
 </html>
