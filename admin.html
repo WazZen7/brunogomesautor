@@ -20,7 +20,7 @@
 <body>
 
     <div class="container">
-        <!-- Ecrã de Login -->
+        <!-- Ecrã de Login pelo PIN -->
         <div id="loginBox" class="pin-box">
             <h2>Área Reservada ao Autor</h2>
             <p style="margin-bottom: 1rem; color: #94a3b8;">Insere o teu PIN de acesso para gerir opiniões:</p>
@@ -28,7 +28,7 @@
             <button onclick="checkPin()" class="btn btn-approve" style="margin-left: 0.5rem;">Entrar</button>
         </div>
 
-        <!-- Painel de Gestão -->
+        <!-- Painel de Gestão de Opiniões -->
         <div id="adminPanel" style="display: none;">
             <h1 style="margin-bottom: 1.5rem;">Opiniões Pendentes</h1>
             <div id="pendingList">A carregar...</div>
@@ -36,11 +36,13 @@
     </div>
 
     <script>
+        // CONFIGURAÇÃO DO SUPABASE
         const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_pd7...'; // COLA A TUA CHAVE COMPLETA AQUI
+        const SUPABASE_KEY = 'SUBSTITUI_PELA_TUA_CHAVE_PUBLISHABLE_COMPLETA'; // Cole a chave sb_publishable_...
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const ADMIN_PIN = "7913"; // ALTERA O TEU PIN AQUI
+        // PIN DE ACESSO DEFINIDO COMO 7913
+        const ADMIN_PIN = "7913";
 
         function checkPin() {
             const pin = document.getElementById('pinInput').value;
@@ -60,7 +62,12 @@
                 .select('*')
                 .eq('aprovado', false);
 
-            if (error || !opiniones || !opiniones.length) {
+            if (error) {
+                container.innerHTML = `<p style="color: #ef4444;">Erro ao carregar opiniões: ${error.message}</p>`;
+                return;
+            }
+
+            if (!opiniones || !opiniones.length) {
                 container.innerHTML = `<p style="color: #94a3b8;">Não há opiniões pendentes de aprovação.</p>`;
                 return;
             }
