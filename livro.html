@@ -111,30 +111,144 @@
             margin-bottom: 3.5rem;
         }
 
-        /* ESPAÇO RESERVADO PARA A CAPA / 3D */
+        /* ÁREA E COMPONENTE LIVRO 3D */
         .book-visual {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 420px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed var(--border-card);
-            border-radius: 20px;
+            min-height: 440px;
+            perspective: 1200px;
         }
 
-        .book-placeholder {
-            text-align: center;
-            padding: 2rem;
+        .book-3d-wrapper {
+            position: relative;
+            width: 230px;
+            height: 340px;
+            transform-style: preserve-3d;
+            transform: rotateY(-25deg) rotateX(10deg);
+            transition: transform 0.15s ease-out;
+            cursor: pointer;
         }
 
-        .book-placeholder i {
-            font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            opacity: 0.8;
+        /* Capa Frontal */
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%);
+            border-radius: 3px 10px 10px 3px;
+            box-shadow: inset 4px 0 10px rgba(0, 0, 0, 0.4), inset -2px 0 5px rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateZ(20px);
+            backface-visibility: hidden;
+            overflow: hidden;
         }
 
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(105deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 40%);
+            pointer-events: none;
+        }
+
+        .cover-badge {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .cover-title {
+            font-size: 1.6rem;
+            line-height: 1.1;
+            color: #fff;
+            margin: 0.5rem 0;
+        }
+
+        .cover-author {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Lombada (Spine) */
+        .book-spine {
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            left: 0;
+            background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            transform: rotateY(-90deg) translateZ(20px);
+            border-radius: 3px 0 0 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .spine-text {
+            color: #e2e8f0;
+            font-size: 0.75rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2px;
+            writing-mode: vertical-rl;
+            text-transform: uppercase;
+            transform: rotate(180deg);
+            opacity: 0.85;
+        }
+
+        /* Páginas Internas (Bloco Lateral e Superior) */
+        .book-pages-right {
+            position: absolute;
+            width: 38px;
+            height: 96%;
+            top: 2%;
+            right: 0;
+            background: linear-gradient(90deg, #e2e8f0 0%, #f8fafc 70%, #cbd5e1 100%);
+            transform: rotateY(90deg) translateZ(210px);
+            border-radius: 2px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-pages-top {
+            position: absolute;
+            width: 226px;
+            height: 38px;
+            top: 0;
+            left: 2px;
+            background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
+            transform: rotateX(90deg) translateZ(19px);
+            border-radius: 2px;
+        }
+
+        /* Sombra do Livro */
+        .book-shadow {
+            position: absolute;
+            width: 220px;
+            height: 20px;
+            bottom: -30px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            filter: blur(15px);
+            transform: rotateX(80deg) rotateZ(-5deg);
+            pointer-events: none;
+            transition: all 0.15s ease-out;
+        }
+
+        /* ELEMENTOS ORIGINAIS DE INFORMAÇÃO */
         .genre-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
@@ -373,7 +487,7 @@
             }
 
             .book-visual {
-                min-height: 320px;
+                min-height: 380px;
             }
 
             .form-row {
@@ -412,12 +526,23 @@
         
         <!-- Cartão Principal do Livro -->
         <section class="hero-card">
-            <!-- Lado Esquerdo: Área reservada para o Livro 3D / Capa -->
-            <div class="book-visual">
-                <div class="book-placeholder">
-                    <i class="fa-solid fa-book-open"></i>
-                    <p><strong>[Espaço para a Capa / Modelo 3D]</strong><br>A imagem interativa do livro será inserida aqui assim que estiver pronta.</p>
+            <!-- Lado Esquerdo: Modelo de Livro 3D Interativo em CSS3 -->
+            <div class="book-visual" id="bookVisual">
+                <div class="book-3d-wrapper" id="book3D">
+                    <div class="book-cover">
+                        <div>
+                            <span class="cover-badge">Thriller Psicológico</span>
+                            <h3 class="cover-title">[Título do Livro]</h3>
+                        </div>
+                        <span class="cover-author">Bruno Gomes</span>
+                    </div>
+                    <div class="book-spine">
+                        <span class="spine-text">[Título do Livro] — Bruno Gomes</span>
+                    </div>
+                    <div class="book-pages-right"></div>
+                    <div class="book-pages-top"></div>
                 </div>
+                <div class="book-shadow" id="bookShadow"></div>
             </div>
 
             <!-- Lado Direito: Título e Ações -->
@@ -461,7 +586,7 @@
             </div>
         </section>
 
-        <!-- Secção Futuros Livros (Substitui a antiga secção da sinopse) -->
+        <!-- Secção Futuros Livros -->
         <section class="future-books-section">
             <h2 class="section-title">Futuros Projetos</h2>
             <p>Acompanha os próximos romances e lançamentos que estão atualmente em desenvolvimento.</p>
@@ -475,7 +600,7 @@
             </div>
         </section>
 
-        <!-- Secção de Opiniões dos Leitores (Apenas reais, sujeitas a aprovação) -->
+        <!-- Secção de Opiniões dos Leitores -->
         <section class="reviews-section">
             <h2 class="section-title">Opiniões dos Leitores</h2>
             <p>Já leste a obra? Deixa a tua opinião sincera. Todas as submissões são analisadas antes de serem publicadas no site.</p>
@@ -500,7 +625,7 @@
                 </div>
             </form>
 
-            <!-- Lista de opiniões aprovadas (inicialmente vazia até haver comentários reais) -->
+            <!-- Lista de opiniões aprovadas -->
             <div id="reviewsList" class="no-reviews">
                 <i class="fa-solid fa-comments" style="font-size: 1.5rem; margin-bottom: 0.5rem; opacity: 0.5; display: block;"></i>
                 Ainda não existem opiniões publicadas. Sê o primeiro a partilhar a tua leitura!
@@ -521,6 +646,28 @@
     </div>
 
     <script>
+        // Interatividade 3D do Livro ao mover o rato
+        const visualContainer = document.getElementById('bookVisual');
+        const book3D = document.getElementById('book3D');
+        const bookShadow = document.getElementById('bookShadow');
+
+        visualContainer.addEventListener('mousemove', (e) => {
+            const rect = visualContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left - (rect.width / 2);
+            const y = e.clientY - rect.top - (rect.height / 2);
+
+            const rotateY = (x / (rect.width / 2)) * 25 - 25;
+            const rotateX = -((y / (rect.height / 2)) * 25) + 10;
+
+            book3D.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+            bookShadow.style.transform = `rotateX(80deg) rotateZ(${-rotateY / 2}deg) translateY(${rotateX}px)`;
+        });
+
+        visualContainer.addEventListener('mouseleave', () => {
+            book3D.style.transform = 'rotateY(-25deg) rotateX(10deg)';
+            bookShadow.style.transform = 'rotateX(80deg) rotateZ(-5deg)';
+        });
+
         // Lógica para abrir/fechar o Pop-up da Sinopse
         const modal = document.getElementById('synopsisModal');
         const openBtn = document.getElementById('openSynopsis');
@@ -540,7 +687,7 @@
             }
         }
 
-        // Submissão da Opinião (Com aviso de moderação)
+        // Submissão da Opinião
         document.getElementById('opinionForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('Muito obrigado! A sua opinião foi submetida com sucesso e será publicada assim que for aprovada pelo autor.');
