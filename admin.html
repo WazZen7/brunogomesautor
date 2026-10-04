@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Gestão | Bruno Gomes</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0a0c10; color: #fff; padding: 2rem; }
@@ -38,13 +39,12 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO SUPABASE
+        // CONFIGURAÇÃO COM AS TUAS CHAVES RETAIS
         const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
-        // Substitui a linha abaixo pela tua chave sb_publishable_... completa do Supabase:
-        const SUPABASE_KEY = 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze; 
+        const SUPABASE_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
 
-        // Inicialização segura da instância do Supabase
-        const _supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+        // Inicialização do cliente Supabase
+        const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
         // PIN DE ACESSO
         const ADMIN_PIN = "7913";
@@ -62,12 +62,12 @@
 
         async function loadPendingReviews() {
             const container = document.getElementById('pendingList');
-            if (!_supabase) {
+            if (!supabaseClient) {
                 container.innerHTML = `<p style="color: #ef4444;">Erro ao carregar a biblioteca do Supabase.</p>`;
                 return;
             }
 
-            const { data: opiniones, error } = await _supabase
+            const { data: opiniones, error } = await supabaseClient
                 .from('opiniones')
                 .select('*')
                 .eq('aprovado', false);
@@ -96,7 +96,7 @@
         }
 
         async function approveReview(id) {
-            const { error } = await _supabase.from('opiniones').update({ aprovado: true }).eq('id', id);
+            const { error } = await supabaseClient.from('opiniones').update({ aprovado: true }).eq('id', id);
             if (!error) {
                 const el = document.getElementById(`op-${id}`);
                 if (el) el.remove();
@@ -108,7 +108,7 @@
 
         async function deleteReview(id) {
             if (confirm('Tem a certeza que deseja eliminar esta opinião?')) {
-                const { error } = await _supabase.from('opiniones').delete().eq('id', id);
+                const { error } = await supabaseClient.from('opiniones').delete().eq('id', id);
                 if (!error) {
                     const el = document.getElementById(`op-${id}`);
                     if (el) el.remove();
