@@ -24,8 +24,10 @@
         <div id="loginBox" class="pin-box">
             <h2>Área Reservada ao Autor</h2>
             <p style="margin-bottom: 1rem; color: #94a3b8;">Insere o teu PIN de acesso para gerir opiniões:</p>
-            <input type="password" id="pinInput" placeholder="PIN de Acesso">
-            <button onclick="checkPin()" class="btn btn-approve" style="margin-left: 0.5rem;">Entrar</button>
+            <form onsubmit="event.preventDefault(); checkPin();">
+                <input type="password" id="pinInput" placeholder="PIN de Acesso">
+                <button type="submit" class="btn btn-approve" style="margin-left: 0.5rem;">Entrar</button>
+            </form>
         </div>
 
         <!-- Painel de Gestão de Opiniões -->
@@ -36,16 +38,19 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO SUPABASE (JÁ PREENCHIDA)
+        // CONFIGURAÇÃO DO SUPABASE
         const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_eyJKV1QiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtaGxrbGR6eWxscXV6aXJ3a21xdyIsInJvbGUiOiJhb24iLCJpYXQiOjE3MDk4MTI0MDAsImV4cCI6MjAyNTM4ODQwMH0.7_example_publishable_key_here'; // Chave Publishable configurada
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Substitui a linha abaixo pela tua chave sb_publishable_... completa do Supabase:
+        const SUPABASE_KEY = 'sb_publishable_pd7...'; 
 
-        // PIN DE ACESSO DEFINIDO COMO 7913
+        // Inicialização segura da instância do Supabase
+        const _supabase = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+        // PIN DE ACESSO
         const ADMIN_PIN = "7913";
 
         function checkPin() {
-            const pin = document.getElementById('pinInput').value;
+            const pin = document.getElementById('pinInput').value.trim();
             if (pin === ADMIN_PIN) {
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('adminPanel').style.display = 'block';
@@ -57,7 +62,12 @@
 
         async function loadPendingReviews() {
             const container = document.getElementById('pendingList');
-            const { data: opiniones, error } = await supabase
+            if (!_supabase) {
+                container.innerHTML = `<p style="color: #ef4444;">Erro ao carregar a biblioteca do Supabase.</p>`;
+                return;
+            }
+
+            const { data: opiniones, error } = await _supabase
                 .from('opiniones')
                 .select('*')
                 .eq('aprovado', false);
@@ -86,9 +96,10 @@
         }
 
         async function approveReview(id) {
-            const { error } = await supabase.from('opiniones').update({ aprovado: true }).eq('id', id);
+            const { error } = await _supabase.from('opiniones').update({ aprovado: true }).eq('id', id);
             if (!error) {
-                document.getElementById(`op-${id}`).remove();
+                const el = document.getElementById(`op-${id}`);
+                if (el) el.remove();
                 alert('Opinião aprovada com sucesso!');
             } else {
                 alert('Erro ao aprovar: ' + error.message);
@@ -97,9 +108,10 @@
 
         async function deleteReview(id) {
             if (confirm('Tem a certeza que deseja eliminar esta opinião?')) {
-                const { error } = await supabase.from('opiniones').delete().eq('id', id);
+                const { error } = await _supabase.from('opiniones').delete().eq('id', id);
                 if (!error) {
-                    document.getElementById(`op-${id}`).remove();
+                    const el = document.getElementById(`op-${id}`);
+                    if (el) el.remove();
                 } else {
                     alert('Erro ao eliminar: ' + error.message);
                 }
