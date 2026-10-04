@@ -127,7 +127,7 @@
             height: 340px;
             transform-style: preserve-3d;
             transform: rotateY(-25deg) rotateX(10deg);
-            transition: transform 0.15s ease-out;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
         }
 
@@ -245,7 +245,7 @@
             filter: blur(15px);
             transform: rotateX(80deg) rotateZ(-5deg);
             pointer-events: none;
-            transition: all 0.15s ease-out;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* ELEMENTOS ORIGINAIS DE INFORMAÇÃO */
@@ -635,10 +635,10 @@
     </main>
 
     <!-- Modal Pop-up da Sinopse -->
-    <div class="modal" id="synopsisModal">
+    <div class="modal" id="synopsisModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
             <span class="close-modal" id="closeSynopsis">&times;</span>
-            <h2 style="margin-bottom: 1rem;">Sinopse</h2>
+            <h2 id="modalTitle" style="margin-bottom: 1rem;">Sinopse</h2>
             <p style="color: var(--text-body); line-height: 1.8;">
                 [Escreve aqui a sinopse completa do teu livro. Por exemplo: Quando um segredo mantido no escuro durante décadas começa a desfazer-se, uma cadeia imprevisível de acontecimentos obriga os protagonistas a confrontar a verdade. Um thriller psicológico envolvente onde cada capítulo desafia a tua perceção de justiça.]
             </p>
@@ -673,19 +673,28 @@
         const openBtn = document.getElementById('openSynopsis');
         const closeBtn = document.getElementById('closeSynopsis');
 
-        openBtn.onclick = function() {
+        function openModal() {
             modal.style.display = "flex";
         }
 
-        closeBtn.onclick = function() {
+        function closeModal() {
             modal.style.display = "none";
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
             }
-        }
+        });
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === "flex") {
+                closeModal();
+            }
+        });
 
         // Submissão da Opinião
         document.getElementById('opinionForm').addEventListener('submit', function(e) {
