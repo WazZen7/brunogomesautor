@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .catalog-card, .buy-option-btn, .nav-author-btn {
+        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -430,7 +430,7 @@
             margin-bottom: 0.2rem;
         }
 
-        /* CATÁLOGO DE LIVROS */
+        /* CATÁLOGO DE OBRAS COM CARROSSEL 3D */
         .catalog-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -438,47 +438,100 @@
             border-radius: 24px;
             backdrop-filter: blur(12px);
             margin-bottom: 3.5rem;
+            text-align: center;
         }
 
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+        .catalog-carousel-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
         }
 
-        .catalog-card {
-            background: rgba(255, 255, 255, 0.02);
+        .carousel-btn {
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-card);
-            border-radius: 18px;
-            padding: 1.5rem;
+            color: #fff;
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .catalog-track-container {
+            overflow: hidden;
+            width: 220px;
+            padding: 20px 0;
+        }
+
+        .catalog-track {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .catalog-book-item {
+            min-width: 220px;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
-            transition: all 0.3s ease;
+            align-items: center;
+            gap: 1.25rem;
         }
 
-        .catalog-card:hover {
-            border-color: rgba(99, 102, 241, 0.4);
-            transform: translateY(-4px);
-            background: rgba(255, 255, 255, 0.04);
+        /* Livro 3D mais pequeno para o Catálogo */
+        .catalog-book-wrapper {
+            position: relative;
+            width: 150px; height: 225px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
         }
 
-        .catalog-tag {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
+        .catalog-book-wrapper:hover {
+            transform: translateY(-5px) scale(1.03);
         }
 
-        .catalog-card h4 {
-            font-size: 1.2rem;
+        .catalog-cover {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%);
+            border-radius: 2px 8px 8px 2px;
+            box-shadow: inset 3px 0 8px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1.25rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+
+        .catalog-cover-title {
+            font-size: 1.1rem;
+            line-height: 1.15;
+            color: #ffffff;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .catalog-book-info h4 {
             color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: 0.3rem;
         }
 
-        .catalog-card p {
-            font-size: 0.88rem;
+        .catalog-book-info p {
+            font-size: 0.85rem;
             color: var(--text-body);
         }
 
@@ -910,17 +963,38 @@
             </div>
         </section>
 
-        <!-- CATÁLOGO DE LIVROS -->
+        <!-- CATÁLOGO DE OBRAS (CARROSSEL DE LIVROS 3D) -->
         <section class="catalog-section">
             <h2 class="section-title">Catálogo de Obras</h2>
-            <p>Explora as obras publicadas e projetos literários do autor.</p>
+            <p>Explora as obras publicadas e clica num livro para ver detalhes e opções de compra.</p>
 
-            <div class="catalog-grid">
-                <div class="catalog-card">
-                    <span class="catalog-tag"><i class="fa-solid fa-star"></i> Em Destaque / Novo</span>
-                    <h4>Na Teia do Crime</h4>
-                    <p>Um thriller envolvente e cheio de mistério sobre o desaparecimento enigmático de Paulo e as investigações do detetive Rogério.</p>
+            <div class="catalog-carousel-container">
+                <button class="carousel-btn" id="prevBook"><i class="fa-solid fa-chevron-left"></i></button>
+                
+                <div class="catalog-track-container">
+                    <div class="catalog-track" id="catalogTrack">
+                        
+                        <!-- Livro 1: Na Teia do Crime -->
+                        <div class="catalog-book-item" data-book-target="main">
+                            <div class="catalog-book-wrapper" id="openBuyOptionsCatalog1">
+                                <div class="catalog-cover">
+                                    <span style="font-size: 0.55rem; text-transform: uppercase; color: var(--accent); font-weight: 700;">Thriller</span>
+                                    <h4 class="catalog-cover-title">Na Teia do Crime</h4>
+                                    <span style="font-size: 0.65rem; color: #cbd5e1;">Bruno Gomes</span>
+                                </div>
+                            </div>
+                            <div class="catalog-book-info">
+                                <h4>Na Teia do Crime</h4>
+                                <p>Disponível para Encomenda Autografada</p>
+                            </div>
+                        </div>
+
+                        <!-- Podes duplicar e adicionar mais itens .catalog-book-item aqui no futuro para novos livros! -->
+
+                    </div>
                 </div>
+
+                <button class="carousel-btn" id="nextBook"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </section>
 
@@ -1087,7 +1161,7 @@
         const SB_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
         const SB_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
 
-        // Efeito 3D do Livro
+        // Efeito 3D do Livro Principal
         const visualContainer = document.getElementById('bookVisual');
         const book3D = document.getElementById('book3D');
         const bookShadow = document.getElementById('bookShadow');
@@ -1111,7 +1185,31 @@
             });
         }
 
-        // Pop-up da Sinopse
+        // Carrossel do Catálogo de Obras
+        const track = document.getElementById('catalogTrack');
+        const prevBtn = document.getElementById('prevBook');
+        const nextBtn = document.getElementById('nextBook');
+        const items = document.querySelectorAll('.catalog-book-item');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+        }
+
+        if (nextBtn && prevBtn && track) {
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % items.length;
+                updateCarousel();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                updateCarousel();
+            });
+        }
+
+        // Pop-up da Sinopse Principal
         const modal = document.getElementById('synopsisModal');
         const openBtn = document.getElementById('openSynopsis');
         const closeBtn = document.getElementById('closeSynopsis');
@@ -1131,14 +1229,19 @@
             closeAuthorBtn.onclick = () => authorModal.style.display = "none";
         }
 
-        // Pop-up de Opções de Compra
+        // Pop-up de Opções de Compra (Principal e Catálogo)
         const buyOptionsModal = document.getElementById('buyOptionsModal');
         const openBuyOptionsBtn = document.getElementById('openBuyOptions');
+        const openBuyOptionsCatalog1 = document.getElementById('openBuyOptionsCatalog1');
         const closeBuyOptionsBtn = document.getElementById('closeBuyOptions');
 
         if (openBuyOptionsBtn && buyOptionsModal && closeBuyOptionsBtn) {
             openBuyOptionsBtn.onclick = () => buyOptionsModal.style.display = "flex";
             closeBuyOptionsBtn.onclick = () => buyOptionsModal.style.display = "none";
+        }
+
+        if (openBuyOptionsCatalog1 && buyOptionsModal) {
+            openBuyOptionsCatalog1.onclick = () => buyOptionsModal.style.display = "flex";
         }
 
         // Pop-up de Compra Direta com o Autor (Formulário)
