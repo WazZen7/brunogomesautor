@@ -925,10 +925,9 @@
         <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
     </button>
 
-    <!-- AUDIO ELEMENT (Ambiente de Suspense / Chuva Cinematográfica) -->
+    <!-- AUDIO ELEMENT -->
     <audio id="ambientAudio" loop preload="auto">
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=dark-mystery-trailer-110822.mp3" type="audio/mpeg">
-        O teu navegador não suporta áudio.
     </audio>
 
     <nav>
@@ -1225,30 +1224,31 @@
 
             visualContainer.addEventListener('mouseleave', () => {
                 book3D.style.transform = 'rotateY(-25deg) rotateX(10deg)';
-                bookShadow.style.transform = 'rotateX(80deg) rotateZ(-5deg)';
+                bookShadow.style.transform = `rotateX(80deg) rotateZ(-5deg)`;
             });
         }
 
-        // Controlo do Som Ambiente
+        // Controlo Direto do Som Ambiente
         const audio = document.getElementById('ambientAudio');
         const soundBtn = document.getElementById('soundToggleBtn');
         const soundIcon = document.getElementById('soundIcon');
-        audio.volume = 0.35; // Volume suave e ambiente
+        audio.volume = 0.4;
 
-        soundBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play().then(() => {
+        soundBtn.addEventListener('click', async () => {
+            try {
+                if (audio.paused) {
+                    await audio.play();
                     soundBtn.classList.add('playing');
                     soundIcon.className = 'fa-solid fa-volume-high';
                     soundBtn.title = 'Desativar Som Ambiente';
-                }).catch(err => {
-                    console.error("Erro ao reproduzir áudio:", err);
-                });
-            } else {
-                audio.pause();
-                soundBtn.classList.remove('playing');
-                soundIcon.className = 'fa-solid fa-volume-xmark';
-                soundBtn.title = 'Ativar Som Ambiente de Suspense';
+                } else {
+                    audio.pause();
+                    soundBtn.classList.remove('playing');
+                    soundIcon.className = 'fa-solid fa-volume-xmark';
+                    soundBtn.title = 'Ativar Som Ambiente de Suspense';
+                }
+            } catch (err) {
+                console.error("Erro ao controlar o áudio:", err);
             }
         });
 
@@ -1347,7 +1347,6 @@
                 const metodo = document.getElementById('buyerPayment').value;
 
                 try {
-                    // 1. Guardar na Base de Dados Supabase
                     const response = await fetch(`${SB_URL}/rest/v1/encomendas`, {
                         method: 'POST',
                         headers: {
@@ -1365,7 +1364,6 @@
                     });
 
                     if (response.ok) {
-                        // 2. Enviar Notificação por E-mail via EmailJS
                         await emailjs.send("service_fftdvtd", "template_pe9tl8g", {
                             buyer_name: nome,
                             buyer_phone: telemovel,
@@ -1436,7 +1434,7 @@
                 submitBtn.disabled = true;
                 submitBtn.innerText = 'A enviar...';
 
-                const name = document.getElementById('authorName'].value;
+                const name = document.getElementById('authorName').value;
                 const rating = parseInt(document.getElementById('starRating').value);
                 const comment = document.getElementById('reviewComment').value;
 
