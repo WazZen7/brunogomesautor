@@ -13,7 +13,7 @@
     <style>
         :root {
             --bg-main: #07090e;
-            --bg-card: rgba(13, 17, 26, 0.7);
+            --bg-card: rgba(13, 17, 26, 0.75);
             --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
@@ -28,14 +28,15 @@
             box-sizing: border-box;
         }
 
-        /* FUNDO DINÂMICO E ELEGANTE (ULTRA LEVE) */
+        /* FUNDO TEMÁTICO COM ÍCONES CRIME / THRILLER */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-main);
+            /* Padrão SVG vetorizado com algemas, armas, teias e alvos */
             background-image: 
-                radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Algemas --%3E%3Cpath d='M20 25a8 8 0 1 0 0 16 8 8 0 1 0 0-16zM40 25a8 8 0 1 0 0 16 8 8 0 1 0 0-16zM28 33h4'/%3E%3C!-- Teia de Aranha --%3E%3Cpath d='M95 15l20 20M115 15l-20 20M105 15v20M95 25h20M100 20q5 5 10 0M98 27q7 7 14 0'/%3E%3C!-- Arma --%3E%3Cpath d='M15 80h25l-4 12h-8l-2-6h-11zM32 75l8 5'/%3E%3C!-- Bala / Cartucho --%3E%3Cpath d='M75 75l10-10 4 4-10 10zM83 67l3-3 2 2-3 3z'/%3E%3C!-- Alvo / Mira --%3E%3Ccircle cx='80' cy='30' r='10'/%3E%3Cpath d='M80 16v28M66 30h28'/%3E%3C!-- Impressão Digital / Linhas --%3E%3Cpath d='M20 105q10-12 20 0M23 108q7-8 14 0'/%3E%3C/svg%3E"),
                 linear-gradient(to bottom, #07090e 0%, #0d111a 100%);
-            background-size: 24px 24px, 100% 100%;
+            background-size: 140px 140px, 100% 100%;
             background-attachment: fixed;
             color: var(--text-body);
             line-height: 1.6;
@@ -50,7 +51,7 @@
             color: var(--text-title);
         }
 
-        /* LUZ AMBIENTAL DE AMBIENTE (NEON GLOW) */
+        /* LUZ AMBIENTAL AMBIENT GLOW */
         .glow-bg {
             position: fixed;
             top: 25%;
