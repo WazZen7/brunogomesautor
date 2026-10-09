@@ -8,9 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -109,7 +106,7 @@
     <div class="container">
         <header>
             <h1>Painel de Moderação</h1>
-            <a href="livro.html" style="color: var(--primary); text-decoration: none;">Ver Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <a href="/livro" style="color: var(--primary); text-decoration: none;">Ver Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
         </header>
 
         <h2 style="margin-bottom: 1rem; font-size: 1.2rem; color: #fff;">Comentários Pendentes</h2>
@@ -119,80 +116,82 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const SB_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
+        const SB_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
 
         const container = document.getElementById('pendingContainer');
 
         async function loadPending() {
-            const { data: comentarios, error } = await supabaseClient
-                .from('comentarios')
-                .select('*')
-                .eq('aprovado', false)
-                .order('created_at', { ascending: false });
+            try {
+                const response = await fetch(`${SB_URL}/rest/v1/comentarios?aprovado=eq.false&order=created_at.desc`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                const comentarios = await response.json();
 
-            if (error) {
+                if (!comentarios || comentarios.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-check-circle" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem; display: block;"></i>
+                            <p>Não há comentários pendentes para aprovação!</p>
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = comentarios.map(item => `
+                    <div class="card" id="card-${item.id}">
+                        <div class="card-header">
+                            <span class="author-name">${escapeHtml(item.nome)}</span>
+                            <span class="rating">${'⭐'.repeat(item.avaliacao)}</span>
+                        </div>
+                        <p class="message-text">${escapeHtml(item.mensagem)}</p>
+                        <span class="date-text">${new Date(item.created_at).toLocaleString('pt-PT')}</span>
+                        <div class="actions">
+                            <button class="btn btn-approve" onclick="approveReview(${item.id})">
+                                <i class="fa-solid fa-check"></i> Aprovar
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteReview(${item.id})">
+                                <i class="fa-solid fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
                 container.innerHTML = '<p>Erro ao carregar comentários.</p>';
-                return;
             }
-
-            if (!comentarios || comentarios.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-check-circle" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem; display: block;"></i>
-                        <p>Não há comentários pendentes para aprovação!</p>
-                    </div>`;
-                return;
-            }
-
-            container.innerHTML = comentarios.map(item => `
-                <div class="card" id="card-${item.id}">
-                    <div class="card-header">
-                        <span class="author-name">${escapeHtml(item.nome)}</span>
-                        <span class="rating">${'⭐'.repeat(item.avaliacao)}</span>
-                    </div>
-                    <p class="message-text">${escapeHtml(item.mensagem)}</p>
-                    <span class="date-text">${new Date(item.created_at).toLocaleString('pt-PT')}</span>
-                    <div class="actions">
-                        <button class="btn btn-approve" onclick="approveReview(${item.id})">
-                            <i class="fa-solid fa-check"></i> Aprovar
-                        </button>
-                        <button class="btn btn-delete" onclick="deleteReview(${item.id})">
-                            <i class="fa-solid fa-trash"></i> Eliminar
-                        </button>
-                    </div>
-                </div>
-            `).join('');
         }
 
         async function approveReview(id) {
-            const { error } = await supabaseClient
-                .from('comentarios')
-                .update({ aprovado: true })
-                .eq('id', id);
+            const res = await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'apikey': SB_KEY,
+                    'Authorization': `Bearer ${SB_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ aprovado: true })
+            });
 
-            if (error) {
-                alert('Erro ao aprovar comentário.');
-            } else {
-                document.getElementById(`card-${id}`).remove();
+            if (res.ok) {
+                document.getElementById(`card-${id}`)?.remove();
                 if (container.children.length === 0) loadPending();
+            } else {
+                alert('Erro ao aprovar comentário.');
             }
         }
 
         async function deleteReview(id) {
             if (!confirm('Tem a certeza que deseja eliminar este comentário?')) return;
 
-            const { error } = await supabaseClient
-                .from('comentarios')
-                .delete()
-                .eq('id', id);
+            const res = await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
+                method: 'DELETE',
+                headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+            });
 
-            if (error) {
-                alert('Erro ao eliminar comentário.');
-            } else {
-                document.getElementById(`card-${id}`).remove();
+            if (res.ok) {
+                document.getElementById(`card-${id}`)?.remove();
                 if (container.children.length === 0) loadPending();
+            } else {
+                alert('Erro ao eliminar comentário.');
             }
         }
 
