@@ -48,10 +48,8 @@
         /* PADRÃO DE ÍCONES POLICIAIS E CRIME */
         .crime-bg-pattern {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: -2;
             pointer-events: none;
             display: grid;
@@ -81,11 +79,9 @@
 
         .glow-bg {
             position: fixed;
-            top: 25%;
-            left: 50%;
+            top: 25%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 800px;
-            height: 800px;
+            width: 800px; height: 800px;
             background: radial-gradient(circle, var(--primary-glow) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(0,0,0,0) 70%);
             z-index: -1;
             pointer-events: none;
@@ -96,10 +92,8 @@
         body::after {
             content: '';
             position: fixed;
-            bottom: -20%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
+            bottom: -20%; right: -10%;
+            width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(0,0,0,0) 70%);
             z-index: -1;
             pointer-events: none;
@@ -162,7 +156,6 @@
             position: relative;
         }
 
-        /* STICKER / BADGE "EM DESTAQUE" */
         .featured-badge {
             display: inline-flex;
             align-items: center;
@@ -196,8 +189,7 @@
 
         .book-3d-wrapper {
             position: relative;
-            width: 220px;
-            height: 330px;
+            width: 220px; height: 330px;
             transform-style: preserve-3d;
             transform: rotateY(-25deg) rotateX(10deg);
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
@@ -406,7 +398,7 @@
             margin-bottom: 0.2rem;
         }
 
-        /* SECÇÃO CATÁLOGO DE LIVROS */
+        /* CATÁLOGO DE LIVROS */
         .catalog-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -432,8 +424,6 @@
             flex-direction: column;
             gap: 0.8rem;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .catalog-card:hover {
@@ -460,7 +450,7 @@
             color: var(--text-body);
         }
 
-        /* SECÇÃO FUTUROS PROJETOS */
+        /* FUTUROS PROJETOS */
         .future-books-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -570,7 +560,7 @@
             color: var(--text-body);
         }
 
-        /* MODAL */
+        /* MODAIS */
         .modal {
             display: none;
             position: fixed;
@@ -608,15 +598,17 @@
             margin-bottom: 0;
         }
 
-        .close-modal {
+        .close-modal, .close-modal-buy {
             position: absolute;
             top: 1.25rem; right: 1.5rem;
             font-size: 1.5rem;
             color: var(--text-body);
             transition: color 0.3s ease;
+            background: none;
+            border: none;
         }
 
-        .close-modal:hover { color: #fff; }
+        .close-modal:hover, .close-modal-buy:hover { color: #fff; }
 
         /* RODAPÉ REDES SOCIAIS */
         footer {
@@ -644,8 +636,7 @@
         }
 
         .social-icon-btn {
-            width: 48px;
-            height: 48px;
+            width: 48px; height: 48px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-card);
@@ -747,7 +738,6 @@
             </div>
 
             <div class="book-info">
-                <!-- STICKER LIVRO EM DESTAQUE -->
                 <div>
                     <span class="featured-badge">
                         <i class="fa-solid fa-fire"></i> Livro em Destaque
@@ -759,9 +749,9 @@
                 <p class="book-subtitle">Uma cidade mergulhada na escuridão. Um crime que desafia a lógica.</p>
 
                 <div class="cta-group">
-                    <a href="#" class="btn-primary">
-                        <i class="fa-solid fa-cart-shopping"></i> Comprar Livro
-                    </a>
+                    <button class="btn-primary" id="openBuyModal">
+                        <i class="fa-solid fa-pen-nib"></i> Comprar com o Autor (Autografado)
+                    </button>
                     <button class="btn-secondary" id="openSynopsis">
                         <i class="fa-solid fa-align-left"></i> Ler Sinopse
                     </button>
@@ -792,7 +782,7 @@
             </div>
         </section>
 
-        <!-- NOVO CATÁLOGO DE LIVROS -->
+        <!-- CATÁLOGO DE LIVROS -->
         <section class="catalog-section">
             <h2 class="section-title">Catálogo de Obras</h2>
             <p>Explora as obras publicadas e projetos literários do autor.</p>
@@ -851,19 +841,54 @@
     <!-- MODAL DA SINOPSE REAL -->
     <div class="modal" id="synopsisModal">
         <div class="modal-content">
-            <span class="close-modal" id="closeSynopsis">&times;</span>
+            <button class="close-modal" id="closeSynopsis">&times;</button>
             <h2 style="margin-bottom: 1.25rem; font-size: 1.8rem; color: #fff;">Sinopse</h2>
             <div class="modal-body-text">
                 <p>Uma cidade mergulhada na escuridão. Um crime que desafia a lógica. Um detetive preso na teia da mentira, corrupção e violência.</p>
-                
                 <p>Recém-formado e ainda a tentar provar o seu valor, Rogério recebe a missão de investigar o desaparecimento de Paulo, um homem aparentemente sem inimigos e sem qualquer razão para desaparecer. O que começa como um caso aparentemente simples, depressa se transforma numa investigação marcada por pistas contraditórias, segredos do passado e uma rede de corrupção que parece alcançar lugares onde Rogério nunca imaginaria procurar.</p>
-                
                 <p>À medida que se aproxima da verdade, Rogério percebe que alguém está disposto a tudo para impedir que o caso seja resolvido. Cada descoberta levanta novas perguntas e cada resposta coloca a sua própria vida – e a das pessoas que ama – em perigo.</p>
-                
                 <p>Entre desaparecimentos, ameaças, violência e traições, Rogério terá de descobrir em quem pode confiar antes que seja tarde demais.</p>
-                
                 <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da qual poderá não conseguir escapar.</p>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE COMPRA DIRETA COM O AUTOR -->
+    <div class="modal" id="buyModal">
+        <div class="modal-content">
+            <button class="close-modal-buy" id="closeBuyModal">&times;</button>
+            <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem; color: #fff;">Comprar Exemplar Autografado</h2>
+            <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 1.5rem;">
+                Preenche os teus dados para encomendar o livro diretamente com o autor. O exemplar será enviado com dedicatória personalizada.
+            </p>
+
+            <form class="review-form" id="buyForm">
+                <div class="form-row">
+                    <input type="text" id="buyerName" class="input-field" placeholder="O teu nome completo" required>
+                    <input type="text" id="buyerPhone" class="input-field" placeholder="Telemóvel / WhatsApp" required>
+                </div>
+                <textarea id="buyerAddress" class="textarea-field" placeholder="Morada completa para envio postal (Rua, Número, Código Postal, Localidade)..." required style="min-height: 80px;"></textarea>
+                
+                <div>
+                    <label style="display: block; font-size: 0.85rem; color: #fff; margin-bottom: 0.5rem; font-weight: 600;">Método de Pagamento Preferido:</label>
+                    <select id="buyerPayment" class="select-field" required>
+                        <option value="MB Way">MB Way (Será enviado SMS com os dados)</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Transferência Bancária (IBAN)">Transferência Bancária (IBAN)</option>
+                    </select>
+                </div>
+
+                <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); padding: 1rem; border-radius: 12px; font-size: 0.85rem; color: #cbd5e1;">
+                    <i class="fa-solid fa-circle-info" style="color: var(--primary); margin-right: 5px;"></i> 
+                    Após a submissão, entraremos em contacto contigo (por SMS ou e-mail) com os dados para concluir o pagamento de forma segura.
+                </div>
+
+                <div>
+                    <button type="submit" class="btn-primary" id="btnBuySubmit" style="width: 100%; justify-content: center;">
+                        Submeter Encomenda com o Autor
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -925,6 +950,65 @@
             openBtn.onclick = () => modal.style.display = "flex";
             closeBtn.onclick = () => modal.style.display = "none";
             window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+        }
+
+        // Pop-up de Compra Direta com o Autor
+        const buyModal = document.getElementById('buyModal');
+        const openBuyBtn = document.getElementById('openBuyModal');
+        const closeBuyBtn = document.getElementById('closeBuyModal');
+
+        if (openBuyBtn && buyModal && closeBuyBtn) {
+            openBuyBtn.onclick = () => buyModal.style.display = "flex";
+            closeBuyBtn.onclick = () => buyModal.style.display = "none";
+            window.onclick = (e) => { if (e.target === buyModal) buyModal.style.display = "none"; };
+        }
+
+        // Submeter Encomenda Direta via Fetch para a tabela encomendas
+        const buyForm = document.getElementById('buyForm');
+        if (buyForm) {
+            buyForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const btn = document.getElementById('btnBuySubmit');
+                btn.disabled = true;
+                btn.innerText = 'A registar encomenda...';
+
+                const nome = document.getElementById('buyerName').value;
+                const telemovel = document.getElementById('buyerPhone').value;
+                const morada = document.getElementById('buyerAddress').value;
+                const metodo = document.getElementById('buyerPayment').value;
+
+                try {
+                    const response = await fetch(`${SB_URL}/rest/v1/encomendas`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SB_KEY,
+                            'Authorization': `Bearer ${SB_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({
+                            nome: nome,
+                            telemovel: telemovel,
+                            morada: morada,
+                            metodo_pagamento: metodo
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Encomenda registada com sucesso! Muito obrigado. Entraremos em contacto muito em breve para concluir o pagamento e envio.');
+                        buyForm.reset();
+                        buyModal.style.display = 'none';
+                    } else {
+                        alert('Erro ao registar encomenda. Tenta novamente.');
+                    }
+                } catch (err) {
+                    alert('Erro de rede ao submeter encomenda.');
+                }
+
+                btn.disabled = false;
+                btn.innerText = 'Submeter Encomenda com o Autor';
+            });
         }
 
         // Carregar Comentários Aprovados via Fetch
