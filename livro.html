@@ -755,4 +755,18 @@
                     alert('Erro de rede ao submeter opinião.');
                 }
 
-                submitBtn.disabled =
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Enviar Opinião para Aprovação';
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadReviews();
+    </script>
+</body>
+</html>
