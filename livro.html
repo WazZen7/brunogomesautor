@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .close-modal, .social-icon-btn, .catalog-card, .buy-option-btn {
+        a, button, input, select, textarea, .book-3d-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .catalog-card, .buy-option-btn {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -457,59 +457,6 @@
             color: var(--text-body);
         }
 
-        /* SECÇÃO SOBRE O AUTOR */
-        .author-section {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            padding: 3rem;
-            border-radius: 24px;
-            backdrop-filter: blur(12px);
-            margin-bottom: 3.5rem;
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .author-photo-wrapper {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 2px solid rgba(99, 102, 241, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            background: #111;
-        }
-
-        .author-photo-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-            transition: transform 0.5s ease;
-        }
-
-        .author-photo-wrapper img:hover {
-            transform: scale(1.03);
-        }
-
-        .author-bio h2 {
-            font-size: 2rem;
-            margin-bottom: 1.25rem;
-            color: #fff;
-        }
-
-        .author-bio p {
-            color: var(--text-body);
-            font-size: 0.98rem;
-            line-height: 1.8;
-            margin-bottom: 1.1rem;
-        }
-
-        .author-bio p:last-child {
-            margin-bottom: 0;
-        }
-
         /* FUTUROS PROJETOS */
         .future-books-section {
             background: var(--bg-card);
@@ -653,6 +600,42 @@
             overflow-y: auto;
         }
 
+        /* ESTILO ESPECÍFICO DO MODAL SOBRE O AUTOR */
+        .author-modal-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .author-modal-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            background: #111;
+        }
+
+        .author-modal-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(110%);
+        }
+
+        .author-modal-bio p {
+            color: var(--text-body);
+            line-height: 1.7;
+            margin-bottom: 0.9rem;
+            font-size: 0.94rem;
+        }
+
+        .author-modal-bio p:last-child {
+            margin-bottom: 0;
+        }
+
         .modal-body-text p {
             color: var(--text-body);
             line-height: 1.8;
@@ -664,7 +647,7 @@
             margin-bottom: 0;
         }
 
-        .close-modal, .close-modal-buy, .close-modal-options {
+        .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author {
             position: absolute;
             top: 1.25rem; right: 1.5rem;
             font-size: 1.5rem;
@@ -674,7 +657,7 @@
             border: none;
         }
 
-        .close-modal:hover, .close-modal-buy:hover, .close-modal-options:hover { color: #fff; }
+        .close-modal:hover, .close-modal-buy:hover, .close-modal-options:hover, .close-modal-author:hover { color: #fff; }
 
         .buy-options-list {
             display: flex;
@@ -763,15 +746,19 @@
         }
 
         @media (max-width: 850px) {
-            .hero-card, .author-section {
+            .hero-card {
                 grid-template-columns: 1fr;
                 padding: 1.75rem;
                 gap: 2rem;
+            }
+
+            .author-modal-layout {
+                grid-template-columns: 1fr;
                 text-align: center;
             }
 
-            .author-photo-wrapper {
-                max-width: 220px;
+            .author-modal-photo {
+                max-width: 160px;
                 margin: 0 auto;
             }
 
@@ -861,6 +848,9 @@
                     <button class="btn-secondary" id="openSynopsis">
                         <i class="fa-solid fa-align-left"></i> Ler Sinopse
                     </button>
+                    <button class="btn-secondary" id="openAuthorModal">
+                        <i class="fa-solid fa-user-pen"></i> Sobre o Autor
+                    </button>
                 </div>
             </div>
         </section>
@@ -899,26 +889,6 @@
                     <h4>Na Teia do Crime</h4>
                     <p>Um thriller envolvente e cheio de mistério sobre o desaparecimento enigmático de Paulo e as investigações do detetive Rogério.</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- SECÇÃO SOBRE O AUTOR -->
-        <section class="author-section">
-            <div class="author-photo-wrapper">
-                <!-- Certifica-te de que o nome do ficheiro no GitHub corresponde exatamente a autor.jpg.jpg -->
-                <img src="autor.jpg.jpg" alt="Bruno Gomes — Autor">
-            </div>
-            <div class="author-bio">
-                <h2>Quem sou eu?</h2>
-                <p>O meu nome é Bruno Gomes, natural do Porto, tenho 33 anos, sou pai e trabalho como técnico de recursos humanos. Fora da minha vida profissional, sou apaixonado por histórias de crime, ação e thrillers capazes de prender a atenção e surpreender a cada página.</p>
-                
-                <p>Sou uma pessoa movida pela curiosidade, pela vontade de aprender e pela criatividade. Acredito que as pessoas são o elemento mais importante de qualquer história e que, por trás de cada decisão, existe sempre algo que merece ser compreendido. A minha experiência profissional ensinou-me a valorizar o diálogo, a escuta e a importância que até os pequenos gestos podem ter na vida dos outros.</p>
-                
-                <p>Desde os tempos de escola, ouvi muitas vezes que tinha criatividade e facilidade em transformar ideias simples em boas histórias. Ao longo dos anos, fui escrevendo pequenos textos e projetos, guardando-os para mim, sem imaginar que um dia daria o passo de criar algo maior.</p>
-                
-                <p><em>Na teia do crime</em> nasceu dessa vontade. Durante alguns meses, nos meus tempos livres, decidi transformar uma ideia num projeto mais ambicioso: escrever o meu próprio livro, à minha maneira, dentro de um género que sempre me fascinou – o thriller policial.</p>
-                
-                <p>Mais do que concretizar um objetivo pessoal, espero que esta história consiga despertar emoções, levantar questões e surpreender quem a lê. Se, ao fechar o livro, o leitor levar consigo uma reflexão, uma nova perspetiva ou simplesmente a vontade de descobrir mais histórias, sentirei que valeu a pena dar este passo.</p>
             </div>
         </section>
 
@@ -974,7 +944,32 @@
                 <p>Recém-formado e ainda a tentar provar o seu valor, Rogério recebe a missão de investigar o desaparecimento de Paulo, um homem aparentemente sem inimigos e sem qualquer razão para desaparecer. O que começa como um caso aparentemente simples, depressa se transforma numa investigação marcada por pistas contraditórias, segredos do passado e uma rede de corrupção que parece alcançar lugares onde Rogério nunca imaginaria procurar.</p>
                 <p>À medida que se aproxima da verdade, Rogério percebe que alguém está disposto a tudo para impedir que o caso seja resolvido. Cada descoberta levanta novas perguntas e cada resposta coloca a sua própria vida – e a das pessoas que ama – em perigo.</p>
                 <p>Entre desaparecimentos, ameaças, violência e traições, Rogério terá de descobrir em quem pode confiar antes que seja tarde demais.</p>
-                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da qual poderá não conseguir escapar.</p>
+                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da cual poderá não conseguir escapar.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL SOBRE O AUTOR -->
+    <div class="modal" id="authorModal">
+        <div class="modal-content" style="max-width: 750px;">
+            <button class="close-modal-author" id="closeAuthorModal">&times;</button>
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem; color: #fff;">Sobre o Autor</h2>
+            
+            <div class="author-modal-layout">
+                <div class="author-modal-photo">
+                    <img src="autor.jpg.jpg" alt="Bruno Gomes — Autor">
+                </div>
+                <div class="author-modal-bio">
+                    <p>O meu nome é Bruno Gomes, natural do Porto, tenho 33 anos, sou pai e trabalho como técnico de recursos humanos. Fora da minha vida profissional, sou apaixonado por histórias de crime, ação e thrillers capazes de prender a atenção e surpreender a cada página.</p>
+                    
+                    <p>Sou uma pessoa movida pela curiosidade, pela vontade de aprender e pela criatividade. Acredito que as pessoas são o elemento mais importante de qualquer história e que, por trás de cada decisão, existe sempre algo que merece ser compreendido. A minha experiência profissional ensinou-me a valorizar o diálogo, a escuta e a importância que até os pequenos gestos podem ter na vida dos outros.</p>
+                    
+                    <p>Desde os tempos de escola, ouvi muitas vezes que tinha criatividade e facilidade em transformar ideias simples em boas histórias. Ao longo dos anos, fui escrevendo pequenos textos e projetos, guardando-os para mim, sem imaginar que um dia daria o passo de criar algo maior.</p>
+                    
+                    <p><em>Na teia do crime</em> nasceu dessa vontade. Durante alguns meses, nos meus tempos livres, decidi transformar uma ideia num projeto mais ambicioso: escrever o meu próprio livro, à minha maneira, dentro de um género que sempre me fascinou – o thriller policial.</p>
+                    
+                    <p>Mais do que concretizar um objetivo pessoal, espero que esta história consiga despertar emoções, levantar questões e surpreender quem a lê. Se, ao fechar o livro, o leitor levar consigo uma reflexão, uma nova perspetiva ou simplesmente a vontade de descobrir mais histórias, sentirei que valeu a pena dar este passo.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -1092,7 +1087,16 @@
         if (openBtn && modal && closeBtn) {
             openBtn.onclick = () => modal.style.display = "flex";
             closeBtn.onclick = () => modal.style.display = "none";
-            window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+        }
+
+        // Pop-up Sobre o Autor
+        const authorModal = document.getElementById('authorModal');
+        const openAuthorBtn = document.getElementById('openAuthorModal');
+        const closeAuthorBtn = document.getElementById('closeAuthorModal');
+
+        if (openAuthorBtn && authorModal && closeAuthorBtn) {
+            openAuthorBtn.onclick = () => authorModal.style.display = "flex";
+            closeAuthorBtn.onclick = () => authorModal.style.display = "none";
         }
 
         // Pop-up de Opções de Compra
@@ -1120,6 +1124,7 @@
 
         window.onclick = (e) => {
             if (e.target === modal) modal.style.display = "none";
+            if (e.target === authorModal) authorModal.style.display = "none";
             if (e.target === buyOptionsModal) buyOptionsModal.style.display = "none";
             if (e.target === buyModal) buyModal.style.display = "none";
         };
