@@ -10,9 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Supabase CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <style>
         :root {
             --bg-main: #0a0c10;
@@ -46,7 +43,6 @@
             color: var(--text-title);
         }
 
-        /* BRILHO DE FUNDO */
         .glow-bg {
             position: fixed;
             top: 40%;
@@ -60,7 +56,6 @@
             filter: blur(100px);
         }
 
-        /* NAVEGAÇÃO */
         nav {
             max-width: 1100px;
             margin: 0 auto;
@@ -98,7 +93,6 @@
             padding: 0 1.5rem;
         }
 
-        /* CARTÃO PRINCIPAL */
         .hero-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -114,7 +108,7 @@
             margin-bottom: 3.5rem;
         }
 
-        /* MODELO LIVRO 3D CORRIGIDO */
+        /* COMPONENTE LIVRO 3D LIMPO */
         .book-visual {
             position: relative;
             display: flex;
@@ -240,7 +234,6 @@
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* DETALHES */
         .genre-badge {
             display: inline-block;
             background: rgba(99, 102, 241, 0.15);
@@ -373,7 +366,6 @@
             color: var(--accent);
         }
 
-        /* OPINIÕES */
         .reviews-section {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
@@ -453,7 +445,6 @@
             color: var(--text-body);
         }
 
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -461,4 +452,184 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: #0f131a;
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 650px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-body);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 850px) {
+            .hero-card {
+                grid-template-columns: 1fr;
+                padding: 1.75rem;
+                gap: 2rem;
+            }
+
+            .book-visual {
+                min-height: 380px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-group {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .future-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-bg"></div>
+
+    <nav>
+        <a href="/" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Voltar à Inicial
+        </a>
+        <span class="author-tag">Bruno Gomes</span>
+    </nav>
+
+    <main class="container">
+        
+        <section class="hero-card">
+            <div class="book-visual" id="bookVisual">
+                <div class="book-3d-wrapper" id="book3D">
+                    <div class="book-cover">
+                        <div>
+                            <span class="cover-badge">Thriller Psicológico</span>
+                            <h3 class="cover-title">[Título do Livro]</h3>
+                        </div>
+                        <span class="cover-author">Bruno Gomes</span>
+                    </div>
+                    <div class="book-spine">
+                        <span class="spine-text">[Título do Livro] — Bruno Gomes</span>
+                    </div>
+                    <div class="book-pages-right"></div>
+                    <div class="book-pages-top"></div>
+                </div>
+                <div class="book-shadow" id="bookShadow"></div>
+            </div>
+
+            <div class="book-info">
+                <span class="genre-badge">Crime / Thriller Psicológico</span>
+                <h1 class="book-title">[Título do Teu Livro]</h1>
+                <p class="book-subtitle">[Subtítulo de impacto para o romance]</p>
+
+                <div class="cta-group">
+                    <a href="#" class="btn-primary">
+                        <i class="fa-solid fa-cart-shopping"></i> Comprar Livro
+                    </a>
+                    <button class="btn-secondary" id="openSynopsis">
+                        <i class="fa-solid fa-align-left"></i> Ler Sinopse
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="details-grid">
+            <div class="detail-card">
+                <i class="fa-solid fa-layer-group"></i>
+                <h4>Formato</h4>
+                <p>Capa Mole / Ebook</p>
+            </div>
+            <div class="detail-card">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <h4>Páginas</h4>
+                <p>[Ex: 320 págs]</p>
+            </div>
+            <div class="detail-card">
+                <i class="fa-solid fa-calendar-days"></i>
+                <h4>Lançamento</h4>
+                <p>[Ex: 2024 / Brevemente]</p>
+            </div>
+            <div class="detail-card">
+                <i class="fa-solid fa-language"></i>
+                <h4>Idioma</h4>
+                <p>Português</p>
+            </div>
+        </section>
+
+        <section class="future-books-section">
+            <h2 class="section-title">Futuros Projetos</h2>
+            <p>Acompanha os próximos romances e lançamentos que estão atualmente em desenvolvimento.</p>
+            
+            <div class="future-card">
+                <i class="fa-solid fa-feather-pointed"></i>
+                <div>
+                    <h4>[Novo Romance em Escrita]</h4>
+                    <p>Um novo thriller psicológico está a ser preparado. Brevemente haverá novidades sobre o título e data de lançamento.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="reviews-section">
+            <h2 class="section-title">Opiniões dos Leitores</h2>
+            <p>Já leste a obra? Deixa a tua opinião sincera. Todas as submissões são analisadas antes de serem publicadas no site.</p>
+
+            <form class="review-form" id="opinionForm">
+                <div class="form-row">
+                    <input type="text" id="authorName" class="input-field" placeholder="O teu nome" required>
+                    <select id="starRating" class="select-field" required>
+                        <option value="5">⭐⭐⭐⭐⭐ (5/5 Excelente)</option>
+                        <option value="4">⭐⭐⭐⭐ (4/5 Muito Bom)</option>
+                        <option value="3">⭐⭐⭐ (3/5 Bom)</option>
+                        <option value="2">⭐⭐ (2/5 Razoável)</option>
+                        <option value="1">⭐ (1/5 Fraco)</option>
+                    </select>
+                </div>
+                <textarea id="reviewComment" class="textarea-field" placeholder="Escreve a tua opinião sobre o livro..." required></textarea>
+                <div>
+                    <button type="submit" class="btn-primary" id="btnSubmit">
+                        Enviar Opinião para Aprovação
+                    </button>
+                </div>
+            </form>
+
+            <div class="reviews-container" id="reviewsContainer"></div>
+        </section>
+
+    </main>
+
+    <div class="modal" id="synopsisModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSynopsis">&times;</span>
+            <h2 style="margin-bottom: 1rem;">Sinopse</h2>
+            <p style="color: var(--text-body
