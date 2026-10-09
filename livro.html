@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .catalog-card, .buy-option-btn {
+        a, button, input, select, textarea, .book-3d-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .catalog-card, .buy-option-btn, .nav-author-btn {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -133,12 +133,37 @@
 
         .back-link:hover { color: #fff; }
 
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
         .author-tag {
             font-size: 0.9rem;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--primary);
+        }
+
+        .nav-author-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-card);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-author-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--primary);
         }
 
         .container {
@@ -746,6 +771,11 @@
         }
 
         @media (max-width: 850px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
             .hero-card {
                 grid-template-columns: 1fr;
                 padding: 1.75rem;
@@ -806,7 +836,12 @@
         <a href="/" class="back-link">
             <i class="fa-solid fa-arrow-left"></i> Voltar à Inicial
         </a>
-        <span class="author-tag">Bruno Gomes</span>
+        <div class="nav-right">
+            <button class="nav-author-btn" id="openAuthorModal">
+                <i class="fa-solid fa-user"></i> Sobre o Autor
+            </button>
+            <span class="author-tag">Bruno Gomes</span>
+        </div>
     </nav>
 
     <main class="container">
@@ -847,9 +882,6 @@
                     </button>
                     <button class="btn-secondary" id="openSynopsis">
                         <i class="fa-solid fa-align-left"></i> Ler Sinopse
-                    </button>
-                    <button class="btn-secondary" id="openAuthorModal">
-                        <i class="fa-solid fa-user-pen"></i> Sobre o Autor
                     </button>
                 </div>
             </div>
@@ -944,7 +976,7 @@
                 <p>Recém-formado e ainda a tentar provar o seu valor, Rogério recebe a missão de investigar o desaparecimento de Paulo, um homem aparentemente sem inimigos e sem qualquer razão para desaparecer. O que começa como um caso aparentemente simples, depressa se transforma numa investigação marcada por pistas contraditórias, segredos do passado e uma rede de corrupção que parece alcançar lugares onde Rogério nunca imaginaria procurar.</p>
                 <p>À medida que se aproxima da verdade, Rogério percebe que alguém está disposto a tudo para impedir que o caso seja resolvido. Cada descoberta levanta novas perguntas e cada resposta coloca a sua própria vida – e a das pessoas que ama – em perigo.</p>
                 <p>Entre desaparecimentos, ameaças, violência e traições, Rogério terá de descobrir em quem pode confiar antes que seja tarde demais.</p>
-                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da cual poderá não conseguir escapar.</p>
+                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da qual poderá não conseguir escapar.</p>
             </div>
         </div>
     </div>
