@@ -9,6 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("9wgcE2eJZbJdkowP4");
+        })();
+    </script>
 
     <style>
         :root {
@@ -515,7 +522,6 @@
             transition: border-color 0.3s ease;
         }
 
-        /* CORREÇÃO DAS OPÇÕES DO SELECT PARA NÃO FICAREM EM BRANCO */
         .select-field option {
             background-color: #0f131a;
             color: #ffffff;
@@ -1039,7 +1045,7 @@
             if (e.target === buyModal) buyModal.style.display = "none";
         };
 
-        // Submeter Encomenda Direta via Fetch para a tabela encomendas
+        // Submeter Encomenda Direta (Supabase + EmailJS)
         const buyForm = document.getElementById('buyForm');
         if (buyForm) {
             buyForm.addEventListener('submit', async function(e) {
@@ -1055,6 +1061,7 @@
                 const metodo = document.getElementById('buyerPayment').value;
 
                 try {
+                    // 1. Guardar na Base de Dados Supabase
                     const response = await fetch(`${SB_URL}/rest/v1/encomendas`, {
                         method: 'POST',
                         headers: {
@@ -1072,13 +1079,22 @@
                     });
 
                     if (response.ok) {
-                        alert('Encomenda registada com sucesso! Muito obrigado. Entraremos em contacto muito em breve para concluir o pagamento por MB Way ou PayPal.');
+                        // 2. Enviar Notificação por E-mail via EmailJS
+                        await emailjs.send("service_fftdvtd", "template_pe9tl8g", {
+                            buyer_name: nome,
+                            buyer_phone: telemovel,
+                            buyer_address: morada,
+                            buyer_payment: metodo
+                        });
+
+                        alert('Encomenda registada com sucesso! Receberás uma notificação em breve. Entraremos em contacto para concluir o pagamento.');
                         buyForm.reset();
                         buyModal.style.display = 'none';
                     } else {
-                        alert('Erro ao registar encomenda. Tenta novamente.');
+                        alert('Erro ao registar encomenda no servidor. Tenta novamente.');
                     }
                 } catch (err) {
+                    console.error(err);
                     alert('Erro de rede ao submeter encomenda.');
                 }
 
