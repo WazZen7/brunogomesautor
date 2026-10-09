@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn {
+        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn, .ambient-sound-btn {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -535,6 +535,41 @@
             color: var(--text-body);
         }
 
+        /* BOTÃO FLUTUANTE DE SOM AMBIENTE */
+        .ambient-sound-btn {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            width: 55px; height: 55px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .ambient-sound-btn:hover {
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .ambient-sound-btn.playing {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-color: transparent;
+            animation: soundPulse 2s infinite alternate;
+        }
+
+        @keyframes soundPulse {
+            0% { box-shadow: 0 0 10px var(--primary-glow); }
+            100% { box-shadow: 0 0 25px rgba(168, 85, 247, 0.6); }
+        }
+
         /* FUTUROS PROJETOS */
         .future-books-section {
             background: var(--bg-card);
@@ -885,6 +920,17 @@
 
     <div class="glow-bg"></div>
 
+    <!-- BOTÃO FLUTUANTE DE SOM AMBIENTE -->
+    <button class="ambient-sound-btn" id="soundToggleBtn" title="Ativar Som Ambiente de Suspense">
+        <i class="fa-solid fa-volume-xmark" id="soundIcon"></i>
+    </button>
+
+    <!-- AUDIO ELEMENT (Ambiente de Suspense / Chuva Cinematográfica) -->
+    <audio id="ambientAudio" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=dark-mystery-trailer-110822.mp3" type="audio/mpeg">
+        O teu navegador não suporta áudio.
+    </audio>
+
     <nav>
         <a href="/" class="back-link">
             <i class="fa-solid fa-arrow-left"></i> Voltar à Inicial
@@ -1183,6 +1229,29 @@
             });
         }
 
+        // Controlo do Som Ambiente
+        const audio = document.getElementById('ambientAudio');
+        const soundBtn = document.getElementById('soundToggleBtn');
+        const soundIcon = document.getElementById('soundIcon');
+        audio.volume = 0.35; // Volume suave e ambiente
+
+        soundBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().then(() => {
+                    soundBtn.classList.add('playing');
+                    soundIcon.className = 'fa-solid fa-volume-high';
+                    soundBtn.title = 'Desativar Som Ambiente';
+                }).catch(err => {
+                    console.error("Erro ao reproduzir áudio:", err);
+                });
+            } else {
+                audio.pause();
+                soundBtn.classList.remove('playing');
+                soundIcon.className = 'fa-solid fa-volume-xmark';
+                soundBtn.title = 'Ativar Som Ambiente de Suspense';
+            }
+        });
+
         // Carrossel do Catálogo de Obras
         const track = document.getElementById('catalogTrack');
         const prevBtn = document.getElementById('prevBook');
@@ -1367,7 +1436,7 @@
                 submitBtn.disabled = true;
                 submitBtn.innerText = 'A enviar...';
 
-                const name = document.getElementById('authorName').value;
+                const name = document.getElementById('authorName'].value;
                 const rating = parseInt(document.getElementById('starRating').value);
                 const comment = document.getElementById('reviewComment').value;
 
