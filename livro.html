@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O Livro | Bruno Gomes</title>
+    <title>Na Teia do Crime | Bruno Gomes</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,16 +38,14 @@
             overflow-x: hidden;
             padding-bottom: 4rem;
             position: relative;
-            /* Cursor Padrão: Pistola */
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        /* Cursor nos Elementos Interativos (Botões, Links, Inputs): Mira */
         a, button, input, select, textarea, .book-3d-wrapper, .close-modal {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
-        /* FUNDO DE ÍCONES TEMÁTICOS DE CRIME E INVESTIGAÇÃO POLICIAL */
+        /* PADRÃO DE ÍCONES POLICIAIS E CRIME */
         .crime-bg-pattern {
             position: fixed;
             top: 0;
@@ -81,7 +79,6 @@
             color: var(--text-title);
         }
 
-        /* LUZ AMBIENTAL AMBIENT GLOW */
         .glow-bg {
             position: fixed;
             top: 25%;
@@ -110,14 +107,8 @@
         }
 
         @keyframes ambientGlow {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(-45%, -48%) scale(1.15);
-                opacity: 1;
-            }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-45%, -48%) scale(1.15); opacity: 1; }
         }
 
         nav {
@@ -139,9 +130,7 @@
             transition: color 0.3s ease;
         }
 
-        .back-link:hover {
-            color: #fff;
-        }
+        .back-link:hover { color: #fff; }
 
         .author-tag {
             font-size: 0.9rem;
@@ -172,7 +161,6 @@
             margin-bottom: 3.5rem;
         }
 
-        /* MODELO LIVRO 3D CORRIGIDO E ALINHADO */
         .book-visual {
             position: relative;
             display: flex;
@@ -193,10 +181,8 @@
 
         .book-cover {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%);
             border-radius: 3px 10px 10px 3px;
             box-shadow: inset 4px 0 10px rgba(0, 0, 0, 0.4), 0 10px 25px rgba(0, 0, 0, 0.5);
@@ -236,13 +222,10 @@
             text-transform: uppercase;
         }
 
-        /* LOMBADA (SPINE) */
         .book-spine {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 30px;
-            height: 100%;
+            top: 0; left: 0;
+            width: 30px; height: 100%;
             background: linear-gradient(90deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
             transform: rotateY(-90deg) translateZ(0px) translateX(-15px);
             transform-origin: left center;
@@ -265,11 +248,9 @@
             opacity: 0.85;
         }
 
-        /* PÁGINAS LATERAIS */
         .book-pages-right {
             position: absolute;
-            top: 3px;
-            right: 0;
+            top: 3px; right: 0;
             width: 28px;
             height: calc(100% - 6px);
             background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 70%, #94a3b8 100%);
@@ -279,13 +260,10 @@
             box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
         }
 
-        /* PÁGINAS SUPERIORES */
         .book-pages-top {
             position: absolute;
-            top: 0;
-            left: 3px;
-            width: calc(100% - 6px);
-            height: 28px;
+            top: 0; left: 3px;
+            width: calc(100% - 6px); height: 28px;
             background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 100%);
             transform: rotateX(90deg) translateZ(0px) translateY(-14px);
             transform-origin: top center;
@@ -294,10 +272,8 @@
 
         .book-shadow {
             position: absolute;
-            width: 220px;
-            height: 20px;
-            bottom: -30px;
-            left: 10px;
+            width: 220px; height: 20px;
+            bottom: -30px; left: 10px;
             background: rgba(0, 0, 0, 0.6);
             border-radius: 50%;
             filter: blur(15px);
@@ -518,11 +494,9 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
@@ -535,24 +509,34 @@
             border: 1px solid var(--border-card);
             border-radius: 24px;
             padding: 2.5rem;
-            max-width: 650px;
+            max-width: 680px;
             width: 100%;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-body-text p {
+            color: var(--text-body);
+            line-height: 1.8;
+            margin-bottom: 1.1rem;
+            font-size: 0.98rem;
+        }
+
+        .modal-body-text p:last-child {
+            margin-bottom: 0;
         }
 
         .close-modal {
             position: absolute;
-            top: 1.25rem;
-            right: 1.5rem;
+            top: 1.25rem; right: 1.5rem;
             font-size: 1.5rem;
             color: var(--text-body);
             transition: color 0.3s ease;
         }
 
-        .close-modal:hover {
-            color: #fff;
-        }
+        .close-modal:hover { color: #fff; }
 
         @media (max-width: 850px) {
             .hero-card {
@@ -561,27 +545,11 @@
                 gap: 2rem;
             }
 
-            .book-visual {
-                min-height: 380px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-group {
-                flex-direction: column;
-            }
-
-            .btn-primary, .btn-secondary {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .future-card {
-                flex-direction: column;
-                text-align: center;
-            }
+            .book-visual { min-height: 380px; }
+            .form-row { grid-template-columns: 1fr; }
+            .cta-group { flex-direction: column; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+            .future-card { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -632,12 +600,12 @@
                     <div class="book-cover">
                         <div>
                             <span class="cover-badge">Thriller Psicológico</span>
-                            <h3 class="cover-title">[Título do Livro]</h3>
+                            <h3 class="cover-title">Na Teia do Crime</h3>
                         </div>
                         <span class="cover-author">Bruno Gomes</span>
                     </div>
                     <div class="book-spine">
-                        <span class="spine-text">[Título do Livro] — Bruno Gomes</span>
+                        <span class="spine-text">Na Teia do Crime — Bruno Gomes</span>
                     </div>
                     <div class="book-pages-right"></div>
                     <div class="book-pages-top"></div>
@@ -647,8 +615,8 @@
 
             <div class="book-info">
                 <span class="genre-badge">Crime / Thriller Psicológico</span>
-                <h1 class="book-title">[Título do Teu Livro]</h1>
-                <p class="book-subtitle">[Subtítulo de impacto para o romance]</p>
+                <h1 class="book-title">Na Teia do Crime</h1>
+                <p class="book-subtitle">Uma cidade mergulhada na escuridão. Um crime que desafia a lógica.</p>
 
                 <div class="cta-group">
                     <a href="#" class="btn-primary">
@@ -725,13 +693,22 @@
 
     </main>
 
+    <!-- MODAL DA SINOPSE REAL -->
     <div class="modal" id="synopsisModal">
         <div class="modal-content">
             <span class="close-modal" id="closeSynopsis">&times;</span>
-            <h2 style="margin-bottom: 1rem;">Sinopse</h2>
-            <p style="color: var(--text-body); line-height: 1.8;">
-                Quando um segredo mantido no escuro durante décadas começa a desfazer-se, uma cadeia imprevisível de acontecimentos obriga os protagonistas a confrontar a verdade. Um thriller psicológico envolvente onde cada capítulo desafia a tua perceção de justiça.
-            </p>
+            <h2 style="margin-bottom: 1.25rem; font-size: 1.8rem; color: #fff;">Sinopse</h2>
+            <div class="modal-body-text">
+                <p>Uma cidade mergulhada na escuridão. Um crime que desafia a lógica. Um detetive preso na teia da mentira, corrupção e violência.</p>
+                
+                <p>Recém-formado e ainda a tentar provar o seu valor, Rogério recebe a missão de investigar o desaparecimento de Paulo, um homem aparentemente sem inimigos e sem qualquer razão para desaparecer. O que começa como um caso aparentemente simples, depressa se transforma numa investigação marcada por pistas contraditórias, segredos do passado e uma rede de corrupção que parece alcançar lugares onde Rogério nunca imaginaria procurar.</p>
+                
+                <p>À medida que se aproxima da verdade, Rogério percebe que alguém está disposto a tudo para impedir que o caso seja resolvido. Cada descoberta levanta novas perguntas e cada resposta coloca a sua própria vida – e a das pessoas que ama – em perigo.</p>
+                
+                <p>Entre desaparecimentos, ameaças, violência e traições, Rogério terá de descobrir em quem pode confiar antes que seja tarde demais.</p>
+                
+                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da qual poderá não conseguir escapar.</p>
+            </div>
         </div>
     </div>
 
