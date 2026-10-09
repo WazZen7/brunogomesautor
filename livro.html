@@ -12,8 +12,8 @@
 
     <style>
         :root {
-            --bg-main: #0a0c10;
-            --bg-card: rgba(10, 12, 16, 0.65);
+            --bg-main: #07090e;
+            --bg-card: rgba(13, 17, 26, 0.7);
             --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
             --primary-glow: rgba(99, 102, 241, 0.35);
@@ -28,14 +28,21 @@
             box-sizing: border-box;
         }
 
+        /* FUNDO DINÂMICO E ELEGANTE (ULTRA LEVE) */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, #07090e 0%, #0d111a 100%);
+            background-size: 24px 24px, 100% 100%;
+            background-attachment: fixed;
             color: var(--text-body);
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
             padding-bottom: 4rem;
+            position: relative;
         }
 
         h1, h2, h3, h4 {
@@ -43,17 +50,43 @@
             color: var(--text-title);
         }
 
+        /* LUZ AMBIENTAL DE AMBIENTE (NEON GLOW) */
         .glow-bg {
             position: fixed;
-            top: 40%;
+            top: 25%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(0,0,0,0) 70%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(0,0,0,0) 70%);
             z-index: -1;
             pointer-events: none;
-            filter: blur(100px);
+            filter: blur(120px);
+            animation: ambientGlow 10s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(140px);
+        }
+
+        @keyframes ambientGlow {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-45%, -48%) scale(1.15);
+                opacity: 1;
+            }
         }
 
         nav {
@@ -108,6 +141,7 @@
             margin-bottom: 3.5rem;
         }
 
+        /* MODELO LIVRO 3D CORRIGIDO E ALINHADO */
         .book-visual {
             position: relative;
             display: flex;
@@ -201,7 +235,7 @@
             opacity: 0.85;
         }
 
-        /* PÁGINAS LATERAIS (PÁGINAS DO LIVRO) */
+        /* PÁGINAS LATERAIS */
         .book-pages-right {
             position: absolute;
             top: 3px;
