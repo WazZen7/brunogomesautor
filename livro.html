@@ -515,6 +515,13 @@
             transition: border-color 0.3s ease;
         }
 
+        /* CORREÇÃO DAS OPÇÕES DO SELECT PARA NÃO FICAREM EM BRANCO */
+        .select-field option {
+            background-color: #0f131a;
+            color: #ffffff;
+            padding: 10px;
+        }
+
         .input-field:focus, .textarea-field:focus, .select-field:focus {
             border-color: var(--primary);
         }
