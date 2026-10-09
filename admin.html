@@ -3,120 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Gestão | Bruno Gomes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Supabase JS Client -->
+    <title>Painel de Moderação | Bruno Gomes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0a0c10; color: #fff; padding: 2rem; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .card { background: #12161f; border: 1px solid rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 16px; margin-bottom: 1rem; }
-        .btn { padding: 0.5rem 1rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; margin-right: 0.5rem; }
-        .btn-approve { background: #10b981; color: #fff; }
-        .btn-delete { background: #ef4444; color: #fff; }
-        .pin-box { text-align: center; margin-top: 5rem; }
-        input { padding: 0.75rem; border-radius: 8px; border: 1px solid #333; background: #000; color: #fff; text-align: center; font-size: 1.1rem; }
+        :root {
+            --bg-main: #0a0c10;
+            --bg-card: rgba(10, 12, 16, 0.75);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --primary: #6366f1;
+            --text-title: #ffffff;
+            --text-body: #94a3b8;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-card);
+        }
+
+        h1 { font-family: 'Syne', sans-serif; color: var(--text-title); font-size: 1.8rem; }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .author-name { font-weight: 700; color: #fff; }
+        .rating { color: #f59e0b; }
+        .message-text { color: #cbd5e1; font-size: 0.95rem; }
+        .date-text { font-size: 0.75rem; color: #64748b; }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover { opacity: 0.85; }
+        .btn-approve { background: var(--success); color: #fff; }
+        .btn-delete { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.4); }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Ecrã de Login pelo PIN -->
-        <div id="loginBox" class="pin-box">
-            <h2>Área Reservada ao Autor</h2>
-            <p style="margin-bottom: 1rem; color: #94a3b8;">Insere o teu PIN de acesso para gerir opiniões:</p>
-            <form onsubmit="event.preventDefault(); checkPin();">
-                <input type="password" id="pinInput" placeholder="PIN de Acesso">
-                <button type="submit" class="btn btn-approve" style="margin-left: 0.5rem;">Entrar</button>
-            </form>
-        </div>
+        <header>
+            <h1>Painel de Moderação</h1>
+            <a href="livro.html" style="color: var(--primary); text-decoration: none;">Ver Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </header>
 
-        <!-- Painel de Gestão de Opiniões -->
-        <div id="adminPanel" style="display: none;">
-            <h1 style="margin-bottom: 1.5rem;">Opiniões Pendentes</h1>
-            <div id="pendingList">A carregar...</div>
+        <h2 style="margin-bottom: 1rem; font-size: 1.2rem; color: #fff;">Comentários Pendentes</h2>
+        <div id="pendingContainer">
+            <p>A carregar comentários...</p>
         </div>
     </div>
 
     <script>
-        // CONFIGURAÇÃO COM AS TUAS CHAVES RETAIS
         const SUPABASE_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
+        const SUPABASE_ANON_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Inicialização do cliente Supabase
-        const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+        const container = document.getElementById('pendingContainer');
 
-        // PIN DE ACESSO
-        const ADMIN_PIN = "7913";
-
-        function checkPin() {
-            const pin = document.getElementById('pinInput').value.trim();
-            if (pin === ADMIN_PIN) {
-                document.getElementById('loginBox').style.display = 'none';
-                document.getElementById('adminPanel').style.display = 'block';
-                loadPendingReviews();
-            } else {
-                alert('PIN incorreto!');
-            }
-        }
-
-        async function loadPendingReviews() {
-            const container = document.getElementById('pendingList');
-            if (!supabaseClient) {
-                container.innerHTML = `<p style="color: #ef4444;">Erro ao carregar a biblioteca do Supabase.</p>`;
-                return;
-            }
-
-            const { data: opiniones, error } = await supabaseClient
-                .from('opiniones')
+        async function loadPending() {
+            const { data: comentarios, error } = await supabaseClient
+                .from('comentarios')
                 .select('*')
-                .eq('aprovado', false);
+                .eq('aprovado', false)
+                .order('created_at', { ascending: false });
 
             if (error) {
-                container.innerHTML = `<p style="color: #ef4444;">Erro ao carregar opiniões: ${error.message}</p>`;
+                container.innerHTML = '<p>Erro ao carregar comentários.</p>';
                 return;
             }
 
-            if (!opiniones || !opiniones.length) {
-                container.innerHTML = `<p style="color: #94a3b8;">Não há opiniões pendentes de aprovação.</p>`;
+            if (!comentarios || comentarios.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-check-circle" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem; display: block;"></i>
+                        <p>Não há comentários pendentes para aprovação!</p>
+                    </div>`;
                 return;
             }
 
-            container.innerHTML = opiniones.map(op => `
-                <div class="card" id="op-${op.id}">
-                    <div style="display:flex; justify-content:space-between; margin-bottom: 0.5rem;">
-                        <strong>${op.nome} (${op.classificacao} ⭐)</strong>
-                        <small style="color:#64748b">${new Date(op.criado_em).toLocaleDateString('pt-PT')}</small>
+            container.innerHTML = comentarios.map(item => `
+                <div class="card" id="card-${item.id}">
+                    <div class="card-header">
+                        <span class="author-name">${escapeHtml(item.nome)}</span>
+                        <span class="rating">${'⭐'.repeat(item.avaliacao)}</span>
                     </div>
-                    <p style="margin-bottom: 1rem; color: #cbd5e1;">${op.comentario}</p>
-                    <button class="btn btn-approve" onclick="approveReview(${op.id})">Aprovar e Publicar</button>
-                    <button class="btn btn-delete" onclick="deleteReview(${op.id})">Eliminar</button>
+                    <p class="message-text">${escapeHtml(item.mensagem)}</p>
+                    <span class="date-text">${new Date(item.created_at).toLocaleString('pt-PT')}</span>
+                    <div class="actions">
+                        <button class="btn btn-approve" onclick="approveReview(${item.id})">
+                            <i class="fa-solid fa-check"></i> Aprovar
+                        </button>
+                        <button class="btn btn-delete" onclick="deleteReview(${item.id})">
+                            <i class="fa-solid fa-trash"></i> Eliminar
+                        </button>
+                    </div>
                 </div>
             `).join('');
         }
 
         async function approveReview(id) {
-            const { error } = await supabaseClient.from('opiniones').update({ aprovado: true }).eq('id', id);
-            if (!error) {
-                const el = document.getElementById(`op-${id}`);
-                if (el) el.remove();
-                alert('Opinião aprovada com sucesso!');
+            const { error } = await supabaseClient
+                .from('comentarios')
+                .update({ aprovado: true })
+                .eq('id', id);
+
+            if (error) {
+                alert('Erro ao aprovar comentário.');
             } else {
-                alert('Erro ao aprovar: ' + error.message);
+                document.getElementById(`card-${id}`).remove();
+                if (container.children.length === 0) loadPending();
             }
         }
 
         async function deleteReview(id) {
-            if (confirm('Tem a certeza que deseja eliminar esta opinião?')) {
-                const { error } = await supabaseClient.from('opiniones').delete().eq('id', id);
-                if (!error) {
-                    const el = document.getElementById(`op-${id}`);
-                    if (el) el.remove();
-                } else {
-                    alert('Erro ao eliminar: ' + error.message);
-                }
+            if (!confirm('Tem a certeza que deseja eliminar este comentário?')) return;
+
+            const { error } = await supabaseClient
+                .from('comentarios')
+                .delete()
+                .eq('id', id);
+
+            if (error) {
+                alert('Erro ao eliminar comentário.');
+            } else {
+                document.getElementById(`card-${id}`).remove();
+                if (container.children.length === 0) loadPending();
             }
         }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        loadPending();
     </script>
 </body>
 </html>
