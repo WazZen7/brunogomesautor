@@ -108,7 +108,6 @@
             margin-bottom: 3.5rem;
         }
 
-        /* COMPONENTE LIVRO 3D LIMPO */
         .book-visual {
             position: relative;
             display: flex;
@@ -632,4 +631,128 @@
         <div class="modal-content">
             <span class="close-modal" id="closeSynopsis">&times;</span>
             <h2 style="margin-bottom: 1rem;">Sinopse</h2>
-            <p style="color: var(--text-body
+            <p style="color: var(--text-body); line-height: 1.8;">
+                Quando um segredo mantido no escuro durante décadas começa a desfazer-se, uma cadeia imprevisível de acontecimentos obriga os protagonistas a confrontar a verdade. Um thriller psicológico envolvente onde cada capítulo desafia a tua perceção de justiça.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURAÇÕES SUPABASE REST
+        const SB_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
+        const SB_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
+
+        // Efeito 3D do Livro
+        const visualContainer = document.getElementById('bookVisual');
+        const book3D = document.getElementById('book3D');
+        const bookShadow = document.getElementById('bookShadow');
+
+        if (visualContainer && book3D && bookShadow) {
+            visualContainer.addEventListener('mousemove', (e) => {
+                const rect = visualContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left - (rect.width / 2);
+                const y = e.clientY - rect.top - (rect.height / 2);
+
+                const rotateY = (x / (rect.width / 2)) * 25 - 25;
+                const rotateX = -((y / (rect.height / 2)) * 25) + 10;
+
+                book3D.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+                bookShadow.style.transform = `rotateX(80deg) rotateZ(${-rotateY / 2}deg) translateY(${rotateX}px)`;
+            });
+
+            visualContainer.addEventListener('mouseleave', () => {
+                book3D.style.transform = 'rotateY(-25deg) rotateX(10deg)';
+                bookShadow.style.transform = 'rotateX(80deg) rotateZ(-5deg)';
+            });
+        }
+
+        // Pop-up da Sinopse
+        const modal = document.getElementById('synopsisModal');
+        const openBtn = document.getElementById('openSynopsis');
+        const closeBtn = document.getElementById('closeSynopsis');
+
+        if (openBtn && modal && closeBtn) {
+            openBtn.onclick = () => modal.style.display = "flex";
+            closeBtn.onclick = () => modal.style.display = "none";
+            window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+        }
+
+        // Carregar Comentários Aprovados via Fetch
+        async function loadReviews() {
+            const container = document.getElementById('reviewsContainer');
+            if (!container) return;
+
+            try {
+                const response = await fetch(`${SB_URL}/rest/v1/comentarios?aprovado=eq.true&order=created_at.desc`, {
+                    headers: {
+                        'apikey': SB_KEY,
+                        'Authorization': `Bearer ${SB_KEY}`
+                    }
+                });
+
+                const comentarios = await response.json();
+
+                if (!comentarios || comentarios.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.02); border-radius: 12px; font-size: 0.9rem;">
+                            Ainda não existem opiniões publicadas. Sê o primeiro a partilhar a tua leitura!
+                        </div>`;
+                    return;
+                }
+
+                container.innerHTML = comentarios.map(review => `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-author">${escapeHtml(review.nome)}</span>
+                            <span class="review-rating">${'⭐'.repeat(review.avaliacao)}</span>
+                        </div>
+                        <p class="review-text">${escapeHtml(review.mensagem)}</p>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Erro ao carregar comentários:', err);
+            }
+        }
+
+        // Submeter Novo Comentário via Fetch
+        const form = document.getElementById('opinionForm');
+        if (form) {
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const submitBtn = document.getElementById('btnSubmit');
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'A enviar...';
+
+                const name = document.getElementById('authorName').value;
+                const rating = parseInt(document.getElementById('starRating').value);
+                const comment = document.getElementById('reviewComment').value;
+
+                try {
+                    const response = await fetch(`${SB_URL}/rest/v1/comentarios`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SB_KEY,
+                            'Authorization': `Bearer ${SB_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({
+                            nome: name,
+                            avaliacao: rating,
+                            mensagem: comment,
+                            aprovado: false
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Muito obrigado! A sua opinião foi submetida e será publicada assim que for aprovada pelo autor.');
+                        form.reset();
+                    } else {
+                        alert('Erro ao enviar. Tenta novamente.');
+                    }
+                } catch (err) {
+                    alert('Erro de rede ao submeter opinião.');
+                }
+
+                submitBtn.disabled =
