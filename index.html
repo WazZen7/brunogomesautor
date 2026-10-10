@@ -74,32 +74,34 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1300px;
             z-index: 2;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
-        /* COLUNA VAZIA PARA EQUILIBRAR O ESPAÇO DA FOTO À ESQUERDA */
+        /* ESPAÇADOR À ESQUERDA PARA MOSTRAR A TUA FOTO */
         .left-spacer {
             flex: 1;
+            min-width: 250px;
         }
 
-        /* CARTÃO DE TEXTO AO MEIO (HERO) */
+        /* CARTÃO DE TEXTO AO CENTRO (HERO) */
         .hero {
             text-align: center;
             padding: 2.5rem;
             width: 100%;
-            max-width: 580px;
+            max-width: 540px;
             background: rgba(10, 12, 16, 0.65);
             border: 1px solid var(--border-card);
             border-radius: 24px;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 3;
         }
 
         .hero-title {
-            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
             margin-bottom: 1rem;
             line-height: 1.2;
         }
@@ -111,7 +113,7 @@
         }
 
         .hero-bio {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-body);
             margin-bottom: 2.2rem;
             font-weight: 300;
@@ -138,19 +140,22 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* LIVRO 3D SOZINHO À DIREIRA */
+        /* LIVRO 3D EMPURRADO BEM PARA A DIREITA */
         .book-section {
-            flex: 0 0 260px;
+            flex: 0 0 280px;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
+            padding-right: 1rem;
         }
 
         .book-3d {
             width: 200px;
             height: 290px;
             position: relative;
-            perspective: 1000px;
+            perspective: 1200px;
+            /* Animação global para reiniciar o ciclo suavemente sem voltar para trás */
+            animation: loopReset 10s infinite ease-in-out;
         }
 
         .book-body {
@@ -163,7 +168,7 @@
             background: #0b0f17;
         }
 
-        /* ESTRUTURA DE PÁGINAS QUE FOLHEIAM SEQUENCIALMENTE */
+        /* FOLHAS DO LIVRO */
         .paper-sheet {
             position: absolute;
             width: 100%;
@@ -173,7 +178,8 @@
             transform-origin: left center;
             transform-style: preserve-3d;
             border-radius: 2px 8px 8px 2px;
-            animation: flipSequence 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            /* Viragem contínua só para a esquerda */
+            animation: flipForward 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .sheet-front, .sheet-back {
@@ -195,7 +201,7 @@
             transform: rotateY(180deg);
         }
 
-        /* CAPA FRONTAL (COMEÇO) */
+        /* CAPA INICIAL */
         .cover-front-style {
             background: linear-gradient(135deg, #111827 0%, #030712 100%);
             border-left: 6px solid #374151;
@@ -217,7 +223,7 @@
             color: var(--text-body);
         }
 
-        /* PÁGINAS INTERNAS (FOLHAS EM BRANCO COM LINHAS) */
+        /* PÁGINAS INTERNAS */
         .page-inner-style {
             background: #f1f5f9;
             box-shadow: inset 3px 0 10px rgba(0,0,0,0.08);
@@ -232,7 +238,7 @@
         .line-sim.short { width: 55%; }
         .line-sim.med { width: 80%; }
 
-        /* CONTRACAPA FINAL (FECHO DO LIVRO) */
+        /* CONTRACAPA FINAL */
         .cover-back-style {
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             border-right: 6px solid #374151;
@@ -243,38 +249,49 @@
             box-shadow: inset -4px 0 10px rgba(0,0,0,0.5);
         }
 
-        /* CRONOGRAMA DAS FOLHAS (CAPA -> PÁGINAS -> CONTRACAPA) */
-        .sheet-1 { z-index: 5; animation-delay: 0s; }
-        .sheet-2 { z-index: 4; animation-delay: 1.8s; }
-        .sheet-3 { z-index: 3; animation-delay: 3.6s; }
-        .sheet-4 { z-index: 2; animation-delay: 5.4s; }
+        /* ATRASO SEQUANCIAL (CAPA -> PÁGINA 1 -> PÁGINA 2 -> CONTRACAPA) */
+        .sheet-1 { z-index: 5; animation-delay: 0.8s; }
+        .sheet-2 { z-index: 4; animation-delay: 2.3s; }
+        .sheet-3 { z-index: 3; animation-delay: 3.8s; }
+        .sheet-4 { z-index: 2; animation-delay: 5.3s; }
 
-        @keyframes flipSequence {
+        /* ANIMAÇÃO APENAS PARA A ESQUERDA (-180deg) */
+        @keyframes flipForward {
             0% {
                 transform: rotateY(0deg);
             }
-            18% {
+            20% {
                 transform: rotateY(-180deg);
             }
-            70% {
+            80% {
                 transform: rotateY(-180deg);
-            }
-            88% {
-                transform: rotateY(0deg);
             }
             100% {
-                transform: rotateY(0deg);
+                transform: rotateY(-180deg);
             }
         }
 
+        /* FADE OUT SUAVE NO FIM PARA RECOMEÇAR SEM VOLTAR PÁGINAS ATRÁS */
+        @keyframes loopReset {
+            0% { opacity: 1; }
+            78% { opacity: 1; }
+            85% { opacity: 0; }
+            92% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         /* AJUSTES RESPONSIVOS */
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
             .left-spacer {
                 display: none;
             }
             .page-wrapper {
                 justify-content: center;
                 flex-wrap: wrap;
+            }
+            .book-section {
+                justify-content: center;
+                padding-right: 0;
             }
         }
 
@@ -308,7 +325,7 @@
             }
 
             .book-section {
-                order: -1; /* No telemóvel o livro fica no topo */
+                order: -1;
                 margin-bottom: 1rem;
             }
 
@@ -325,10 +342,10 @@
 
     <div class="page-wrapper">
         
-        <!-- ESPAÇADOR À ESQUERDA PARA A TUA FOTO DE FUNDO FICAR VISÍVEL -->
+        <!-- ESPAÇADOR À ESQUERDA PARA LIBERTAR O TEU ROSTO DA FOTO -->
         <div class="left-spacer"></div>
 
-        <!-- CARTÃO DO AUTOR AO CENTRO DA PÁGINA -->
+        <!-- CARTÃO DO AUTOR AO CENTRO -->
         <section class="hero">
             <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
             
@@ -341,12 +358,12 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D ANIMADO SOZINHO À DIREITA -->
+        <!-- LIVRO 3D Á DIREITA A FOLHEAR NO SENTIDO CORRETO -->
         <div class="book-section">
             <div class="book-3d">
                 <div class="book-body">
                     
-                    <!-- FOLHA 1: CAPA FRONTAL -> PÁGINA 1 -->
+                    <!-- FOLHA 1: CAPA -> PÁGINA INTERNA 1 -->
                     <div class="paper-sheet sheet-1">
                         <div class="sheet-front cover-front-style">
                             <h3>Na Teia do Crime</h3>
@@ -359,7 +376,7 @@
                         </div>
                     </div>
 
-                    <!-- FOLHA 2: PÁGINAS INTERNAS 2 E 3 -->
+                    <!-- FOLHA 2: PÁGINAS 2 E 3 -->
                     <div class="paper-sheet sheet-2">
                         <div class="sheet-front page-inner-style">
                             <div class="line-sim"></div>
@@ -373,7 +390,7 @@
                         </div>
                     </div>
 
-                    <!-- FOLHA 3: PÁGINAS INTERNAS 4 E 5 -->
+                    <!-- FOLHA 3: PÁGINAS 4 E 5 -->
                     <div class="paper-sheet sheet-3">
                         <div class="sheet-front page-inner-style">
                             <div class="line-sim med"></div>
