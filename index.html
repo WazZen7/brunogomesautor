@@ -140,7 +140,7 @@
             box-shadow: 0 18px 45px var(--primary-glow);
         }
 
-        /* SECÇÃO DO LIVRO 3D À DIREITA */
+        /* SECÇÃO DO LIVRO 3D COM VOLUME REAL À DIREITA */
         .book-section {
             flex: 0 0 440px;
             display: flex;
@@ -152,37 +152,52 @@
         .book-scene {
             width: 260px;
             height: 380px;
-            perspective: 1400px;
+            perspective: 1600px;
         }
 
-        /* OBJETO 3D UNIFICADO COM ROTAÇÃO CONTÍNUA */
-        .book-card {
+        /* OBJETO 3D ENCORPADO COM ROTAÇÃO CONTÍNUA SUAVE */
+        .book-volumetric {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            animation: smoothRotate360 18s infinite linear;
-            box-shadow: -20px 25px 45px rgba(0, 0, 0, 0.85);
-            border-radius: 6px 12px 12px 6px;
+            animation: bookRotation3D 18s infinite linear;
         }
 
-        @keyframes smoothRotate360 {
+        @keyframes bookRotation3D {
             0% {
-                transform: rotateX(6deg) rotateY(0deg);
+                transform: rotateX(8deg) rotateY(0deg);
             }
             100% {
-                transform: rotateX(6deg) rotateY(-360deg);
+                transform: rotateX(8deg) rotateY(-360deg);
             }
         }
 
-        .card-face {
+        /* BASE DO LIVRO COM ESPESSURA / VOLUME REAL */
+        .book-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-style: preserve-3d;
+            border-radius: 6px 14px 14px 6px;
+        }
+
+        /* CAMADAS INTERMÉDIAS PARA DAR CORPO E ESPESSURA AO LIVRO */
+        .book-layer:nth-child(1) { transform: translateZ(-10px); }
+        .book-layer:nth-child(2) { transform: translateZ(-5px); }
+        .book-layer:nth-child(3) { transform: translateZ(0px); }
+
+        /* FACE FRONTAL (CAPA) E TRASEIRA (CONTRACAPA) */
+        .face {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
             backface-visibility: hidden;
-            border-radius: 6px 12px 12px 6px;
+            border-radius: 6px 14px 14px 6px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -192,42 +207,43 @@
             box-sizing: border-box;
         }
 
-        /* CAPA (FRENTE) COM EFEITO DE LOMBADA LATERAL EMGRADADA */
-        .card-front {
+        /* CAPA COM VOLUME E LOMBADA REAL */
+        .face-front {
             background: linear-gradient(135deg, #111827 0%, #030712 100%);
             color: #fff;
-            border-left: 12px solid #1f2937;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-right: 1px solid rgba(255, 255, 255, 0.15);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: inset 8px 0 20px rgba(0, 0, 0, 0.6);
+            border-left: 14px solid #1f2937;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: -15px 20px 40px rgba(0, 0, 0, 0.9), inset 10px 0 25px rgba(0, 0, 0, 0.7);
+            transform: translateZ(12px);
         }
 
-        .card-front h3 {
+        .face-front h3 {
             font-family: 'Syne', sans-serif;
             font-size: 1.6rem;
             margin-bottom: 0.75rem;
             color: #ffffff;
         }
 
-        .card-front p {
+        .face-front p {
             font-size: 0.95rem;
             color: var(--text-body);
         }
 
-        /* CONTRACAPA (VERSO) SIMÉTRICA */
-        .card-back {
+        /* CONTRACAPA */
+        .face-back {
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             color: #94a3b8;
-            transform: rotateY(180deg);
-            border-right: 12px solid #1f2937;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset -8px 0 20px rgba(0, 0, 0, 0.6);
+            border-right: 14px solid #1f2937;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 15px 20px 40px rgba(0, 0, 0, 0.9), inset -10px 0 25px rgba(0, 0, 0, 0.7);
+            transform: rotateY(180deg) translateZ(12px);
         }
 
-        .card-back p {
+        .face-back p {
             font-size: 0.9rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -311,18 +327,23 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D UNIFICADO E PERFEITO À DIREITA -->
+        <!-- LIVRO 3D COM VOLUME FÍSICO À DIREITA -->
         <div class="book-section">
             <div class="book-scene">
-                <div class="book-card">
-                    <!-- FRENTE (Capa com Lombada Integrada) -->
-                    <div class="card-face card-front">
-                        <h3>Na Teia do Crime</h3>
-                        <p>Bruno Gomes</p>
-                    </div>
-                    <!-- VERSO (Contracapa com Lombada Integrada) -->
-                    <div class="card-face card-back">
-                        <p>— Contracapa —</p>
+                <div class="book-volumetric">
+                    <!-- Camadas de profundidade física -->
+                    <div class="book-layer"></div>
+                    <div class="book-layer"></div>
+                    <div class="book-layer">
+                        <!-- Frente (Capa) -->
+                        <div class="face face-front">
+                            <h3>Na Teia do Crime</h3>
+                            <p>Bruno Gomes</p>
+                        </div>
+                        <!-- Verso (Contracapa) -->
+                        <div class="face face-back">
+                            <p>— Contracapa —</p>
+                        </div>
                     </div>
                 </div>
             </div>
