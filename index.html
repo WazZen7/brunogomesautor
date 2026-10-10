@@ -40,12 +40,13 @@
             padding: 1.5rem;
             position: relative;
 
-            /* IMAGEM DE FUNDO DO AUTOR (À ESQUERDA) */
+            /* FUNDO GERAL DA PÁGINA: COMBINAÇÃO DA TUA FOTO À ESQUERDA E O FUNDO TEMÁTICO DE CRIME/ALGEMAS */
             background-image: 
-                linear-gradient(180deg, rgba(10, 12, 16, 0.70) 0%, rgba(10, 12, 16, 0.88) 100%),
+                linear-gradient(180deg, rgba(10, 12, 16, 0.75) 0%, rgba(10, 12, 16, 0.90) 100%),
+                url('./fundo-algemas.png'), /* Podes substituir pelo nome exato da tua imagem temática */
                 url('./minha-foto-ia.png');
-            background-size: contain;
-            background-position: left center;
+            background-size: cover, cover, contain;
+            background-position: center, center, left center;
             background-repeat: no-repeat;
         }
 
@@ -79,7 +80,7 @@
             gap: 2rem;
         }
 
-        /* ESPAÇADOR À ESQUERDA PARA MOSTRAR A TUA FOTO */
+        /* ESPAÇADOR À ESQUERDA PARA MOSTRAR A FOTO */
         .left-spacer {
             flex: 1;
             min-width: 220px;
@@ -91,7 +92,7 @@
             padding: 2.5rem;
             width: 100%;
             max-width: 500px;
-            background: rgba(10, 12, 16, 0.75);
+            background: rgba(10, 12, 16, 0.80);
             border: 1px solid var(--border-card);
             border-radius: 24px;
             backdrop-filter: blur(12px);
@@ -140,35 +141,23 @@
             box-shadow: 0 18px 45px var(--primary-glow);
         }
 
-        /* SECÇÃO DA DIREITA COM O FUNDO TEMÁTICO (ALGEMAS/CRIME) POR TRÁS DO LIVRO */
+        /* SECÇÃO DO LIVRO À DIREITA (SEM CAIXA/CARTÃO DE FUNDO POR TRÁS) */
         .book-section {
             flex: 0 0 480px;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 2rem;
-            border-radius: 24px;
-            position: relative;
-            overflow: hidden;
-
-            /* APLICAÇÃO DO FUNDO TEMÁTICO ALUSIVO AO LIVRO NO LADO DIREITO */
-            background-image: 
-                linear-gradient(180deg, rgba(10, 12, 16, 0.82) 0%, rgba(10, 12, 16, 0.92) 100%),
-                url('./fundo-algemas.png'); /* Substitui pelo nome exato da tua imagem temática */
-            background-size: cover;
-            background-position: center;
-            border: 1px solid var(--border-card);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            z-index: 3;
         }
 
         .book-wrapper {
             width: 330px;
             height: 460px;
             perspective: 1200px;
-            z-index: 2;
         }
 
-        /* CARTÃO DE CAPA MAIOR COM ELEVAÇÃO E FLUTUAÇÃO REAL */
+        /* LIVRO/CAPA A FLUTUAR DIRETAMENTE SOB O FUNDO DA PÁGINA */
         .book-cover-card {
             width: 100%;
             height: 100%;
@@ -185,7 +174,7 @@
             align-items: center;
             text-align: center;
             position: relative;
-            box-shadow: -25px 30px 60px rgba(0, 0, 0, 0.85), inset 14px 0 35px rgba(0, 0, 0, 0.5);
+            box-shadow: -25px 30px 60px rgba(0, 0, 0, 0.9), inset 14px 0 35px rgba(0, 0, 0, 0.5);
             animation: floatBook 6s ease-in-out infinite;
             transform-style: preserve-3d;
         }
@@ -243,7 +232,7 @@
                 flex-wrap: wrap;
             }
             .book-section {
-                padding-right: 2rem;
+                padding-right: 0;
             }
         }
 
@@ -279,7 +268,6 @@
             .book-section {
                 order: -1;
                 margin-bottom: 1.5rem;
-                width: 100%;
             }
 
             .book-wrapper {
@@ -311,7 +299,7 @@
             </a>
         </section>
 
-        <!-- SECÇÃO DIREITA COM O LIVRO E O FUNDO TEMÁTICO POR TRÁS -->
+        <!-- LIVRO A FLUTUAR DIRETAMENTE SOBRE O FUNDO GERAL DA PÁGINA -->
         <div class="book-section">
             <div class="book-wrapper">
                 <div class="book-cover-card">
