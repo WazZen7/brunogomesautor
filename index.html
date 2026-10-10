@@ -74,7 +74,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1300px;
+            max-width: 1400px;
             z-index: 2;
             gap: 1.5rem;
         }
@@ -90,7 +90,7 @@
             text-align: center;
             padding: 2.5rem;
             width: 100%;
-            max-width: 540px;
+            max-width: 520px;
             background: rgba(10, 12, 16, 0.65);
             border: 1px solid var(--border-card);
             border-radius: 24px;
@@ -101,7 +101,7 @@
         }
 
         .hero-title {
-            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            font-size: clamp(1.8rem, 4vw, 3rem);
             margin-bottom: 1rem;
             line-height: 1.2;
         }
@@ -140,21 +140,19 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* LIVRO 3D EMPURRADO BEM PARA A DIREITA */
+        /* LIVRO 3D MAIOR E MAIS À DIREITA */
         .book-section {
-            flex: 0 0 280px;
+            flex: 0 0 320px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            padding-right: 1rem;
         }
 
         .book-3d {
-            width: 200px;
-            height: 290px;
+            width: 240px;
+            height: 350px;
             position: relative;
             perspective: 1200px;
-            /* Animação global para reiniciar o ciclo suavemente sem voltar para trás */
             animation: loopReset 10s infinite ease-in-out;
         }
 
@@ -163,7 +161,7 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            box-shadow: -15px 15px 30px rgba(0, 0, 0, 0.7);
+            box-shadow: -20px 20px 35px rgba(0, 0, 0, 0.75);
             border-radius: 4px 8px 8px 4px;
             background: #0b0f17;
         }
@@ -178,7 +176,6 @@
             transform-origin: left center;
             transform-style: preserve-3d;
             border-radius: 2px 8px 8px 2px;
-            /* Viragem contínua só para a esquerda */
             animation: flipForward 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -193,7 +190,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1.8rem;
             box-sizing: border-box;
         }
 
@@ -214,12 +211,12 @@
 
         .cover-front-style h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 0.4rem;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
         }
 
         .cover-front-style p {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             color: var(--text-body);
         }
 
@@ -232,7 +229,7 @@
         .line-sim {
             height: 4px;
             background: #cbd5e1;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             border-radius: 2px;
         }
         .line-sim.short { width: 55%; }
@@ -249,21 +246,24 @@
             box-shadow: inset -4px 0 10px rgba(0,0,0,0.5);
         }
 
-        /* ATRASO SEQUANCIAL (CAPA -> PÁGINA 1 -> PÁGINA 2 -> CONTRACAPA) */
+        /* ATRASO SEQUENCIAL DAS FOLHAS */
         .sheet-1 { z-index: 5; animation-delay: 0.8s; }
-        .sheet-2 { z-index: 4; animation-delay: 2.3s; }
-        .sheet-3 { z-index: 3; animation-delay: 3.8s; }
-        .sheet-4 { z-index: 2; animation-delay: 5.3s; }
+        .sheet-2 { z-index: 4; animation-delay: 2.2s; }
+        .sheet-3 { z-index: 3; animation-delay: 3.6s; }
+        .sheet-4 { z-index: 2; animation-delay: 5.0s; }
 
-        /* ANIMAÇÃO APENAS PARA A ESQUERDA (-180deg) */
+        /* ANIMAÇÃO DE VIRAGEM LIMPA E COMPLETA (-180deg) */
         @keyframes flipForward {
             0% {
                 transform: rotateY(0deg);
             }
-            20% {
+            18% {
                 transform: rotateY(-180deg);
             }
-            80% {
+            68% {
+                transform: rotateY(-180deg);
+            }
+            82% {
                 transform: rotateY(-180deg);
             }
             100% {
@@ -271,16 +271,16 @@
             }
         }
 
-        /* FADE OUT SUAVE NO FIM PARA RECOMEÇAR SEM VOLTAR PÁGINAS ATRÁS */
+        /* FADE OUT / IN SUAVE PARA REINICIAR FECHADO COM SEGURANÇA */
         @keyframes loopReset {
             0% { opacity: 1; }
-            78% { opacity: 1; }
-            85% { opacity: 0; }
-            92% { opacity: 0; }
+            70% { opacity: 1; }
+            78% { opacity: 0; }
+            88% { opacity: 0; }
             100% { opacity: 1; }
         }
 
-        /* AJUSTES RESPONSIVOS */
+        /* RESPONSIVIDADE */
         @media (max-width: 1100px) {
             .left-spacer {
                 display: none;
@@ -291,7 +291,6 @@
             }
             .book-section {
                 justify-content: center;
-                padding-right: 0;
             }
         }
 
@@ -330,8 +329,8 @@
             }
 
             .book-3d {
-                width: 160px;
-                height: 230px;
+                width: 180px;
+                height: 260px;
             }
         }
     </style>
@@ -342,7 +341,7 @@
 
     <div class="page-wrapper">
         
-        <!-- ESPAÇADOR À ESQUERDA PARA LIBERTAR O TEU ROSTO DA FOTO -->
+        <!-- ESPAÇADOR À ESQUERDA PARA MOSTRAR O TEU ROSTO NA FOTO -->
         <div class="left-spacer"></div>
 
         <!-- CARTÃO DO AUTOR AO CENTRO -->
@@ -358,12 +357,12 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D Á DIREITA A FOLHEAR NO SENTIDO CORRETO -->
+        <!-- LIVRO 3D MAIOR SOZINHO À DIREIRA -->
         <div class="book-section">
             <div class="book-3d">
                 <div class="book-body">
                     
-                    <!-- FOLHA 1: CAPA -> PÁGINA INTERNA 1 -->
+                    <!-- FOLHA 1: CAPA -> PÁGINA 1 -->
                     <div class="paper-sheet sheet-1">
                         <div class="sheet-front cover-front-style">
                             <h3>Na Teia do Crime</h3>
