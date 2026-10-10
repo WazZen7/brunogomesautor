@@ -140,7 +140,7 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* SECÇÃO DO LIVRO 3D Á DIREITA */
+        /* SECÇÃO DO LIVRO / CARTÃO 3D À DIREITA */
         .book-section {
             flex: 0 0 420px;
             display: flex;
@@ -149,119 +149,87 @@
             padding-right: 2rem;
         }
 
-        .book-scene {
-            width: 250px;
-            height: 360px;
+        .book-container {
+            width: 270px;
+            height: 380px;
             perspective: 1200px;
         }
 
-        /* ESTRUTURA 3D PERFEITAMENTE FECHADA E UNIFICADA */
-        .book-3d-model {
+        /* CARTÃO FLUTUANTE COM ROTAÇÃO SUAVE */
+        .book-card {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transform-origin: center center;
-            animation: rotateBook360 16s infinite linear;
+            animation: cardFlipSmooth 10s infinite ease-in-out;
+            box-shadow: -15px 20px 40px rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
         }
 
-        @keyframes rotateBook360 {
-            0% {
-                transform: rotateX(8deg) rotateY(0deg);
+        @keyframes cardFlipSmooth {
+            0%, 40% {
+                transform: rotateY(0deg) translateY(0px);
+            }
+            50% {
+                transform: rotateY(-90deg) translateY(-10px);
+            }
+            60%, 90% {
+                transform: rotateY(-180deg) translateY(0px);
             }
             100% {
-                transform: rotateX(8deg) rotateY(-360deg);
+                transform: rotateY(-360deg) translateY(0px);
             }
         }
 
-        /* FACES BASE */
-        .book-face {
+        .card-face {
             position: absolute;
-            box-sizing: border-box;
-            backface-visibility: hidden;
-        }
-
-        /* CAPA (FRENTE) - 250px x 360px */
-        .face-front {
-            width: 250px;
-            height: 360px;
+            width: 100%;
+            height: 100%;
             top: 0;
             left: 0;
-            background: linear-gradient(135deg, #111827 0%, #030712 100%);
-            border-left: 6px solid #374151;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 2px 8px 8px 2px;
-            padding: 2rem;
-            color: #fff;
+            backface-visibility: hidden;
+            border-radius: 12px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            transform: translateZ(18px);
-            box-shadow: inset 4px 0 12px rgba(0,0,0,0.6);
+            padding: 2.5rem;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        .face-front h3 {
+        /* CAPA */
+        .card-front {
+            background: linear-gradient(135deg, #111827 0%, #030712 100%);
+            color: #fff;
+            border-left: 8px solid var(--primary);
+        }
+
+        .card-front h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
         }
 
-        .face-front p {
-            font-size: 0.88rem;
+        .card-front p {
+            font-size: 0.95rem;
             color: var(--text-body);
         }
 
-        /* CONTRACAPA (VERSO) - 250px x 360px */
-        .face-back {
-            width: 250px;
-            height: 360px;
-            top: 0;
-            left: 0;
+        /* CONTRACAPA / VERSO */
+        .card-back {
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            border-right: 6px solid #374151;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px 2px 2px 8px;
-            padding: 2rem;
-            color: #64748b;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            transform: rotateY(180deg) translateZ(18px);
-            box-shadow: inset -4px 0 12px rgba(0,0,0,0.6);
+            color: #94a3b8;
+            transform: rotateY(180deg);
+            border-right: 8px solid var(--accent);
         }
 
-        .face-back p {
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        /* LOMBADA (ESQUERDA) - Espessura: 36px */
-        .face-spine {
-            width: 36px;
-            height: 360px;
-            top: 0;
-            left: 0;
-            background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
-            transform-origin: left center;
-            transform: rotateY(-90deg) translateZ(0px);
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-
-        /* BLOCO DE PÁGINAS (DIREITA) - Espessura: 36px */
-        .face-pages {
-            width: 36px;
-            height: 356px;
-            top: 2px;
-            right: 0;
-            background: #f8fafc;
-            transform-origin: right center;
-            transform: rotateY(90deg) translateZ(0px);
-            box-shadow: inset 0 0 8px rgba(0,0,0,0.15);
-            background-image: repeating-linear-gradient(0deg, #cbd5e1, #cbd5e1 2px, #f8fafc 2px, #f8fafc 4px);
+        .card-back p {
+            font-size: 0.9rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
         /* RESPONSIVIDADE */
@@ -313,29 +281,9 @@
                 margin-bottom: 1.5rem;
             }
 
-            .book-scene {
-                width: 190px;
-                height: 270px;
-            }
-
-            .face-front, .face-back {
-                width: 190px;
-                height: 270px;
-                transform: translateZ(14px);
-            }
-
-            .face-back {
-                transform: rotateY(180deg) translateZ(14px);
-            }
-
-            .face-spine {
-                width: 28px;
-                height: 270px;
-            }
-
-            .face-pages {
-                width: 28px;
-                height: 266px;
+            .book-container {
+                width: 200px;
+                height: 290px;
             }
         }
     </style>
@@ -362,28 +310,19 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D TOTALMENTE UNIFICADO E SEM FOLHAS A DESCOLAR -->
+        <!-- LIVRO / CARTÃO 3D ELEGANTE À DIREITA -->
         <div class="book-section">
-            <div class="book-scene">
-                <div class="book-3d-model">
-                    
-                    <!-- CAPA (FRENTE) -->
-                    <div class="book-face face-front">
+            <div class="book-container">
+                <div class="book-card">
+                    <!-- FRENTE (Capa) -->
+                    <div class="card-face card-front">
                         <h3>Na Teia do Crime</h3>
                         <p>Bruno Gomes</p>
                     </div>
-
-                    <!-- CONTRACAPA (VERSO) -->
-                    <div class="book-face face-back">
+                    <!-- VERSO (Contracapa) -->
+                    <div class="card-face card-back">
                         <p>— Contracapa —</p>
                     </div>
-
-                    <!-- LOMBADA (ESQUERDA) -->
-                    <div class="book-face face-spine"></div>
-
-                    <!-- PÁGINAS (DIREITA) -->
-                    <div class="book-face face-pages"></div>
-
                 </div>
             </div>
         </div>
