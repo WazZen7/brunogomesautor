@@ -74,9 +74,9 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1450px;
+            max-width: 1500px;
             z-index: 2;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         /* ESPAÇADOR À ESQUERDA PARA MOSTRAR A TUA FOTO */
@@ -140,163 +140,121 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* LIVRO 3D Á DIREITA */
+        /* SECÇÃO DO LIVRO 3D (MAIOR E BEM À DIREITA) */
         .book-section {
-            flex: 0 0 340px;
+            flex: 0 0 380px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
+            padding-right: 2rem;
         }
 
-        .book-3d {
-            width: 240px;
-            height: 350px;
-            position: relative;
-            perspective: 1200px;
-            /* Controla o ciclo geral de reinício do livro fechado */
-            animation: bookRestart 12s infinite steps(1, end);
+        .book-scene {
+            width: 260px;
+            height: 380px;
+            perspective: 1400px;
         }
 
-        .book-body {
+        /* LIVRO 3D COM ROTAÇÃO 360° CONTÍNUA */
+        .book-3d-model {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            box-shadow: -20px 20px 35px rgba(0, 0, 0, 0.75);
-            border-radius: 4px 8px 8px 4px;
-            background: #0f172a;
+            animation: rotateBook360 16s infinite linear;
         }
 
-        /* PÁGINA BASE DE FUNDO À DIREITA (Mantém sempre o aspeto de livro aberto) */
-        .base-page-right {
+        @keyframes rotateBook360 {
+            0% {
+                transform: rotateX(10deg) rotateY(0deg);
+            }
+            100% {
+                transform: rotateX(10deg) rotateY(-360deg);
+            }
+        }
+
+        /* FACES DO LIVRO 3D (EFEITO DE CAIXA/VOLUME) */
+        .book-face {
             position: absolute;
             width: 100%;
             height: 100%;
-            top: 0;
-            left: 0;
-            background: #f8fafc;
-            border-radius: 2px 8px 8px 2px;
-            padding: 1.8rem;
-            box-sizing: border-box;
-            box-shadow: inset 3px 0 10px rgba(0,0,0,0.08);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        /* FOLHAS E ANIMAÇÃO UNIDIRECIONAL */
-        .paper-sheet {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            border-radius: 2px 8px 8px 2px;
-            animation: flipForwardOnly 12s infinite linear;
-        }
-
-        .sheet-front, .sheet-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
             backface-visibility: hidden;
-            border-radius: 2px 8px 8px 2px;
+            border-radius: 4px 10px 10px 4px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 1.8rem;
+            align-items: center;
+            text-align: center;
             box-sizing: border-box;
         }
 
-        .sheet-back {
-            transform: rotateY(180deg);
-            border-radius: 8px 2px 2px 8px;
-        }
-
-        /* ESTILO DA CAPA */
-        .cover-front-style {
+        /* CAPA (FRENTE) */
+        .face-front {
             background: linear-gradient(135deg, #111827 0%, #030712 100%);
-            border-left: 6px solid #374151;
-            border: 1px solid rgba(255,255,255,0.12);
-            text-align: center;
+            border-left: 8px solid #374151;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 2rem;
             color: #fff;
-            align-items: center;
-            box-shadow: inset 4px 0 10px rgba(0,0,0,0.5);
+            transform: translateZ(25px);
+            box-shadow: inset 6px 0 15px rgba(0,0,0,0.6);
         }
 
-        .cover-front-style h3 {
+        .face-front h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
         }
 
-        .cover-front-style p {
-            font-size: 0.9rem;
+        .face-front p {
+            font-size: 0.95rem;
             color: var(--text-body);
         }
 
-        /* ESTILO DAS PÁGINAS INTERNAS */
-        .page-inner-style {
-            background: #f1f5f9;
-            box-shadow: inset 3px 0 10px rgba(0,0,0,0.08);
-        }
-
-        .line-sim {
-            height: 4px;
-            background: #cbd5e1;
-            margin-bottom: 10px;
-            border-radius: 2px;
-        }
-        .line-sim.short { width: 55%; }
-        .line-sim.med { width: 80%; }
-
-        /* ESTILO DA CONTRACAPA FINAL */
-        .cover-back-style {
+        /* CONTRACAPA (VERSO) */
+        .face-back {
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            border-right: 6px solid #374151;
+            border-right: 8px solid #374151;
             border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            color: #475569;
-            align-items: center;
+            padding: 2rem;
+            color: #64748b;
+            transform: rotateY(180deg) translateZ(25px);
+            box-shadow: inset -6px 0 15px rgba(0,0,0,0.6);
         }
 
-        /* ORDEM E ATRASO SEQUENCIAL (SÓ PARA A FRENTE) */
-        .sheet-cover { z-index: 5; animation-delay: 0s; }
-        .sheet-1     { z-index: 4; animation-delay: 2.5s; }
-        .sheet-2     { z-index: 3; animation-delay: 5s; }
-        .sheet-3     { z-index: 2; animation-delay: 7.5s; }
-
-        /* ANIMAÇÃO PURAMENTE UNIDIRECIONAL (0º -> -180º, sem voltar para trás) */
-        @keyframes flipForwardOnly {
-            0% {
-                transform: rotateY(0deg);
-            }
-            20% {
-                transform: rotateY(-180deg);
-            }
-            95% {
-                transform: rotateY(-180deg);
-            }
-            100% {
-                transform: rotateY(-180deg);
-            }
+        .face-back p {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
         }
 
-        /* REINICIA O LIVRO FECHADO DE FORMA INVISÍVEL NO FIM DO CICLO */
-        @keyframes bookRestart {
-            0% { opacity: 1; }
-            98% { opacity: 1; }
-            99% { opacity: 0; }
-            100% { opacity: 1; }
+        /* LOMBADA DO LIVRO (ESQUERDA) */
+        .face-spine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50px;
+            height: 100%;
+            background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+            transform: rotateY(-90deg) translateZ(25px);
+            transform-origin: left;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* PÁGINAS (BLOCO LATERAL / DIREITA) */
+        .face-pages {
+            position: absolute;
+            top: 2px;
+            right: 0;
+            width: 48px;
+            height: calc(100% - 4px);
+            background: #f8fafc;
+            transform: rotateY(90deg) translateZ(calc(260px - 25px));
+            transform-origin: right;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            background-image: repeating-linear-gradient(0deg, #e2e8f0, #e2e8f0 2px, #f8fafc 2px, #f8fafc 4px);
         }
 
         /* RESPONSIVIDADE */
-        @media (max-width: 1100px) {
+        @media (max-width: 1200px) {
             .left-spacer {
                 display: none;
             }
@@ -306,6 +264,7 @@
             }
             .book-section {
                 justify-content: center;
+                padding-right: 0;
             }
         }
 
@@ -340,12 +299,30 @@
 
             .book-section {
                 order: -1;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
             }
 
-            .book-3d {
-                width: 180px;
-                height: 260px;
+            .book-scene {
+                width: 200px;
+                height: 290px;
+            }
+
+            .face-spine {
+                width: 40px;
+                transform: rotateY(-90deg) translateZ(20px);
+            }
+
+            .face-front, .face-back {
+                transform: translateZ(20px);
+            }
+
+            .face-back {
+                transform: rotateY(180deg) translateZ(20px);
+            }
+
+            .face-pages {
+                width: 38px;
+                transform: rotateY(90deg) translateZ(calc(200px - 20px));
             }
         }
     </style>
@@ -356,10 +333,10 @@
 
     <div class="page-wrapper">
         
-        <!-- ESPAÇADOR À ESQUERDA PARA A TUA FOTO FICAR BEM VISÍVEL -->
+        <!-- ESPAÇADOR À ESQUERDA PARA MOSTRAR A TUA FOTO -->
         <div class="left-spacer"></div>
 
-        <!-- CARTÃO CENTRAL COM A BIO E CTA -->
+        <!-- CARTÃO DO AUTOR AO CENTRO -->
         <section class="hero">
             <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
             
@@ -372,71 +349,27 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D Á DIREITA COM FOLHEADO UNIDIRECIONAL -->
+        <!-- LIVRO 3D A ROTAÇÃO COMPLETA MAIOR E MAIS À DIREITA -->
         <div class="book-section">
-            <div class="book-3d">
-                <div class="book-body">
+            <div class="book-scene">
+                <div class="book-3d-model">
                     
-                    <!-- PÁGINA BASE DE FUNDO À DIREITA -->
-                    <div class="base-page-right">
-                        <div class="line-sim med"></div>
-                        <div class="line-sim"></div>
-                        <div class="line-sim short"></div>
-                        <div class="line-sim med"></div>
+                    <!-- CAPA (FRENTE) -->
+                    <div class="book-face face-front">
+                        <h3>Na Teia do Crime</h3>
+                        <p>Bruno Gomes</p>
                     </div>
 
-                    <!-- CAPA (FECHADA NO INÍCIO, ABRE PARA A ESQUERDA) -->
-                    <div class="paper-sheet sheet-cover">
-                        <div class="sheet-front cover-front-style">
-                            <h3>Na Teia do Crime</h3>
-                            <p>Bruno Gomes</p>
-                        </div>
-                        <div class="sheet-back page-inner-style">
-                            <div class="line-sim med"></div>
-                            <div class="line-sim"></div>
-                            <div class="line-sim short"></div>
-                        </div>
+                    <!-- CONTRACAPA (VERSO) -->
+                    <div class="book-face face-back">
+                        <p>— Contracapa —</p>
                     </div>
 
-                    <!-- FOLHA INTERNA 1 -->
-                    <div class="paper-sheet sheet-1">
-                        <div class="sheet-front page-inner-style">
-                            <div class="line-sim"></div>
-                            <div class="line-sim short"></div>
-                            <div class="line-sim med"></div>
-                        </div>
-                        <div class="sheet-back page-inner-style">
-                            <div class="line-sim med"></div>
-                            <div class="line-sim"></div>
-                            <div class="line-sim"></div>
-                        </div>
-                    </div>
+                    <!-- LOMBADA -->
+                    <div class="book-face face-spine"></div>
 
-                    <!-- FOLHA INTERNA 2 -->
-                    <div class="paper-sheet sheet-2">
-                        <div class="sheet-front page-inner-style">
-                            <div class="line-sim med"></div>
-                            <div class="line-sim short"></div>
-                            <div class="line-sim"></div>
-                        </div>
-                        <div class="sheet-back page-inner-style">
-                            <div class="line-sim"></div>
-                            <div class="line-sim short"></div>
-                            <div class="line-sim med"></div>
-                        </div>
-                    </div>
-
-                    <!-- CONTRACAPA FINAL -->
-                    <div class="paper-sheet sheet-3">
-                        <div class="sheet-front page-inner-style">
-                            <div class="line-sim"></div>
-                            <div class="line-sim med"></div>
-                            <div class="line-sim short"></div>
-                        </div>
-                        <div class="sheet-back cover-back-style">
-                            <p>— Contracapa —</p>
-                        </div>
-                    </div>
+                    <!-- PÁGINAS DO BLOCO LATERAL -->
+                    <div class="book-face face-pages"></div>
 
                 </div>
             </div>
