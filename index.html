@@ -19,11 +19,11 @@
             --accent: #a855f7;
             --text-title: #ffffff;
             --text-body: #94a3b8;
-            
-            /* DIMENSÕES DO LIVRO 3D COM VOLUME REAL */
-            --book-w: 230px;
-            --book-h: 330px;
-            --book-d: 48px; /* Espessura / Profundidade 3D */
+
+            /* GEOMETRIA EXATA DO LIVRO 3D */
+            --book-w: 240px;
+            --book-h: 340px;
+            --book-d: 36px; /* Espessura real unificada */
         }
 
         * {
@@ -145,7 +145,7 @@
             box-shadow: 0 18px 45px var(--primary-glow);
         }
 
-        /* SECÇÃO DO LIVRO 3D VOLUMÉTRICO À DIREITA */
+        /* SECÇÃO DO LIVRO 3D UNIFICADO À DIREITA */
         .book-section {
             flex: 0 0 440px;
             display: flex;
@@ -157,29 +157,29 @@
         .book-scene {
             width: var(--book-w);
             height: var(--book-h);
-            perspective: 1600px;
+            perspective: 1400px;
         }
 
-        /* CAIXA 3D RIGOROSA COM ROTAÇÃO CONTÍNUA */
-        .book-box-3d {
+        /* OBJETO 3D COESO COM ROTAÇÃO CONTÍNUA */
+        .book-container {
             width: 100%;
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
             transform-origin: center center;
-            animation: rotateSolid3D 20s infinite linear;
+            animation: rotatePerfect3D 18s infinite linear;
         }
 
-        @keyframes rotateSolid3D {
+        @keyframes rotatePerfect3D {
             0% {
-                transform: rotateX(12deg) rotateY(0deg);
+                transform: rotateX(8deg) rotateY(0deg);
             }
             100% {
-                transform: rotateX(12deg) rotateY(-360deg);
+                transform: rotateX(8deg) rotateY(-360deg);
             }
         }
 
-        /* FACES DO BLOCO 3D */
+        /* ESTRUTURA BASE DAS FACES */
         .book-face {
             position: absolute;
             top: 0;
@@ -194,27 +194,27 @@
             height: var(--book-h);
             background: linear-gradient(135deg, #111827 0%, #030712 100%);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 4px 10px 10px 4px;
+            border-radius: 3px 10px 10px 3px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2.2rem;
+            padding: 2rem;
             transform: translateZ(calc(var(--book-d) / 2));
-            box-shadow: inset 8px 0 20px rgba(0,0,0,0.7);
+            box-shadow: inset 8px 0 20px rgba(0,0,0,0.6);
             color: #fff;
         }
 
         .face-front h3 {
             font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             margin-bottom: 0.5rem;
             color: #ffffff;
         }
 
         .face-front p {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-body);
         }
 
@@ -224,15 +224,15 @@
             height: var(--book-h);
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px 4px 4px 10px;
+            border-radius: 10px 3px 3px 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2.2rem;
+            padding: 2rem;
             transform: rotateY(180deg) translateZ(calc(var(--book-d) / 2));
-            box-shadow: inset -8px 0 20px rgba(0,0,0,0.7);
+            box-shadow: inset -8px 0 20px rgba(0,0,0,0.6);
             color: #64748b;
         }
 
@@ -242,28 +242,30 @@
             text-transform: uppercase;
         }
 
-        /* 3. LOMBADA (LADO ESQUERDO COM ESPESSURA REAL) */
+        /* 3. LOMBADA (LADO ESQUERDO) */
         .face-spine {
             width: var(--book-d);
             height: var(--book-h);
-            left: calc(var(--book-d) / -2);
-            background: linear-gradient(90deg, #1e293b 0%, #0f172a 50%, #111827 100%);
-            transform: rotateY(-90deg) translateZ(calc(var(--book-w) / 2));
-            border-left: 1px solid rgba(255,255,255,0.1);
-            border-right: 1px solid rgba(0,0,0,0.5);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, #1e293b 0%, #0f172a 70%, #111827 100%);
+            transform-origin: left center;
+            transform: rotateY(-90deg);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.7);
         }
 
-        /* 4. BLOCO DE PÁGINAS (LADO DIREITO COM TEXTURA DE FOLHAS) */
+        /* 4. BLOCO DE PÁGINAS (LADO DIREITO) */
         .face-pages {
             width: var(--book-d);
             height: calc(var(--book-h) - 4px);
             top: 2px;
-            right: calc(var(--book-d) / -2);
+            right: 0;
             left: auto;
             background: #f8fafc;
-            transform: rotateY(90deg) translateZ(calc(var(--book-w) / 2));
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.25);
+            transform-origin: right center;
+            transform: rotateY(90deg);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
             background-image: repeating-linear-gradient(0deg, #cbd5e1, #cbd5e1 2px, #f8fafc 2px, #f8fafc 4px);
         }
 
@@ -286,7 +288,7 @@
             :root {
                 --book-w: 190px;
                 --book-h: 270px;
-                --book-d: 38px;
+                --book-d: 30px;
             }
 
             body {
@@ -346,10 +348,10 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D COM VOLUME FÍSICO REAL E LOMBADA À DIREITA -->
+        <!-- LIVRO 3D PERFEITAMENTE UNIFICADO -->
         <div class="book-section">
             <div class="book-scene">
-                <div class="book-box-3d">
+                <div class="book-container">
                     
                     <!-- CAPA (FRENTE) -->
                     <div class="book-face face-front">
@@ -365,7 +367,7 @@
                     <!-- LOMBADA -->
                     <div class="book-face face-spine"></div>
 
-                    <!-- BLOCO DE PÁGINAS LATERAIS -->
+                    <!-- BLOCO DE PÁGINAS -->
                     <div class="book-face face-pages"></div>
 
                 </div>
