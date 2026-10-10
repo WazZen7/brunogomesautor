@@ -153,6 +153,8 @@
             height: 350px;
             position: relative;
             perspective: 1200px;
+            /* Controla o ciclo geral de reinício do livro fechado */
+            animation: bookRestart 12s infinite steps(1, end);
         }
 
         .book-body {
@@ -165,7 +167,7 @@
             background: #0f172a;
         }
 
-        /* PÁGINA BASE DE FUNDO À DIREITA (Aparece quando as folhas viram) */
+        /* PÁGINA BASE DE FUNDO À DIREITA (Mantém sempre o aspeto de livro aberto) */
         .base-page-right {
             position: absolute;
             width: 100%;
@@ -175,6 +177,7 @@
             background: #f8fafc;
             border-radius: 2px 8px 8px 2px;
             padding: 1.8rem;
+            box-sizing: border-box;
             box-shadow: inset 3px 0 10px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
@@ -182,7 +185,7 @@
             z-index: 1;
         }
 
-        /* FOLHAS E ANIMAÇÃO DE VIRAGEM */
+        /* FOLHAS E ANIMAÇÃO UNIDIRECIONAL */
         .paper-sheet {
             position: absolute;
             width: 100%;
@@ -192,7 +195,7 @@
             transform-origin: left center;
             transform-style: preserve-3d;
             border-radius: 2px 8px 8px 2px;
-            animation: flipSequence 12s infinite ease-in-out;
+            animation: flipForwardOnly 12s infinite linear;
         }
 
         .sheet-front, .sheet-back {
@@ -252,7 +255,7 @@
         .line-sim.short { width: 55%; }
         .line-sim.med { width: 80%; }
 
-        /* ESTILO DA CONTRACAPA */
+        /* ESTILO DA CONTRACAPA FINAL */
         .cover-back-style {
             background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             border-right: 6px solid #374151;
@@ -262,29 +265,34 @@
             align-items: center;
         }
 
-        /* ORDEM DE SOBREPOSIÇÃO DAS FOLHAS */
-        .sheet-cover { z-index: 5; animation-delay: 0.8s; }
+        /* ORDEM E ATRASO SEQUENCIAL (SÓ PARA A FRENTE) */
+        .sheet-cover { z-index: 5; animation-delay: 0s; }
         .sheet-1     { z-index: 4; animation-delay: 2.5s; }
-        .sheet-2     { z-index: 3; animation-delay: 4.2s; }
-        .sheet-3     { z-index: 2; animation-delay: 5.9s; }
+        .sheet-2     { z-index: 3; animation-delay: 5s; }
+        .sheet-3     { z-index: 2; animation-delay: 7.5s; }
 
-        /* ANIMAÇÃO DAS FOLHAS A ABRIR DA DIREITA PARA A ESQUERDA (-180deg) */
-        @keyframes flipSequence {
+        /* ANIMAÇÃO PURAMENTE UNIDIRECIONAL (0º -> -180º, sem voltar para trás) */
+        @keyframes flipForwardOnly {
             0% {
                 transform: rotateY(0deg);
             }
-            15% {
+            20% {
                 transform: rotateY(-180deg);
             }
-            75% {
+            95% {
                 transform: rotateY(-180deg);
-            }
-            90% {
-                transform: rotateY(0deg);
             }
             100% {
-                transform: rotateY(0deg);
+                transform: rotateY(-180deg);
             }
+        }
+
+        /* REINICIA O LIVRO FECHADO DE FORMA INVISÍVEL NO FIM DO CICLO */
+        @keyframes bookRestart {
+            0% { opacity: 1; }
+            98% { opacity: 1; }
+            99% { opacity: 0; }
+            100% { opacity: 1; }
         }
 
         /* RESPONSIVIDADE */
@@ -364,12 +372,12 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D Á DIREITA -->
+        <!-- LIVRO 3D Á DIREITA COM FOLHEADO UNIDIRECIONAL -->
         <div class="book-section">
             <div class="book-3d">
                 <div class="book-body">
                     
-                    <!-- PÁGINA BASE FIXA À DIREITA -->
+                    <!-- PÁGINA BASE DE FUNDO À DIREITA -->
                     <div class="base-page-right">
                         <div class="line-sim med"></div>
                         <div class="line-sim"></div>
@@ -377,7 +385,7 @@
                         <div class="line-sim med"></div>
                     </div>
 
-                    <!-- CAPA PRINCIPAL (FECHADA NO INÍCIO) -->
+                    <!-- CAPA (FECHADA NO INÍCIO, ABRE PARA A ESQUERDA) -->
                     <div class="paper-sheet sheet-cover">
                         <div class="sheet-front cover-front-style">
                             <h3>Na Teia do Crime</h3>
@@ -418,7 +426,7 @@
                         </div>
                     </div>
 
-                    <!-- FOLHA INTERNA 3 / CONTRACAPA -->
+                    <!-- CONTRACAPA FINAL -->
                     <div class="paper-sheet sheet-3">
                         <div class="sheet-front page-inner-style">
                             <div class="line-sim"></div>
