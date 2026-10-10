@@ -74,7 +74,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1450px;
             z-index: 2;
             gap: 1.5rem;
         }
@@ -140,9 +140,9 @@
             box-shadow: 0 15px 35px var(--primary-glow);
         }
 
-        /* LIVRO 3D MAIOR E MAIS À DIREITA */
+        /* LIVRO 3D EM DESTAQUE À DIREITA */
         .book-section {
-            flex: 0 0 320px;
+            flex: 0 0 340px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -153,9 +153,9 @@
             height: 350px;
             position: relative;
             perspective: 1200px;
-            animation: loopReset 10s infinite ease-in-out;
         }
 
+        /* CORPO DO LIVRO ABERTO DE FUNDO */
         .book-body {
             width: 100%;
             height: 100%;
@@ -163,10 +163,28 @@
             transform-style: preserve-3d;
             box-shadow: -20px 20px 35px rgba(0, 0, 0, 0.75);
             border-radius: 4px 8px 8px 4px;
-            background: #0b0f17;
+            background: #f1f5f9;
         }
 
-        /* FOLHAS DO LIVRO */
+        /* PÁGINA FIXA NO FUNDO À ESQUERDA (APÓS ABRIR A CAPA) */
+        .base-page-left {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform: rotateY(-180deg);
+            transform-origin: left center;
+            background: #e2e8f0;
+            border-radius: 8px 2px 2px 8px;
+            padding: 1.8rem;
+            box-shadow: inset -3px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* FOLHAS EM CICLO INFINITO */
         .paper-sheet {
             position: absolute;
             width: 100%;
@@ -176,7 +194,7 @@
             transform-origin: left center;
             transform-style: preserve-3d;
             border-radius: 2px 8px 8px 2px;
-            animation: flipForward 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
+            animation: infiniteFlip 12s infinite linear;
         }
 
         .sheet-front, .sheet-back {
@@ -196,9 +214,10 @@
 
         .sheet-back {
             transform: rotateY(180deg);
+            border-radius: 8px 2px 2px 8px;
         }
 
-        /* CAPA INICIAL */
+        /* CAPA INICIAL DA FRENTE */
         .cover-front-style {
             background: linear-gradient(135deg, #111827 0%, #030712 100%);
             border-left: 6px solid #374151;
@@ -222,7 +241,7 @@
 
         /* PÁGINAS INTERNAS */
         .page-inner-style {
-            background: #f1f5f9;
+            background: #f8fafc;
             box-shadow: inset 3px 0 10px rgba(0,0,0,0.08);
         }
 
@@ -235,49 +254,32 @@
         .line-sim.short { width: 55%; }
         .line-sim.med { width: 80%; }
 
-        /* CONTRACAPA FINAL */
-        .cover-back-style {
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            border-right: 6px solid #374151;
-            border: 1px solid rgba(255,255,255,0.1);
-            text-align: center;
-            color: #475569;
-            align-items: center;
-            box-shadow: inset -4px 0 10px rgba(0,0,0,0.5);
-        }
+        /* ESCALONAMENTO DO TEMPO DE FOLHEADO DA SEQUÊNCIA (INFINITO) */
+        .sheet-cover { z-index: 6; animation-delay: 0s; }
+        .sheet-1     { z-index: 5; animation-delay: 2s; }
+        .sheet-2     { z-index: 4; animation-delay: 4s; }
+        .sheet-3     { z-index: 3; animation-delay: 6s; }
+        .sheet-4     { z-index: 2; animation-delay: 8s; }
+        .sheet-5     { z-index: 1; animation-delay: 10s; }
 
-        /* ATRASO SEQUENCIAL DAS FOLHAS */
-        .sheet-1 { z-index: 5; animation-delay: 0.8s; }
-        .sheet-2 { z-index: 4; animation-delay: 2.2s; }
-        .sheet-3 { z-index: 3; animation-delay: 3.6s; }
-        .sheet-4 { z-index: 2; animation-delay: 5.0s; }
-
-        /* ANIMAÇÃO DE VIRAGEM LIMPA E COMPLETA (-180deg) */
-        @keyframes flipForward {
+        /* ANIMAÇÃO FLUIDA DE PASSAGEM DE FOLHA */
+        @keyframes infiniteFlip {
             0% {
                 transform: rotateY(0deg);
+                opacity: 1;
             }
-            18% {
+            20% {
                 transform: rotateY(-180deg);
+                opacity: 1;
             }
-            68% {
+            95% {
                 transform: rotateY(-180deg);
-            }
-            82% {
-                transform: rotateY(-180deg);
+                opacity: 1;
             }
             100% {
                 transform: rotateY(-180deg);
+                opacity: 0;
             }
-        }
-
-        /* FADE OUT / IN SUAVE PARA REINICIAR FECHADO COM SEGURANÇA */
-        @keyframes loopReset {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            78% { opacity: 0; }
-            88% { opacity: 0; }
-            100% { opacity: 1; }
         }
 
         /* RESPONSIVIDADE */
@@ -341,10 +343,10 @@
 
     <div class="page-wrapper">
         
-        <!-- ESPAÇADOR À ESQUERDA PARA MOSTRAR O TEU ROSTO NA FOTO -->
+        <!-- ESPAÇADOR À ESQUERDA PARA A TUA FOTO FICAR BEM VISÍVEL -->
         <div class="left-spacer"></div>
 
-        <!-- CARTÃO DO AUTOR AO CENTRO -->
+        <!-- CARTÃO CENTRAL COM A BIO E CTA -->
         <section class="hero">
             <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
             
@@ -357,13 +359,20 @@
             </a>
         </section>
 
-        <!-- LIVRO 3D MAIOR SOZINHO À DIREIRA -->
+        <!-- LIVRO 3D Á DIREITA COM FOLHEADO CONTINUO -->
         <div class="book-section">
             <div class="book-3d">
                 <div class="book-body">
                     
-                    <!-- FOLHA 1: CAPA -> PÁGINA 1 -->
-                    <div class="paper-sheet sheet-1">
+                    <!-- PÁGINA BASE FIXA À ESQUERDA (APÓS A CAPA ABRIR) -->
+                    <div class="base-page-left">
+                        <div class="line-sim med"></div>
+                        <div class="line-sim"></div>
+                        <div class="line-sim short"></div>
+                    </div>
+
+                    <!-- CAPA INICIAL DO LIVRO (ABRE PRIMEIRO) -->
+                    <div class="paper-sheet sheet-cover">
                         <div class="sheet-front cover-front-style">
                             <h3>Na Teia do Crime</h3>
                             <p>Bruno Gomes</p>
@@ -375,26 +384,51 @@
                         </div>
                     </div>
 
-                    <!-- FOLHA 2: PÁGINAS 2 E 3 -->
+                    <!-- CICLO DE FOLHAS A FOLHEAR CONTINUAMENTE -->
+                    <div class="paper-sheet sheet-1">
+                        <div class="sheet-front page-inner-style">
+                            <div class="line-sim"></div>
+                            <div class="line-sim short"></div>
+                            <div class="line-sim med"></div>
+                        </div>
+                        <div class="sheet-back page-inner-style">
+                            <div class="line-sim med"></div>
+                            <div class="line-sim"></div>
+                            <div class="line-sim"></div>
+                        </div>
+                    </div>
+
                     <div class="paper-sheet sheet-2">
                         <div class="sheet-front page-inner-style">
+                            <div class="line-sim med"></div>
+                            <div class="line-sim short"></div>
+                            <div class="line-sim"></div>
+                        </div>
+                        <div class="sheet-back page-inner-style">
                             <div class="line-sim"></div>
                             <div class="line-sim short"></div>
                             <div class="line-sim med"></div>
                         </div>
-                        <div class="sheet-back page-inner-style">
-                            <div class="line-sim med"></div>
-                            <div class="line-sim"></div>
-                            <div class="line-sim"></div>
-                        </div>
                     </div>
 
-                    <!-- FOLHA 3: PÁGINAS 4 E 5 -->
                     <div class="paper-sheet sheet-3">
                         <div class="sheet-front page-inner-style">
+                            <div class="line-sim"></div>
                             <div class="line-sim med"></div>
                             <div class="line-sim short"></div>
+                        </div>
+                        <div class="sheet-back page-inner-style">
+                            <div class="line-sim short"></div>
+                            <div class="line-sim med"></div>
                             <div class="line-sim"></div>
+                        </div>
+                    </div>
+
+                    <div class="paper-sheet sheet-4">
+                        <div class="sheet-front page-inner-style">
+                            <div class="line-sim med"></div>
+                            <div class="line-sim"></div>
+                            <div class="line-sim short"></div>
                         </div>
                         <div class="sheet-back page-inner-style">
                             <div class="line-sim"></div>
@@ -403,15 +437,16 @@
                         </div>
                     </div>
 
-                    <!-- FOLHA 4: PÁGINA FINAL -> CONTRACAPA -->
-                    <div class="paper-sheet sheet-4">
+                    <div class="paper-sheet sheet-5">
                         <div class="sheet-front page-inner-style">
-                            <div class="line-sim"></div>
-                            <div class="line-sim med"></div>
                             <div class="line-sim short"></div>
+                            <div class="line-sim med"></div>
+                            <div class="line-sim"></div>
                         </div>
-                        <div class="sheet-back cover-back-style">
-                            <p>— Contracapa —</p>
+                        <div class="sheet-back page-inner-style">
+                            <div class="line-sim med"></div>
+                            <div class="line-sim"></div>
+                            <div class="line-sim short"></div>
                         </div>
                     </div>
 
