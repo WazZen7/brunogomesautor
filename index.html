@@ -39,12 +39,12 @@
             overflow-x: hidden;
             padding: 1.5rem;
 
-            /* IMAGEM DE FUNDO PARA COMPUTADOR */
+            /* IMAGEM DE FUNDO INVESTIGATIVA */
             background-image: 
-                linear-gradient(180deg, rgba(10, 12, 16, 0.70) 0%, rgba(10, 12, 16, 0.88) 100%),
-                url('./minha-foto-ia.jpg.jpg');
-            background-size: contain;
-            background-position: left center;
+                linear-gradient(180deg, rgba(10, 12, 16, 0.75) 0%, rgba(10, 12, 16, 0.90) 100%),
+                url('./minha-foto-ia.png');
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
         }
 
@@ -67,13 +67,126 @@
             filter: blur(90px);
         }
 
-        .hero {
+        /* CONTENTOR PRINCIPAL DE DUAS COLUNAS */
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            max-width: 1100px;
+            width: 100%;
+            z-index: 2;
+        }
+
+        /* LIVRO 3D ANIMADO */
+        .book-wrapper {
+            perspective: 1200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .book {
+            width: 200px;
+            height: 280px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(15deg) rotateY(-20deg);
+            transition: transform 0.5s ease;
+            box-shadow: -20px 20px 40px rgba(0,0,0,0.6);
+            border-radius: 4px 8px 8px 4px;
+        }
+
+        .book:hover {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+
+        .book-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            backface-visibility: hidden;
+            border-radius: 4px 8px 8px 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .book-cover {
+            z-index: 5;
+            background: linear-gradient(135deg, #111827 0%, #030712 100%);
+            border-left: 6px solid #374151;
+            box-shadow: inset 5px 0 15px rgba(0,0,0,0.5);
+        }
+
+        .book-cover h3 {
+            font-family: 'Syne', sans-serif;
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-cover p {
+            font-size: 0.8rem;
+            color: var(--text-body);
+        }
+
+        /* PÁGINAS ANIMADAS */
+        .page {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+            background: #f8fafc;
+            color: #1e293b;
+            border-radius: 2px 6px 6px 2px;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            animation: pageTurn 6s infinite ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1.2rem;
+            box-shadow: inset 2px 0 10px rgba(0,0,0,0.05);
+        }
+
+        .page:nth-child(2) { animation-delay: 2s; z-index: 3; }
+        .page:nth-child(3) { animation-delay: 4s; z-index: 2; }
+
+        .page-lines {
+            width: 100%;
+            height: 4px;
+            background: #cbd5e1;
+            margin-bottom: 8px;
+            border-radius: 2px;
+        }
+        .page-lines.short { width: 60%; }
+        .page-lines.medium { width: 80%; }
+
+        @keyframes pageTurn {
+            0% { transform: rotateY(0deg); }
+            30% { transform: rotateY(-160deg); }
+            50% { transform: rotateY(-180deg); }
+            80% { transform: rotateY(-180deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        /* CAIXA HERO (LADO DIREITO) */
+        .hero {
+            text-align: left;
             padding: 2.5rem;
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             z-index: 2;
-            background: rgba(10, 12, 16, 0.55);
+            background: rgba(10, 12, 16, 0.70);
             border: 1px solid var(--border-card);
             border-radius: 24px;
             backdrop-filter: blur(12px);
@@ -81,7 +194,7 @@
         }
 
         .hero-title {
-            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-size: clamp(1.8rem, 4vw, 3rem);
             margin-bottom: 1rem;
             line-height: 1.2;
         }
@@ -93,9 +206,9 @@
         }
 
         .hero-bio {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             color: var(--text-body);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             font-weight: 300;
         }
 
@@ -121,30 +234,28 @@
         }
 
         /* AJUSTES RESPONSIVOS PARA TELEMÓVEIS */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
             body {
-                background-size: cover;
-                background-position: center top;
                 padding: 1rem;
             }
 
             .hero {
+                text-align: center;
                 padding: 1.75rem 1.25rem;
-                background: rgba(10, 12, 16, 0.75);
-            }
-
-            .hero-title {
-                font-size: 1.8rem;
-            }
-
-            .hero-bio {
-                font-size: 1rem;
-                margin-bottom: 1.75rem;
             }
 
             .btn-enter {
                 width: 100%;
-                padding: 0.9rem 1.5rem;
+            }
+
+            .book {
+                width: 160px;
+                height: 220px;
             }
         }
     </style>
@@ -153,18 +264,44 @@
 
     <div class="glow-bg"></div>
 
-    <section class="hero">
-        <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
-        
-        <p class="hero-bio">
-            Sou o Bruno Gomes. Escrevo histórias sobre segredos sombrios, mentes complexas e os mistérios que habitam no limiar entre a justiça e a vingança. Prepara-te para duvidar de tudo.
-        </p>
-        
-        <!-- Ao clicar, vai para a segunda página (livro.html) -->
-        <a href="livro.html" class="btn-enter">
-            Descobrir o Livro <i class="fa-solid fa-arrow-right"></i>
-        </a>
-    </section>
+    <div class="main-container">
+        <!-- LIVRO 3D ANIMADO À ESQUERDA -->
+        <div class="book-wrapper">
+            <div class="book">
+                <!-- Capa do Livro (Podes substituir o conteúdo ou colocar imagem futuramente) -->
+                <div class="book-face book-cover">
+                    <h3>Na Teia do Crime</h3>
+                    <p>Bruno Gomes</p>
+                </div>
+                <!-- Páginas Internas Simuladas a Folhear -->
+                <div class="page">
+                    <div class="page-lines medium"></div>
+                    <div class="page-lines"></div>
+                    <div class="page-lines short"></div>
+                    <div class="page-lines medium"></div>
+                </div>
+                <div class="page">
+                    <div class="page-lines"></div>
+                    <div class="page-lines short"></div>
+                    <div class="page-lines medium"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTEÚDO PRINCIPAL À DIREITA -->
+        <section class="hero">
+            <h1 class="hero-title"><span>Nas sombras, a verdade nunca fica enterrada.</span></h1>
+            
+            <p class="hero-bio">
+                Sou o Bruno Gomes. Escrevo histórias sobre segredos sombrios, mentes complexas e os mistérios que habitam no limiar entre a justiça e a vingança. Prepara-te para duvidar de tudo.
+            </p>
+            
+            <!-- Ao clicar, vai para a segunda página (livro.html) -->
+            <a href="livro.html" class="btn-enter">
+                Descobrir o Livro <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </section>
+    </div>
 
 </body>
 </html>
