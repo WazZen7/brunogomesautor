@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn, .sound-widget {
+        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn, .sound-widget, .format-btn {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -430,6 +430,68 @@
             margin-bottom: 0.2rem;
         }
 
+        /* ESTILOS DA NOVA ADIÇÃO: SELETOR DE FORMATO E PREÇO NO MODAL DE COMPRA */
+        .purchase-box-modal {
+            margin-top: 1.5rem;
+        }
+
+        .format-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .format-btn {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-card);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            color: var(--text-body);
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+
+        .format-btn i {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        .format-btn strong {
+            display: block;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .format-btn small {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .format-btn.active {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .format-btn.active strong {
+            color: #fff;
+        }
+
+        .price-display {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
         /* CATÁLOGO DE OBRAS COM CARROSSEL 3D */
         .catalog-section {
             background: var(--bg-card);
@@ -489,7 +551,6 @@
             gap: 1.25rem;
         }
 
-        /* Livro 3D mais pequeno para o Catálogo */
         .catalog-book-wrapper {
             position: relative;
             width: 150px; height: 225px;
@@ -1113,7 +1174,7 @@
                 <p>Recém-formado e ainda a tentar provar o seu valor, Rogério recebe a missão de investigar o desaparecimento de Paulo, um homem aparentemente sem inimigos e sem qualquer razão para desaparecer. O que começa como um caso aparentemente simples, depressa se transforma numa investigação marcada por pistas contraditórias, segredos do passado e uma rede de corrupção que parece alcançar lugares onde Rogério nunca imaginaria procurar.</p>
                 <p>À medida que se aproxima da verdade, Rogério percebe que alguém está disposto a tudo para impedir que o caso seja resolvido. Cada descoberta levanta novas perguntas e cada resposta coloca a sua própria vida – e a das pessoas que ama – em perigo.</p>
                 <p>Entre desaparecimentos, ameaças, violência e traições, Rogério terá de descobrir em quem pode confiar antes que seja tarde demais.</p>
-                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da qual poderá não conseguir escapar.</p>
+                <p>Em <em>Na teia do crime</em>, Bruno Gomes conduz-nos por uma investigação onde cada pista aproxima Rogério da verdade…, mas também o coloca cada vez mais fundo numa teia de crime da cual poderá não conseguir escapar.</p>
             </div>
         </div>
     </div>
@@ -1143,19 +1204,44 @@
         </div>
     </div>
 
-    <!-- MODAL DE OPÇÕES DE COMPRA -->
+    <!-- MODAL DE OPÇÕES DE COMPRA (COM SELETOR DE FORMATO E PREÇO DINÂMICO) -->
     <div class="modal" id="buyOptionsModal">
         <div class="modal-content">
             <button class="close-modal-options" id="closeBuyOptions">&times;</button>
-            <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem; color: #fff;">Escolher Opção de Compra</h2>
-            <p style="color: var(--text-body); font-size: 0.92rem; margin-bottom: 1.5rem;">
-                Seleciona onde pretendes adquirir o teu exemplar de "Na Teia do Crime".
+            <h2 style="margin-bottom: 0.5rem; font-size: 1.8rem; color: #fff;">Adquirir "Na Teia do Crime"</h2>
+            <p style="color: var(--text-body); font-size: 0.92rem; margin-top: 0.5rem; margin-bottom: 1.5rem;">
+                Escolhe o formato pretendido para consultar o valor e prosseguir com a compra:
             </p>
 
-            <div class="buy-options-list">
-                <button class="buy-option-btn" id="selectDirectBuy">
-                    <span><i class="fa-solid fa-pen-nib" style="margin-right: 12px;"></i> Comprar Diretamente ao Autor (Autografado)</span>
-                    <i class="fa-solid fa-chevron-right"></i>
+            <div class="purchase-box-modal">
+                <div class="format-selector">
+                    <!-- Opção Livro Físico -->
+                    <button class="format-btn active" onclick="selectFormat('physical', 16.90, 'direct', this)">
+                        <i class="fa-solid fa-book"></i>
+                        <div>
+                            <strong>Livro Físico (Capa Mole / Autografado)</strong>
+                            <small>Envio postal direto com o autor</small>
+                        </div>
+                    </button>
+
+                    <!-- Opção eBook -->
+                    <button class="format-btn" onclick="selectFormat('ebook', 7.99, 'ebook', this)">
+                        <i class="fa-solid fa-tablet-screen-button"></i>
+                        <div>
+                            <strong>eBook (Versão Digital)</strong>
+                            <small>Download imediato em EPUB e PDF</small>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Display Dinâmico de Preço -->
+                <div class="price-display">
+                    <span id="book-price">16.90</span> €
+                </div>
+
+                <!-- Botão de Ação -->
+                <button id="buy-action-btn" class="btn-primary" style="width: 100%; justify-content: center; padding: 1.1rem; font-size: 1.05rem;" onclick="proceedPurchase()">
+                    <i class="fa-solid fa-cart-shopping"></i> Prosseguir com Encomenda
                 </button>
             </div>
         </div>
@@ -1224,6 +1310,9 @@
         const SB_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
         const SB_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
 
+        // Variável para controlo do tipo de compra selecionado no Modal
+        let selectedFormatType = 'physical';
+
         // Efeito 3D do Livro Principal
         const visualContainer = document.getElementById('bookVisual');
         const book3D = document.getElementById('book3D');
@@ -1257,10 +1346,8 @@
         audio.volume = 0.4; // 40% inicial
         let lastVolume = 0.4;
 
-        // Tentar reproduzir automaticamente assim que a página é carregada
         window.addEventListener('load', () => {
             audio.play().catch(() => {
-                // Se o navegador bloquear o autoplay, o som arranca no primeiro clique na página
                 const unlockAudio = () => {
                     audio.play();
                     window.removeEventListener('click', unlockAudio);
@@ -1271,7 +1358,6 @@
             });
         });
 
-        // Controlo do botão de mute/unmute
         soundBtn.addEventListener('click', () => {
             if (audio.muted || audio.volume === 0) {
                 audio.muted = false;
@@ -1287,7 +1373,6 @@
             }
         });
 
-        // Controlo da barra deslizante de volume
         volumeSlider.addEventListener('input', (e) => {
             const val = e.target.value;
             audio.volume = val / 100;
@@ -1327,6 +1412,33 @@
             });
         }
 
+        // Função Dinâmica para Seleção de Formato e Preço
+        function selectFormat(type, price, actionTarget, buttonElement) {
+            selectedFormatType = type;
+            document.querySelectorAll('.format-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+            document.getElementById('book-price').innerText = price.toFixed(2);
+            
+            const actionBtn = document.getElementById('buy-action-btn');
+            if (type === 'ebook') {
+                actionBtn.innerHTML = '<i class="fa-solid fa-download"></i> Descarregar eBook';
+            } else {
+                actionBtn.innerHTML = '<i class="fa-solid fa-cart-shopping"></i> Prosseguir com Encomenda';
+            }
+        }
+
+        // Ação do Botão de Prosseguir Compra no Modal
+        function proceedPurchase() {
+            buyOptionsModal.style.display = "none";
+            if (selectedFormatType === 'ebook') {
+                // Link ou ação para download do eBook (podes alterar para o teu link real)
+                window.open('https://link-de-download-ebook.com', '_blank');
+            } else {
+                // Abre o formulário de encomenda física com o autor
+                buyModal.style.display = "flex";
+            }
+        }
+
         // Pop-up da Sinopse Principal
         const modal = document.getElementById('synopsisModal');
         const openBtn = document.getElementById('openSynopsis');
@@ -1364,14 +1476,9 @@
 
         // Pop-up de Compra Direta com o Autor (Formulário)
         const buyModal = document.getElementById('buyModal');
-        const selectDirectBuy = document.getElementById('selectDirectBuy');
         const closeBuyBtn = document.getElementById('closeBuyModal');
 
-        if (selectDirectBuy && buyModal && closeBuyBtn) {
-            selectDirectBuy.onclick = () => {
-                buyOptionsModal.style.display = "none";
-                buyModal.style.display = "flex";
-            };
+        if (buyModal && closeBuyBtn) {
             closeBuyBtn.onclick = () => buyModal.style.display = "none";
         }
 
