@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Moderação | Bruno Gomes</title>
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg-main: #0a0c10;
-            --bg-card: rgba(10, 12, 16, 0.75);
+            --bg-main: #07090e;
+            --bg-card: rgba(13, 17, 26, 0.85);
             --border-card: rgba(255, 255, 255, 0.08);
             --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.35);
+            --accent: #a855f7;
             --text-title: #ffffff;
             --text-body: #94a3b8;
-            --success: #22c55e;
-            --danger: #ef4444;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,16 +28,101 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-main);
             color: var(--text-body);
-            padding: 2rem 1.5rem;
             min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+        /* ECRÃ DE LOGIN BLOQUEADO */
+        #loginOverlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(7, 9, 14, 0.95);
+            backdrop-filter: blur(16px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
         }
 
-        header {
+        .login-card {
+            background: #0f131a;
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+
+        .login-card i.lock-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .login-card h2 {
+            font-family: 'Syne', sans-serif;
+            color: #fff;
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-card p {
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .input-field {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 0.85rem 1.25rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            margin-bottom: 1rem;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus { border-color: var(--primary); }
+
+        .btn-primary {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: #fff;
+            padding: 0.9rem;
+            border-radius: 100px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        .btn-primary:hover { transform: translateY(-2px); }
+
+        /* CONTEÚDO DO PAINEL DE ADMIN */
+        #adminContent {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -45,123 +131,181 @@
             border-bottom: 1px solid var(--border-card);
         }
 
-        h1 { font-family: 'Syne', sans-serif; color: var(--text-title); font-size: 1.8rem; }
+        .btn-logout {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-        .card {
+        .btn-logout:hover { background: rgba(239, 68, 68, 0.3); }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .item-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             margin-bottom: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
-        .author-name { font-weight: 700; color: #fff; }
-        .rating { color: #f59e0b; }
-        .message-text { color: #cbd5e1; font-size: 0.95rem; }
-        .date-text { font-size: 0.75rem; color: #64748b; }
-
-        .actions {
-            display: flex;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
+        .btn-approve {
+            background: #10b981;
+            color: #fff;
             border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            transition: opacity 0.2s;
         }
 
-        .btn:hover { opacity: 0.85; }
-        .btn-approve { background: var(--success); color: #fff; }
-        .btn-delete { background: rgba(239, 68, 68, 0.2); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.4); }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            border-radius: 16px;
+        .btn-delete {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Painel de Moderação</h1>
-            <a href="/livro" style="color: var(--primary); text-decoration: none;">Ver Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-        </header>
-
-        <h2 style="margin-bottom: 1rem; font-size: 1.2rem; color: #fff;">Comentários Pendentes</h2>
-        <div id="pendingContainer">
-            <p>A carregar comentários...</p>
+    <!-- OVERLAY DE LOGIN COM AUTENTICAÇÃO -->
+    <div id="loginOverlay">
+        <div class="login-card">
+            <i class="fa-solid fa-lock lock-icon"></i>
+            <h2>Área Reservada</h2>
+            <p>Acesso restrito ao Autor para moderação de comentários e encomendas.</p>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <input type="password" id="adminPassword" class="input-field" placeholder="Digita a Palavra-passe" required autofocus>
+                <button type="submit" class="btn-primary">
+                    <i class="fa-solid fa-key"></i> Entrar no Painel
+                </button>
+            </form>
+            <p id="loginError" style="color: #ef4444; font-size: 0.82rem; margin-top: 1rem; display: none;">
+                Palavra-passe incorreta. Tenta novamente.
+            </p>
         </div>
     </div>
 
+    <!-- CONTEÚDO PROTEGIDO DO PAINEL -->
+    <div id="adminContent">
+        <header class="admin-header">
+            <div>
+                <h1 style="font-family: 'Syne', sans-serif; color: #fff; font-size: 1.8rem;">Painel de Moderação</h1>
+                <p style="font-size: 0.88rem; color: var(--text-body);">Gestão de Opiniões e Encomendas</p>
+            </div>
+            <button class="btn-logout" onclick="handleLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i> Sair
+            </button>
+        </header>
+
+        <!-- SEÇÃO DE COMENTÁRIOS PENDENTES -->
+        <section style="margin-bottom: 3rem;">
+            <h2 class="section-title"><i class="fa-solid fa-comments" style="color: var(--primary);"></i> Opiniões Pendentes</h2>
+            <div id="pendingReviewsContainer"></div>
+        </section>
+
+        <!-- SEÇÃO DE ENCOMENDAS REGISTADAS -->
+        <section>
+            <h2 class="section-title"><i class="fa-solid fa-box" style="color: var(--accent);"></i> Encomendas do Livro</h2>
+            <div id="ordersContainer"></div>
+        </section>
+    </div>
+
     <script>
+        // PALAVRA-PASSE DE ACESSO AO PAINEL
+        const ADMIN_PASSWORD = "6907"; 
+
         const SB_URL = 'https://smhlkdzyllquzirwkmqw.supabase.co';
         const SB_KEY = 'sb_publishable_pD7dPVlj7eU4tyFMt7gWPA_yd-QVGze';
 
-        const container = document.getElementById('pendingContainer');
+        // VERIFICA SE JÁ EXISTE SESSÃO ATIVA AO CARREGAR A PÁGINA
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('adminAuthorized') === 'true') {
+                showAdminPanel();
+            }
+        });
 
-        async function loadPending() {
+        function handleLogin(e) {
+            e.preventDefault();
+            const passInput = document.getElementById('adminPassword').value;
+            const errorMsg = document.getElementById('loginError');
+
+            if (passInput === ADMIN_PASSWORD) {
+                sessionStorage.setItem('adminAuthorized', 'true');
+                errorMsg.style.display = 'none';
+                showAdminPanel();
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('adminPassword').value = '';
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            loadPendingReviews();
+            loadOrders();
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('adminAuthorized');
+            location.reload();
+        }
+
+        // CARREGAR COMENTÁRIOS PENDENTES PARA APROVAÇÃO
+        async function loadPendingReviews() {
+            const container = document.getElementById('pendingReviewsContainer');
             try {
                 const response = await fetch(`${SB_URL}/rest/v1/comentarios?aprovado=eq.false&order=created_at.desc`, {
                     headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
                 });
-                const comentarios = await response.json();
+                const list = await response.json();
 
-                if (!comentarios || comentarios.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fa-solid fa-check-circle" style="font-size: 2rem; color: var(--success); margin-bottom: 0.5rem; display: block;"></i>
-                            <p>Não há comentários pendentes para aprovação!</p>
-                        </div>`;
+                if (!list || list.length === 0) {
+                    container.innerHTML = '<p style="font-size:0.9rem;">Sem opiniões pendentes de aprovação.</p>';
                     return;
                 }
 
-                container.innerHTML = comentarios.map(item => `
-                    <div class="card" id="card-${item.id}">
-                        <div class="card-header">
-                            <span class="author-name">${escapeHtml(item.nome)}</span>
-                            <span class="rating">${'⭐'.repeat(item.avaliacao)}</span>
+                container.innerHTML = list.map(item => `
+                    <div class="item-card">
+                        <div>
+                            <strong style="color: #fff;">${escapeHtml(item.nome)}</strong> (${'⭐'.repeat(item.avaliacao)})
+                            <p style="font-size: 0.9rem; margin-top: 4px;">${escapeHtml(item.mensagem)}</p>
                         </div>
-                        <p class="message-text">${escapeHtml(item.mensagem)}</p>
-                        <span class="date-text">${new Date(item.created_at).toLocaleString('pt-PT')}</span>
-                        <div class="actions">
-                            <button class="btn btn-approve" onclick="approveReview(${item.id})">
-                                <i class="fa-solid fa-check"></i> Aprovar
-                            </button>
-                            <button class="btn btn-delete" onclick="deleteReview(${item.id})">
-                                <i class="fa-solid fa-trash"></i> Eliminar
-                            </button>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-approve" onclick="approveReview('${item.id}')">Aprovar</button>
+                            <button class="btn-delete" onclick="deleteReview('${item.id}')">Apagar</button>
                         </div>
                     </div>
                 `).join('');
-            } catch (err) {
-                container.innerHTML = '<p>Erro ao carregar comentários.</p>';
-            }
+            } catch (err) { console.error(err); }
         }
 
         async function approveReview(id) {
-            const res = await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
+            await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
                 method: 'PATCH',
                 headers: {
                     'apikey': SB_KEY,
@@ -170,29 +314,43 @@
                 },
                 body: JSON.stringify({ aprovado: true })
             });
-
-            if (res.ok) {
-                document.getElementById(`card-${id}`)?.remove();
-                if (container.children.length === 0) loadPending();
-            } else {
-                alert('Erro ao aprovar comentário.');
-            }
+            loadPendingReviews();
         }
 
         async function deleteReview(id) {
-            if (!confirm('Tem a certeza que deseja eliminar este comentário?')) return;
-
-            const res = await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
+            if (!confirm('Confirmar eliminação?')) return;
+            await fetch(`${SB_URL}/rest/v1/comentarios?id=eq.${id}`, {
                 method: 'DELETE',
                 headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
             });
+            loadPendingReviews();
+        }
 
-            if (res.ok) {
-                document.getElementById(`card-${id}`)?.remove();
-                if (container.children.length === 0) loadPending();
-            } else {
-                alert('Erro ao eliminar comentário.');
-            }
+        // CARREGAR ENCOMENDAS REGISTADAS
+        async function loadOrders() {
+            const container = document.getElementById('ordersContainer');
+            try {
+                const response = await fetch(`${SB_URL}/rest/v1/encomendas?order=created_at.desc`, {
+                    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+                });
+                const list = await response.json();
+
+                if (!list || list.length === 0) {
+                    container.innerHTML = '<p style="font-size:0.9rem;">Sem encomendas registadas até ao momento.</p>';
+                    return;
+                }
+
+                container.innerHTML = list.map(item => `
+                    <div class="item-card" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <strong style="color: #fff; font-size: 1.05rem;">${escapeHtml(item.nome)}</strong>
+                            <span style="color: var(--primary); font-weight: 700;">${item.total ? item.total + '€' : ''}</span>
+                        </div>
+                        <p style="font-size: 0.88rem;"><strong>Telemóvel:</strong> ${escapeHtml(item.telemovel)} | <strong>Pagamento:</strong> ${escapeHtml(item.metodo_pagamento)}</p>
+                        <p style="font-size: 0.88rem; color: #cbd5e1;"><strong>Morada:</strong> ${escapeHtml(item.morada)}</p>
+                    </div>
+                `).join('');
+            } catch (err) { console.error(err); }
         }
 
         function escapeHtml(text) {
@@ -200,8 +358,6 @@
             div.textContent = text;
             return div.innerHTML;
         }
-
-        loadPending();
     </script>
 </body>
 </html>
