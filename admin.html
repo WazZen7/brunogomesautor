@@ -167,6 +167,44 @@
             gap: 1rem;
         }
 
+        /* ESTILOS ESPECÍFICOS DOS CARTÕES DE ENCOMENDA */
+        .order-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .order-card.status-efetuada { border-left: 4px solid #f59e0b; }
+        .order-card.status-processamento { border-left: 4px solid #3b82f6; }
+        .order-card.status-enviada { border-left: 4px solid #10b981; }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .status-select {
+            background: #0f131a;
+            color: #fff;
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+        }
+
         .btn-approve {
             background: #10b981;
             color: #fff;
@@ -326,7 +364,7 @@
             loadPendingReviews();
         }
 
-        // CARREGAR ENCOMENDAS REGISTADAS
+        // CARREGAR E GERIR ESTADO DAS ENCOMENDAS REGISTADAS
         async function loadOrders() {
             const container = document.getElementById('ordersContainer');
             try {
@@ -340,17 +378,60 @@
                     return;
                 }
 
-                container.innerHTML = list.map(item => `
-                    <div class="item-card" style="flex-direction: column; align-items: flex-start; gap: 0.5rem;">
-                        <div style="display: flex; justify-content: space-between; width: 100%;">
-                            <strong style="color: #fff; font-size: 1.05rem;">${escapeHtml(item.nome)}</strong>
-                            <span style="color: var(--primary); font-weight: 700;">${item.total ? item.total + '€' : ''}</span>
+                container.innerHTML = list.map(item => {
+                    const status = item.estado || 'efetuada';
+                    let statusCssClass = 'status-efetuada';
+                    if (status === 'processamento') statusCssClass = 'status-processamento';
+                    if (status === 'enviada') statusCssClass = 'status-enviada';
+
+                    return `
+                    <div class="order-card ${statusCssClass}">
+                        <div class="order-header">
+                            <div>
+                                <strong style="color: #fff; font-size: 1.05rem;">${escapeHtml(item.nome)}</strong>
+                                <span style="font-size: 0.8rem; color: #94a3b8; margin-left: 8px;">
+                                    (${item.created_at ? new Date(item.created_at).toLocaleDateString('pt-PT') : 'Hoje'})
+                                </span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                <span style="color: var(--primary); font-weight: 700; font-size: 1.1rem;">${item.total ? item.total + '€' : ''}</span>
+                                
+                                <select class="status-select" onchange="updateOrderStatus('${item.id}', this.value)">
+                                    <option value="efetuada" ${status === 'efetuada' ? 'selected' : ''}>🟡 Encomenda Efetuada</option>
+                                    <option value="processamento" ${status === 'processamento' ? 'selected' : ''}>🔵 Em Processamento</option>
+                                    <option value="enviada" ${status === 'enviada' ? 'selected' : ''}>🟢 Enviada</option>
+                                </select>
+                            </div>
                         </div>
-                        <p style="font-size: 0.88rem;"><strong>Telemóvel:</strong> ${escapeHtml(item.telemovel)} | <strong>Pagamento:</strong> ${escapeHtml(item.metodo_pagamento)}</p>
-                        <p style="font-size: 0.88rem; color: #cbd5e1;"><strong>Morada:</strong> ${escapeHtml(item.morada)}</p>
+
+                        <div style="font-size: 0.88rem; line-height: 1.6;">
+                            <p><strong>Telemóvel:</strong> ${escapeHtml(item.telemovel)} | <strong>Método:</strong> ${escapeHtml(item.metodo_pagamento)}</p>
+                            <p style="color: #cbd5e1; margin-top: 2px;"><strong>Morada:</strong> ${escapeHtml(item.morada)}</p>
+                        </div>
                     </div>
-                `).join('');
+                `}).join('');
             } catch (err) { console.error(err); }
+        }
+
+        // ATUALIZAR O ESTADO DA ENCOMENDA NO SUPABASE
+        async function updateOrderStatus(id, newStatus) {
+            try {
+                await fetch(`${SB_URL}/rest/v1/encomendas?id=eq.${id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'apikey': SB_KEY,
+                        'Authorization': `Bearer ${SB_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ estado: newStatus })
+                });
+                
+                // Recarrega a lista para atualizar as cores laterais
+                loadOrders();
+            } catch (err) {
+                console.error('Erro ao atualizar estado:', err);
+                alert('Não foi possível atualizar o estado.');
+            }
         }
 
         function escapeHtml(text) {
