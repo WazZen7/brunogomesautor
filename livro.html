@@ -48,7 +48,7 @@
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='%23a855f7' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpath d='M2 6h12l1 2h7v4h-3l-1 2h-3l-1 7h-4l1-7h-3l-2-2H2V6z'/%3E%3C/svg%3E") 2 2, auto;
         }
 
-        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn, .sound-widget {
+        a, button, input, select, textarea, .book-3d-wrapper, .catalog-book-wrapper, .close-modal, .close-modal-buy, .close-modal-options, .close-modal-author, .social-icon-btn, .buy-option-btn, .nav-author-btn, .carousel-btn, .sound-widget, .legal-links a {
             cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%236366f1' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23a855f7' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3Cpath d='M16 0v8M16 24v8M0 16h8M24 16h8' stroke='%236366f1' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer !important;
         }
 
@@ -785,6 +785,28 @@
             font-weight: 600;
         }
 
+        /* ESTILOS PARA AS OPÇÕES LEGAIS ABAIXO DO TOTAL */
+        .legal-links {
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: var(--text-body);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 0.8rem;
+            margin-top: 0.2rem;
+            text-align: center;
+        }
+
+        .legal-links a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .legal-links a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
         /* ESTILO ESPECÍFICO DO MODAL SOBRE O AUTOR */
         .author-modal-layout {
             display: grid;
@@ -1284,7 +1306,7 @@
         </div>
     </div>
 
-    <!-- MODAL DE COMPRA DIRETA COM O AUTOR (LAYOUT COM SELETOR DE PORTES CTT) -->
+    <!-- MODAL DE COMPRA DIRETA COM O AUTOR (COM LINKS LEGAIS NA PÁGINA DO LIVRO) -->
     <div class="modal" id="buyModal">
         <div class="modal-content" style="max-width: 820px;">
             <button class="close-modal-buy" id="closeBuyModal">&times;</button>
@@ -1323,7 +1345,7 @@
 
                     <div style="background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.2); padding: 0.75rem; border-radius: 12px; font-size: 0.78rem; color: #cbd5e1;">
                         <i class="fa-solid fa-circle-info" style="color: var(--primary); margin-right: 4px;"></i> 
-                        Após submeteres, entraremos em contacto para concluir o pagamento.
+                        Após submeteres, entraremos em contacto contigo para concluir o pagamento.
                     </div>
 
                     <div>
@@ -1333,7 +1355,7 @@
                     </div>
                 </form>
 
-                <!-- COLUNA 2: TABELA / RESUMO DE PREÇOS DINÂMICO -->
+                <!-- COLUNA 2: TABELA / RESUMO DE PREÇOS + LINKS LEGAIS -->
                 <div class="order-summary-box">
                     <h3><i class="fa-solid fa-receipt" style="color: var(--primary);"></i> Resumo da Encomenda</h3>
                     
@@ -1354,6 +1376,14 @@
 
                     <div class="ctt-badge">
                         <i class="fa-solid fa-truck-fast"></i> Correio Editorial CTT (~350g)
+                    </div>
+
+                    <!-- OPÇÕES LEGAIS (POSICIONADAS EXATAMENTE ABAIXO DO TOTAL) -->
+                    <div class="legal-links">
+                        <a href="#" target="_blank">Informação Legal</a> · 
+                        <a href="#" target="_blank">Termos e Condições</a> · 
+                        <a href="#" target="_blank">Política de Privacidade</a> · 
+                        <a href="#" target="_blank">Política de Cookies</a>
                     </div>
                 </div>
             </div>
